@@ -1,0 +1,20 @@
+html,body,#editor{height:100%;margin:0;background:#fff}body{overflow:hidden}.toastui-editor-defaultUI{border:0;height:100%!important}.toastui-editor-main{font-size:17px}.toastui-editor-contents{font-size:17px;line-height:1.55;padding:18px}.toastui-editor-mode-switch{display:none!important}
+
+.toastui-editor-contents img{max-width:100%;height:auto}
+
+/* Anchor the percentage-height chain to the Android viewport, not wrap-content measurement. */
+html{height:100vh}body,#editor{height:100%}
+
+/* TOAST UI's desktop popup offset pushes the heading menu off narrow screens. */
+@media (max-width:480px){
+  .toastui-editor-popup{
+    left:12px!important;
+    right:12px;
+    margin-left:0;
+    width:auto;
+    max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 60px);
+    overflow-y:auto;
+    box-sizing:border-box;
+  }
+}

@@ -1,0 +1,39 @@
+# Validation de Notestr Android 1.2.1
+
+Version code 9. Ajout de l’icône fournie par l’utilisateur au lanceur Android : fond clair, premier plan adaptatif et ressources dans cinq densités. Les attributs icon et roundIcon utilisent cette ressource. Illustration originale conservée dans artwork/notestr.png ; génération reproductible avec tools/generate-launcher-icons.py (Pillow).
+
+Compilation assembleDebug réussie ; signature identique à la version 1.2.0 ; manifeste de l’APK vérifié (version, activité du lanceur et icône). Aperçu sous masque circulaire inspecté. Aucun changement de logique applicative ; les tests fonctionnels ci-dessous sont ceux de la version 1.2.0, non réexécutés pour cet ajout de ressources.
+
+# Validation de Notestr Android 1.2.0
+
+Version code 8. Cette version ajoute le déverrouillage biométrique ; les changements Amber ont été reportés à la demande de l’utilisateur.
+
+## Fonctionnement
+
+- Activation volontaire dans Réglages après ouverture d’une session existante ; confirmation par le dialogue Android.
+- Empreinte ou visage classé BIOMETRIC_STRONG par Android. Aucun échantillon biométrique n’est accessible à Notestr.
+- Coffre biométrique distinct : identifiant de connexion chiffré en AES-256-GCM avec une clé Android Keystore exigeant une authentification à chaque opération, via BiometricPrompt.CryptoObject.
+- L’enveloppe est liée au coffre à mot de passe courant par des données authentifiées dérivées de son contenu chiffré. Ces données sont transmises au moteur cryptographique après l’authentification, comme l’exige Keystore pour cette clé.
+- L’option n’enregistre pas le mot de passe. Le coffre à mot de passe existant reste utilisable.
+- Désactivation et suppression de la clé biométrique lors d’un changement de mot de passe ou de compte. Clé configurée pour être invalidée en cas de modification des biométries enregistrées.
+- Annulation du dialogue et capteur indisponible : accès par mot de passe conservé.
+- Verrouillage lors du passage en arrière-plan, annulation des opérations en cours et rejet des résultats issus d’une ancienne session.
+- Le code du formulaire de connexion Amber est identique à celui de 1.1.4. Les corrections de l’éditeur et des titres restent incluses.
+
+## Vérifications
+
+Émulateur Android 11 / API 30, empreinte simulée enregistrée, aucun compte utilisateur réel.
+
+- 8 tests unitaires : titres, conversion compatible Pages et normalisation du Markdown.
+- BiometricVaultTest : une opération sans authentification est refusée ; la clé exige une authentification par opération ; chiffrement et déchiffrement après authentification réussis ; annulation sans déverrouillage ; mot de passe de secours opérationnel ; changement du mot de passe supprimant l’accès et la clé biométriques.
+- BiometricUiTest : activation depuis les vrais réglages de MainActivity, annulation, nouvelle activation, verrouillage au passage en arrière-plan, retour au compte par biométrie, puis désactivation.
+- Non-régression Android : menu H1–H6, bascules Markdown/Visuel, édition visuelle, coffre à mot de passe et vecteur NIP-44.
+- APK complet compilé et signature vérifiée avant livraison.
+
+Le pilote `tests/run-biometric-emulator.py` injecte les échantillons dans le capteur virtuel au moment des dialogues système ; il n’imite pas un succès de BiometricPrompt. Les tests biométriques effacent le coffre de l’application et sont réservés à un émulateur jetable. Ils utilisent une clé de test publique connue et uniquement une adresse de relais locale sans serveur.
+
+## Limites
+
+Le Pixel sous Android 17 n’est pas connecté. Le visage et le matériel biométrique du téléphone doivent encore être vérifiés sur l’appareil réel. La biométrie concerne l’ouverture de Notestr ; les autorisations propres à Amber restent indépendantes.
+
+Références de conception : [BiometricPrompt et CryptoObject — Android](https://developer.android.com/identity/sign-in/biometric-auth), [NIP-55 — communication avec le signer](https://github.com/nostr-protocol/nips/blob/master/55.md).

@@ -1,0 +1,17 @@
+.gradle/
+.idea/
+local.properties
+build/
+*/build/
+*.iml
+*.jks
+*.keystore
+dist/*.apk
+dist/*.sha256
+backups/
+
+.kotlin/
+.env
+.env.*
+*.log
+tests/*-verified.png
