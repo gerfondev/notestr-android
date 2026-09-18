@@ -2,6 +2,16 @@
 
 Application Android native de notes privées Nostr compatible avec Pages by Formstr et Notestr Linux.
 
+## Télécharger et installer — aucune compilation nécessaire
+
+**[Télécharger Notestr Android 1.2.1 — APK complet (27,7 Mo)](https://blossom.primal.net/b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b)**
+
+Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Si le navigateur enregistre le fichier sans extension, le renommer `Notestr-1.2.1-complet.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
+
+Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
+
+SHA-256 : `b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b`.
+
 ## Modifications récentes — 1.2.1
 
 - Correction du bug du mode Visuel : la note s’affiche désormais dans l’éditeur visuel, alors que seul le Markdown s’affichait auparavant.
@@ -41,7 +51,7 @@ Pour corriger le titre d’une note déjà publiée dans Pages, ouvrir cette not
 
 ## Installer l’APK fourni
 
-L’APK de développement se trouve dans `dist/notestr-android-v1.2.1-debug.apk` après compilation. Copier ce fichier sur un téléphone Android 8 ou plus récent, autoriser temporairement l’installation depuis la source utilisée, puis ouvrir le fichier.
+Utiliser le lien **Télécharger Notestr Android** en haut de ce README pour obtenir l’APK prêt à installer sur Android 8 ou plus récent. Le code source et les instructions de compilation ci-dessous sont destinés aux personnes qui souhaitent développer l’application.
 
 Cet APK est signé avec une clé de débogage locale. Une publication dans un magasin d’applications exige une clé de signature de production conservée hors du dépôt.
 
