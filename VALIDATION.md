@@ -1,3 +1,30 @@
+# Validation de Notestr Android 1.2.2 — Amber
+
+Version code 10. Reprise des sources dans le dossier App Android/notestr-android.
+
+## Correction
+
+L’ancien client assimilait une réponse null du ContentProvider à un refus définitif. Désormais, cette absence de permission mémorisée déclenche une demande Android ciblée vers le signer enregistré : chiffrement NIP-44, signature (notes 33457 et suppressions 5), déchiffrement. Un refus mémorisé reste respecté sans relance interactive. Les requêtes ContentProvider s’exécutent hors du thread principal.
+
+La session reste ouverte pendant la demande Amber. Annulation/refus laisse l’éditeur en place ; fin de demande, verrouillage et annulation nettoient la requête. Une recréation d’activité ne relance pas une demande déjà envoyée. Les erreurs de déchiffrement remontent désormais au lieu de masquer silencieusement des notes.
+
+## Vérifications effectuées
+
+- testDebugUnitTest : 8 tests réussis.
+- assembleDebug et assembleDebugAndroidTest : réussis.
+- Android 11/API 30 : 7 tests Amber réussis (AmberSignerTest et AmberAuthorizationTest), exécutés avec adb am instrument. Signer simulé, aucun compte personnel ni relais public utilisé.
+- Couverture : absence de permission et demande de chiffrement/signature ; autorisation mémorisée ; refus mémorisé sans ouverture ; refus interactif ; caractères Markdown dans l’URI ; maintien de l’éditeur pendant la demande ; annulation/refus ; verrouillage normal et réponse tardive après verrouillage.
+- Signature APK vérifiée et certificat identique à 1.2.1 : mise à jour sans désinstallation possible.
+- connectedDebugAndroidTest via Gradle indisponible hors ligne (dépendance UTP absente du cache) ; mêmes APK de tests installés et exécutés directement via ADB.
+
+## Limites
+
+Pas de test avec l’application Amber réelle ni sur le téléphone de l’utilisateur. La publication de bout en bout sur un relais et les permissions propres à sa version d’Amber restent à confirmer sur appareil. Les tests biométriques complets n’ont pas été réexécutés.
+
+Références : [NIP-55](https://github.com/nostr-protocol/nips/blob/master/55.md), [décodage des intents Amber](https://github.com/greenart7c3/Amber/blob/master/app/src/main/java/com/greenart7c3/nostrsigner/service/IntentUtils.kt).
+
+---
+
 # Validation de Notestr Android 1.2.1
 
 Version code 9. Ajout de l’icône fournie par l’utilisateur au lanceur Android : fond clair, premier plan adaptatif et ressources dans cinq densités. Les attributs icon et roundIcon utilisent cette ressource. Illustration originale conservée dans artwork/notestr.png ; génération reproductible avec tools/generate-launcher-icons.py (Pillow).

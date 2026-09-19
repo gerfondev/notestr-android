@@ -56,6 +56,18 @@ import java.util.Date
 
 @Composable
 fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -> Unit) {
+    val amberOperationLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        vm.completeAmber(it.resultCode, it.data)
+    }
+    val amberRequest = vm.amberRequest
+    LaunchedEffect(amberRequest) {
+        amberRequest?.takeUnless { it.launched }?.let {
+            it.launched = true
+            try { amberOperationLauncher.launch(it.intent) }
+            catch (_: ActivityNotFoundException) { vm.failAmberLaunch() }
+            catch (_: SecurityException) { vm.failAmberLaunch() }
+        }
+    }
     val state = vm.state
     val snackbar = remember { SnackbarHostState() }
     LaunchedEffect(state.message) { state.message?.let { snackbar.showSnackbar(it); vm.dismissMessage() } }

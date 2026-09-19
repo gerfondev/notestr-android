@@ -1,0 +1,25 @@
+# Historique de Notestr Android
+
+## 1.2.2 — 19 septembre 2026
+
+Correction d’un bug avec Amber lors de la publication d’une nouvelle note ou d’une note modifiée. Si une autorisation n’est pas mémorisée, Notestr ouvre Amber puis reprend le chiffrement et la signature après accord. L’éditeur et la session sont conservés pendant la demande. Les refus mémorisés sont respectés.
+
+APK complet, versionCode 10 (versionName 1.2.2), signature identique à 1.2.1. Les données existantes sont conservées lors d’une installation par-dessus.
+
+- [Télécharger l’APK complet 1.2.2](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1)
+- Tag : `v1.2.2`.
+- SHA-256 : `dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1`.
+- Vérifications : 8 tests unitaires et 7 tests Android Amber avec signataire simulé. Le fonctionnement avec Amber réel reste à confirmer sur téléphone.
+
+## 1.2.1 — 18 septembre 2026
+
+Correction du mode Visuel, ajout du déverrouillage biométrique et d’une icône. Inclut les corrections des titres et du menu H1–H6.
+
+- [Télécharger l’APK complet 1.2.1](https://blossom.primal.net/b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b)
+- Tag : `v1.2.1`.
+- Commit source : `78114f3555bee5854f056513ae0f53cfb3fd3c5c`.
+- SHA-256 : `b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b`.
+
+## Versions antérieures
+
+Les versions de développement antérieures à 1.2.1 n’ont pas été publiées séparément dans ce dépôt ngit. Leurs changements intégrés sont décrits dans VALIDATION.md ; aucun tag historique artificiel n’a été ajouté.

@@ -1,6 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
 import android.content.Context
+import android.content.Intent
 import fr.decentralia.notestr.data.keys.AmberAccount
 import fr.decentralia.notestr.data.keys.AmberSigner
 import fr.decentralia.notestr.data.storage.EventCache
@@ -25,9 +26,10 @@ class AmberNostrRepository(
     context: Context,
     account: AmberAccount,
     private val relayStrings: List<String>,
-    private val cache: EventCache
+    private val cache: EventCache,
+    authorize: suspend (Intent, String) -> String
 ) : NostrRepository, AutoCloseable {
-    private val signer = AmberSigner(context, account)
+    private val signer = AmberSigner(context, account, authorize)
     private val publicKey = PublicKey.parse(account.publicKey)
     private val client = Client(null)
     private var connected = false
@@ -59,7 +61,7 @@ class AmberNostrRepository(
         val unsigned = EventBuilder(Kind(KIND_FILE), encrypted)
             .tags(listOf(Tag.identifier(d))).build(publicKey)
         val event = Event.fromJson(signer.signEvent(unsigned.asJson()))
-        check(event.verify() && event.author() == publicKey) { "Signature Amber invalide." }
+        check(event.verify() && event.author() == publicKey && event.id() == unsigned.id()) { "Signature Amber invalide." }
         val output = client.sendEvent(event)
         check(output.success.isNotEmpty()) { "Aucun relais n'a accepté la note." }
         mergeCache(event)
@@ -75,7 +77,7 @@ class AmberNostrRepository(
         )
         val unsigned = EventBuilder.delete(request).build(publicKey)
         val deletion = Event.fromJson(signer.signEvent(unsigned.asJson()))
-        check(deletion.verify() && deletion.author() == publicKey) { "Signature Amber invalide." }
+        check(deletion.verify() && deletion.author() == publicKey && deletion.id() == unsigned.id()) { "Signature Amber invalide." }
         val output = client.sendEvent(deletion)
         check(output.success.isNotEmpty()) { "Aucun relais n'a accepté la suppression." }
         mergeCache(deletion)
@@ -88,7 +90,7 @@ class AmberNostrRepository(
         connected = true
     }
 
-    private fun decode(events: List<Event>): List<Note> {
+    private suspend fun decode(events: List<Event>): List<Note> {
         val deletions = events.filter { it.kind().asU16() == KIND_DELETE }
         val deletedIds = deletions.flatMap { event ->
             event.tags().toVec().map(Tag::asVec).filter { it.firstOrNull() == "e" }.mapNotNull { it.getOrNull(1) }
@@ -96,14 +98,14 @@ class AmberNostrRepository(
         val deletedCoordinates = deletions.flatMap { event ->
             event.tags().toVec().map(Tag::asVec).filter { it.firstOrNull() == "a" }.mapNotNull { it.getOrNull(1) }
         }.toSet()
-        return events.asSequence()
+        return events
             .filter { it.kind().asU16() == KIND_FILE && it.id().toHex() !in deletedIds }
             .mapNotNull { event -> event.identifier()?.let { it to event } }
             .filter { (d, _) -> "$KIND_FILE:${publicKey.toHex()}:$d" !in deletedCoordinates }
             .groupBy({ it.first }, { it.second })
             .mapNotNull { (d, versions) ->
                 val event = versions.maxByOrNull { it.createdAt().asSecs() } ?: return@mapNotNull null
-                runCatching { event.toNote(d, signer.nip44Decrypt(event.content())) }.getOrNull()
+                event.toNote(d, signer.nip44Decrypt(event.content()))
             }.sortedByDescending(Note::createdAt)
     }
 

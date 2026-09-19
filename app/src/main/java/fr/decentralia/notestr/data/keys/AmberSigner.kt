@@ -1,6 +1,9 @@
 package fr.decentralia.notestr.data.keys
 
 import android.content.Context
+import android.content.Intent
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import android.net.Uri
 import rust.nostr.sdk.PublicKey
 
@@ -27,29 +30,43 @@ data class AmberAccount(val publicKey: String, val packageName: String) {
     }
 }
 
-/** Accès NIP-55 au ContentProvider du signer sélectionné. */
-class AmberSigner(context: Context, private val account: AmberAccount) {
+/** NIP-55 : autorisations mémorisées, puis demande interactive si nécessaire. */
+class AmberSigner(
+    context: Context,
+    private val account: AmberAccount,
+    private val authorize: suspend (Intent, String) -> String
+) {
     private val resolver = context.applicationContext.contentResolver
 
-    fun signEvent(unsignedEventJson: String): String =
+    suspend fun signEvent(unsignedEventJson: String): String =
         query("SIGN_EVENT", arrayOf(unsignedEventJson, "", account.publicKey), "event")
 
-    fun nip44Encrypt(plainText: String): String =
+    suspend fun nip44Encrypt(plainText: String): String =
         query("NIP44_ENCRYPT", arrayOf(plainText, account.publicKey, account.publicKey), "result")
 
-    fun nip44Decrypt(cipherText: String): String =
+    suspend fun nip44Decrypt(cipherText: String): String =
         query("NIP44_DECRYPT", arrayOf(cipherText, account.publicKey, account.publicKey), "result")
 
-    private fun query(operation: String, arguments: Array<String>, resultColumn: String): String {
-        val uri = Uri.parse("content://${account.packageName}.$operation")
-        val cursor = resolver.query(uri, arguments, null, null, null)
-            ?: error("Amber n’a pas autorisé cette opération. Reconnectez Amber et mémorisez les autorisations.")
-        cursor.use {
-            check(it.moveToFirst()) { "Réponse vide d’Amber." }
-            check(it.getColumnIndex("rejected") < 0) { "Opération refusée dans Amber." }
-            val index = it.getColumnIndex(resultColumn)
-            check(index >= 0) { "Réponse Amber incomplète." }
-            return it.getString(index) ?: error("Réponse Amber vide.")
+    private suspend fun query(operation: String, arguments: Array<String>, resultColumn: String): String {
+        val cached = withContext(Dispatchers.IO) {
+            val uri = Uri.parse("content://${account.packageName}.$operation")
+            resolver.query(uri, arguments, null, null, null)?.use {
+                // A remembered refusal must never be bypassed by opening the signer.
+                check(it.getColumnIndex("rejected") < 0) { "Opération refusée dans Amber. Vous pouvez modifier cette autorisation dans Amber." }
+                check(it.moveToFirst()) { "Réponse vide d’Amber." }
+                val index = it.getColumnIndex(resultColumn)
+                check(index >= 0) { "Réponse Amber incomplète." }
+                it.getString(index) ?: error("Réponse Amber vide.")
+            }
         }
+        if (cached != null) return cached
+        val intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("nostrsigner", arguments[0], null)).apply {
+            setPackage(account.packageName)
+            putExtra("type", operation.lowercase(java.util.Locale.ROOT))
+            putExtra("current_user", account.publicKey)
+            putExtra("appName", "Notestr")
+            if (operation != "SIGN_EVENT") putExtra("pubkey", account.publicKey)
+        }
+        return authorize(intent, resultColumn)
     }
 }

@@ -1,6 +1,9 @@
 package fr.decentralia.notestr.ui
 
 import android.app.Application
+import android.app.Activity
+import android.content.Intent
+import kotlinx.coroutines.CompletableDeferred
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -52,6 +55,39 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     private var repository: NostrRepository? = null
     private var amberAuthorizationActive = false
 
+    data class AmberRequest(val intent: Intent, val column: String, val result: CompletableDeferred<String>, var launched: Boolean = false)
+    var amberRequest by mutableStateOf<AmberRequest?>(null)
+        private set
+
+    internal suspend fun authorizeAmber(intent: Intent, column: String): String {
+        check(amberRequest == null) { "Une demande Amber est déjà en cours." }
+        val request = AmberRequest(intent, column, CompletableDeferred())
+        amberRequest = request
+        beginAmberAuthorization()
+        try { return request.result.await() }
+        finally {
+            if (amberRequest === request) {
+                amberRequest = null
+                finishAmberAuthorization()
+            }
+        }
+    }
+
+    fun completeAmber(resultCode: Int, data: Intent?) {
+        val request = amberRequest ?: return
+        val result = runCatching {
+            check(resultCode == Activity.RESULT_OK) { "Opération Amber annulée ou interrompue. Votre note reste dans l’éditeur." }
+            check(data?.getBooleanExtra("rejected", false) != true) { "Opération refusée dans Amber." }
+            data?.getStringExtra(request.column)?.takeIf { it.isNotEmpty() }
+                ?: error("Réponse Amber incomplète.")
+        }
+        result.fold(request.result::complete, request.result::completeExceptionally)
+    }
+
+    fun failAmberLaunch() {
+        amberRequest?.result?.completeExceptionally(IllegalStateException("Impossible d’ouvrir Amber. Vérifiez que l’application est installée."))
+    }
+
     var state by mutableStateOf(UiState(if (vault.isConfigured()) Screen.Locked else Screen.Setup, relays = prefs.relays, biometricEnabled = biometric.isEnabled()))
         private set
 
@@ -93,7 +129,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         credential = key
         val amber = AmberAccount.decode(key)
         repository = if (amber != null) {
-            AmberNostrRepository(getApplication(), amber, relays, cache)
+            AmberNostrRepository(getApplication(), amber, relays, cache, ::authorizeAmber)
         } else {
             RustNostrRepository(key.copyOf(), relays, cache)
         }
@@ -236,6 +272,8 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     private fun closeSession() {
         session++
         task?.cancel(); task = null
+        amberRequest?.result?.cancel(); amberRequest = null
+        amberAuthorizationActive = false
         biometricRequest = null
         (repository as? AutoCloseable)?.close(); repository = null
         credential?.fill('\u0000'); credential = null
