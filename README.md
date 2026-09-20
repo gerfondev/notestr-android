@@ -4,15 +4,21 @@ Application Android native de notes privées Nostr compatible avec Pages by Form
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android 1.2.2 — APK complet](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1)**
+**[Télécharger Notestr Android 1.2.3 — APK complet](https://blossom.primal.net/335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c)**
 
-Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Si le navigateur enregistre le fichier sans extension, le renommer `Notestr-1.2.2-complet.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
+Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Si le navigateur enregistre le fichier sans extension, le renommer `Notestr-1.2.3-complet.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1`.
+SHA-256 : `335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c`.
 
-## Modifications récentes — 1.2.2
+## Modifications récentes — 1.2.3
+
+Les blocs de code du mode Visuel proposent un bouton **Copier** à la place du champ de langage. Le contenu seul est copié dans le presse-papiers, sans modifier la note. Le langage du bloc reste conservé dans le Markdown.
+
+APK complet prêt à installer. La confirmation « Copié ! » apparaît après la copie dans le presse-papiers Android.
+
+## Modifications précédentes — 1.2.2
 
 - Correction Amber : ouverture du signataire quand l’autorisation de chiffrement ou de signature n’est pas mémorisée, puis reprise de la publication.
 - Conservation de la session et de l’éditeur pendant la demande ; refus et annulation pris en charge.
@@ -24,10 +30,11 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
-| **1.2.2** | `v1.2.2` | Correction d’un bug avec Amber lors de la création ou de la modification d’une note : demande d’autorisation interactive puis reprise de la publication. | [Télécharger](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1) |
+| **1.2.3** | `v1.2.3` | Bouton Copier dans les blocs de code, à la place du champ de langage ; copie du texte sans modifier la note. | [Télécharger](https://blossom.primal.net/335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c) |
+| 1.2.2 | `v1.2.2` | Correction d’un bug avec Amber lors de la création ou de la modification d’une note : demande d’autorisation interactive puis reprise de la publication. | [Télécharger](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1) |
 | 1.2.1 | `v1.2.1` | Correction du mode Visuel, biométrie, icône et corrections des titres H1–H6. | [Télécharger](https://blossom.primal.net/b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b) |
 
-Les versions 1.2.1 et 1.2.2 disposent de publications ngit distinctes. La version 1.2.1 est la première version importée dans ce dépôt : les versions de développement antérieures n’y ont pas été publiées séparément. L’historique Git est conservé à partir de cet import.
+Les versions 1.2.1, 1.2.2 et 1.2.3 disposent de publications ngit distinctes. La version 1.2.1 est la première version importée dans ce dépôt : les versions de développement antérieures n’y ont pas été publiées séparément. L’historique Git est conservé à partir de cet import.
 
 Pour consulter l’historique avec les outils : `git log --oneline --decorate`, `git tag --list` et `ngit release list --app fr.decentralia.notestr`.
 

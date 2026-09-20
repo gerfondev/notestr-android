@@ -1,4 +1,4 @@
-# Vérification avant publication — 1.2.2
+# Vérification avant publication — 1.2.3
 
 Vérification ciblée des sources, ressources et 486 entrées décompressées de l’APK complet. Aucun nom personnel du propriétaire, chemin de son compte local, nom de sa machine, clé nsec complète, secret nbunksec, clé privée PEM ni jeton d’accès courant n’a été détecté. Recherche dans les octets et les chaînes UTF-16 ; examen des valeurs hexadécimales et métadonnées des images.
 
@@ -8,6 +8,6 @@ Les bibliothèques natives tierces contiennent des chemins de compilation de leu
 
 Caches, journaux, résultats de tests, sauvegardes, captures, propriétés locales et clés privées de signature sont exclus du dépôt. Les notes, identifiants et préférences du téléphone sont créés à l’exécution dans l’espace privé de l’application et ne sont pas embarqués dans cet APK.
 
-APK signé avec le même certificat Android Debug que 1.2.1. La clé privée de signature n’est pas publiée. SHA-256 de l’APK : `dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1`.
+APK signé avec le même certificat Android Debug que 1.2.1 et 1.2.2. La clé privée de signature n’est pas publiée. SHA-256 de l’APK : `335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c`.
 
 Cette vérification ciblée ne constitue pas un audit de sécurité exhaustif.

@@ -1,6 +1,9 @@
 package fr.decentralia.notestr.ui
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
@@ -91,6 +94,16 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         message.optString("type") == "change" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
                                         currentOnChange(message.getString("markdown"))
+                                    }
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "copyCode" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        val id = message.optInt("id", -1)
+                                        val copied = runCatching {
+                                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                                            clipboard.setPrimaryClip(ClipData.newPlainText("Code", message.getString("text")))
+                                        }.isSuccess
+                                        owner.evaluateJavascript("window.notesEditor.copyResult($id, $copied)", null)
                                     }
                                 }
                             }, "AndroidNotes")

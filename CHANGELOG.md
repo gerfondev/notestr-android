@@ -1,5 +1,19 @@
 # Historique de Notestr Android
 
+## 1.2.3 — 20 septembre 2026
+
+- Remplacement du champ de langage des blocs de code par un bouton Copier en mode Visuel.
+- Copie du texte seul dans le presse-papiers Android, avec conservation des lignes vides, espaces et caractères spéciaux. Confirmation « Copié ! ».
+- Boutons séparés du document éditable : aucun ajout au Markdown ni modification des langages déjà renseignés. Le langage reste modifiable en mode Markdown.
+
+APK complet, versionCode 11. Signature identique aux versions précédentes.
+
+- [Télécharger l’APK complet 1.2.3](https://blossom.primal.net/335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c)
+- Tag : `v1.2.3`.
+- SHA-256 : `335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c`.
+- Vérifications : 8 tests unitaires, tests navigateur et 3 tests Android de l’éditeur réussis.
+
+
 ## 1.2.2 — 19 septembre 2026
 
 Correction d’un bug avec Amber lors de la publication d’une nouvelle note ou d’une note modifiée. Si une autorisation n’est pas mémorisée, Notestr ouvre Amber puis reprend le chiffrement et la signature après accord. L’éditeur et la session sont conservés pendant la demande. Les refus mémorisés sont respectés.

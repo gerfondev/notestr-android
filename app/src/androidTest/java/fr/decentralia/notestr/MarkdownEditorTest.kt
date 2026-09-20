@@ -81,6 +81,23 @@ class MarkdownEditorTest {
         }
     }
 
+    @Test fun copyCodeBlockWritesOnlyCodeToAndroidClipboard() {
+        val code = "val text = \"<tag> & é\"\n\n  println(text)"
+        val markdown = "```kotlin\n$code\n```"
+        val source = mutableStateOf(markdown)
+        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        assertVisual("println(text)")
+        compose.waitUntil(5000) { javascript("!!document.querySelector('.notes-copy-code:not([hidden])')") == "true" }
+        tapHtml(".notes-copy-code")
+        compose.waitUntil(5000) { javascript("document.querySelector('.notes-copy-code').textContent") == JSONObject.quote("Copié !") }
+        compose.runOnIdle {
+            val clipboard = compose.activity.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            org.junit.Assert.assertEquals(code, clipboard.primaryClip?.getItemAt(0)?.text?.toString())
+            org.junit.Assert.assertEquals(markdown, source.value)
+        }
+        org.junit.Assert.assertEquals(markdown, JSONObject("{\"value\":" + javascript("window.notesEditor.snapshot()") + "}").getString("value"))
+    }
+
     @Test fun headingMenuIsVisibleAndTouchSelectsH2() {
         val source = mutableStateOf("Titre Android")
         compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }

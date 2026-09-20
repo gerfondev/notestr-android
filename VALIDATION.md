@@ -1,3 +1,17 @@
+# Validation de Notestr Android 1.2.3 — copie des blocs de code
+
+VersionCode 11. Bouton Copier dans le mode Visuel, remplaçant le champ de langage TOAST UI. Contrôles hors du document ProseMirror ; copie via le bridge Android existant et ClipboardManager. Confirmation après écriture effective. Le langage du bloc reste conservé dans le Markdown.
+
+Vérifications :
+- 8 tests unitaires réussis ; assembleDebug et assembleDebugAndroidTest réussis.
+- Tests navigateur à 412 px : plusieurs blocs, caractères spéciaux, lignes vides et indentation, contenu édité, absence de modification du Markdown par la copie, champ de langage masqué. Capture inspectée.
+- 3 tests Android MarkdownEditorTest réussis sur émulateur API 30 : vraie interaction tactile avec le bouton et lecture du presse-papiers Android, menu des titres, bascules répétées Markdown/Visuel.
+- Signature APK vérifiée, identique à 1.2.2.
+
+APK complet 1.2.3 publié sur ngit avec le tag v1.2.3. Tests Amber et biométriques complets non réexécutés pour ce changement d’éditeur.
+
+---
+
 # Validation de Notestr Android 1.2.2 — Amber
 
 Version code 10. Reprise des sources dans le dossier App Android/notestr-android.
