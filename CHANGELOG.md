@@ -8,7 +8,7 @@
 
 APK complet, versionCode 11. Signature identique aux versions précédentes.
 
-- [Télécharger l’APK complet 1.2.3](https://blossom.primal.net/335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c)
+- [Télécharger l’APK complet 1.2.3](https://github.com/gerfondev/notestr-android/releases/download/v1.2.3/Notestr-Android.apk)
 - Tag : `v1.2.3`.
 - SHA-256 : `335edf1786ea8fd7935cae6b1f75375bc228572042efa0c1dd94a5d063bfc17c`.
 - Vérifications : 8 tests unitaires, tests navigateur et 3 tests Android de l’éditeur réussis.
