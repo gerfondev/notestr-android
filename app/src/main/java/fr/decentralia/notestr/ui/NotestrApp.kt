@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -258,7 +259,10 @@ private fun SecretField(label: String, value: String, change: (String) -> Unit) 
 
 @Composable
 private fun FormPage(title: String, back: (() -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
-    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+    // Keep the whole scroll viewport below status bars/cutouts and above the IME.
+    // Insets belong outside the scrollable content so scrolling cannot remove them.
+    Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()
+        .verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         if (back != null) TextButton(back) { Text("Retour") }; Text(title, style = MaterialTheme.typography.headlineSmall); content()
     }
 }

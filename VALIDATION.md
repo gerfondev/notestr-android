@@ -1,6 +1,16 @@
+# Mise à jour 1.2.4 : bouton Retour
+
+VersionCode 16. Marges système appliquées aux formulaires, en dehors de la zone défilante. Le libellé Retour reste sous la barre système et les découpes de l’écran.
+
+Compilation release et 8 tests unitaires réussis. Le test de marge échoue sur l’ancienne version et passe après correction. Deux tests tactiles exécutés sur l’APK release final : appui réel sur le quart supérieur du texte Retour et non-régression du clavier dans une note longue.
+
+Les validations ci-dessous restent celles de la publication initiale ; elles n’ont pas toutes été répétées pour ce changement de marges.
+
+---
+
 # Validation de Notestr Android 1.2.4
 
-VersionCode 14. Inclut le logo de connexion, le placement du menu de sélection Android et le redimensionnement de l’éditeur au-dessus du clavier. Kotlin 2.4.20 ; filtrage par DOMPurify 3.4.15 commun aux chemins par défaut et personnalisés.
+VersionCode 16. Inclut le logo de connexion, le placement du menu de sélection Android et le redimensionnement de l’éditeur au-dessus du clavier. Kotlin 2.4.20 ; filtrage par DOMPurify 3.4.15 commun aux chemins par défaut et personnalisés.
 
 - 8 tests unitaires réussis.
 - 15 tests Android réussis sur émulateur API 30 : éditeur, appui long première ligne, gras/italique, titres, copie de code, bascules de mode, saisie d’une note de 45 lignes avec clavier et fenêtre bord à bord, filtrage HTML, Amber, vecteur NIP-44 et coffre à mot de passe.

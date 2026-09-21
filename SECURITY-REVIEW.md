@@ -1,3 +1,11 @@
+# Complément pour la mise à jour du bouton Retour
+
+Dépendances inchangées ; contrôle des versions de la même journée conservé et requête OSV renouvelée avant compilation : 114 coordonnées, aucune alerte retournée. Les exceptions et limites ci-dessous restent applicables.
+
+APK 1.2.4 versionCode 16, non débogable, même certificat. Les sources livrables et l’APK sont à nouveau contrôlés pour les marqueurs personnels et secrets recherchés. Publication autorisée explicitement par l’utilisateur, par remplacement des fichiers de la release existante et alignement du tag sur le nouveau commit. Aucun commit de main n’est réécrit.
+
+---
+
 # Contrôle de sécurité de la version 1.2.4 — 21 septembre 2026
 
 ## Correctifs appliqués
@@ -25,9 +33,9 @@ Le contrôle précédent du dépôt GitHub a couvert les 5 commits accessibles (
 
 Des chemins de compilation des fournisseurs sont présents dans les bibliothèques natives ; ils ne désignent pas le propriétaire du projet. Les métadonnées de provenance de l’illustration originale sont conservées. Les identifiants publics du projet restent visibles.
 
-APK : versionName 1.2.4, versionCode 14 (supérieur aux APK de test locaux), Android minimum 26. Débogage désactivé, sauvegarde Android et trafic HTTP en clair désactivés.
+APK : versionName 1.2.4, versionCode 16 (supérieur aux APK de test locaux), Android minimum 26. Débogage désactivé, sauvegarde Android et trafic HTTP en clair désactivés.
 
-SHA-256 : `d07486c5189289c87c2d30af4ee5ce44f5f794daf2fc911385ea89fbfbc66e25`.
+SHA-256 : `34834299085c421630f8ccce877984b82634083ffca447f5f7c1d85cce33386c`.
 
 ## Limites
 
