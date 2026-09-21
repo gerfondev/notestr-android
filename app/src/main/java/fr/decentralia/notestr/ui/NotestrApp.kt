@@ -7,6 +7,7 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -47,10 +51,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.R
 import java.text.DateFormat
 import java.util.Date
 
@@ -109,6 +115,7 @@ private fun SetupScreen(
         } else reportError("Connexion à Amber annulée.")
     }
     FormPage("Configurer Notestr") {
+        ConnectionLogo()
         Text("Choisissez où votre clé privée est conservée.")
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             OutlinedButton({ amberMode = false }, enabled = amberMode, modifier = Modifier.weight(1f)) { Text("Clé locale") }
@@ -154,10 +161,20 @@ private fun SetupScreen(
 private fun LockedScreen(unlock: (String) -> Unit, biometricEnabled: Boolean, unlockBiometric: () -> Unit) {
     var password by remember { mutableStateOf("") }
     FormPage("Notestr est verrouillé") {
+        ConnectionLogo()
         if (biometricEnabled) Button(unlockBiometric, Modifier.fillMaxWidth()) { Text("Déverrouiller par biométrie") }
         SecretField("Mot de passe", password) { password = it }
         Button({ unlock(password) }, Modifier.fillMaxWidth()) { Text("Déverrouiller") }
     }
+}
+
+@Composable
+private fun ColumnScope.ConnectionLogo() {
+    Image(
+        painter = painterResource(R.drawable.notestr_logo),
+        contentDescription = "Logo Notestr",
+        modifier = Modifier.size(128.dp).align(Alignment.CenterHorizontally)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -192,7 +209,8 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
         navigationIcon = { TextButton(vm::backToNotes) { Text("Retour") } },
         actions = { if (note != null) TextButton({ confirmDelete = true }) { Text("Supprimer") }; TextButton({ vm.save(markdown, note) }) { Text("Publier") } },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-    ) }) { padding -> MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxSize().padding(padding)) }
+    ) }) { padding -> MarkdownEditor(markdown, { markdown = it },
+        Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) }
     if (confirmDelete) AlertDialog(
         onDismissRequest = { confirmDelete = false }, title = { Text("Supprimer cette note ?") },
         text = { Text("Une demande de suppression NIP-09 sera publiée sur les relais.") },

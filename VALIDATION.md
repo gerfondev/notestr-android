@@ -1,3 +1,19 @@
+# Validation de Notestr Android 1.2.4
+
+VersionCode 14. Inclut le logo de connexion, le placement du menu de sélection Android et le redimensionnement de l’éditeur au-dessus du clavier. Kotlin 2.4.20 ; filtrage par DOMPurify 3.4.15 commun aux chemins par défaut et personnalisés.
+
+- 8 tests unitaires réussis.
+- 15 tests Android réussis sur émulateur API 30 : éditeur, appui long première ligne, gras/italique, titres, copie de code, bascules de mode, saisie d’une note de 45 lignes avec clavier et fenêtre bord à bord, filtrage HTML, Amber, vecteur NIP-44 et coffre à mot de passe.
+- 2 tests biométriques réussis, avec capteur virtuel et dialogue Android réel (coffre et parcours UI).
+- Compilation de l’APK release non débogable réussie ; certificat identique aux versions précédentes.
+- 10 tests supplémentaires réussis sur l’APK release final (tests compilés pour la même variante) : clavier, Amber, NIP-44 et coffre. Les APK de test debug ne sont pas interchangeables avec ceux de release à cause des noms internes Kotlin.
+- Patch de suppression du DOMPurify intégré reproduit à l’identique ; rejet d’une entrée dont l’empreinte ne correspond pas.
+- Contrôle de confidentialité : 79 fichiers source/publication et 479 entrées d’APK analysés, sans détection de marqueur personnel ni secret recherché.
+
+Les comportements propres au matériel et à la version Android du téléphone ne sont pas tous reproduits par l’émulateur. Le contrôle de sécurité et ses limites sont décrits dans SECURITY-REVIEW.md.
+
+---
+
 # Validation de Notestr Android 1.2.3 — copie des blocs de code
 
 VersionCode 11. Bouton Copier dans le mode Visuel, remplaçant le champ de langage TOAST UI. Contrôles hors du document ProseMirror ; copie via le bridge Android existant et ClipboardManager. Confirmation après écriture effective. Le langage du bloc reste conservé dans le Markdown.

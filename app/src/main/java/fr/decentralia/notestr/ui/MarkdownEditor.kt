@@ -4,6 +4,11 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Rect
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
@@ -36,6 +41,26 @@ import org.json.JSONObject
 // A public bridge class, with callbacks bound to the WebView that owns it.
 class MarkdownEditorBridge(private val receive: (String) -> Unit) {
     @JavascriptInterface fun postMessage(json: String) = receive(json)
+}
+
+/** Keep Android's floating selection menu above the editor's formatting toolbar. */
+internal class EditorWebView(context: Context) : WebView(context) {
+    override fun startActionMode(callback: ActionMode.Callback, type: Int): ActionMode? {
+        if (type != ActionMode.TYPE_FLOATING) return super.startActionMode(callback, type)
+        return super.startActionMode(object : ActionMode.Callback2() {
+            override fun onCreateActionMode(mode: ActionMode, menu: Menu) = callback.onCreateActionMode(mode, menu)
+            override fun onPrepareActionMode(mode: ActionMode, menu: Menu) = callback.onPrepareActionMode(mode, menu)
+            override fun onActionItemClicked(mode: ActionMode, item: MenuItem) = callback.onActionItemClicked(mode, item)
+            override fun onDestroyActionMode(mode: ActionMode) = callback.onDestroyActionMode(mode)
+            override fun onGetContentRect(mode: ActionMode, view: View, outRect: Rect) {
+                if (callback is ActionMode.Callback2) callback.onGetContentRect(mode, view, outRect)
+                else super.onGetContentRect(mode, view, outRect)
+                // Include the toolbar in the protected content, even when the first
+                // line is selected. Android may also place the menu below selection.
+                outRect.top = 0
+            }
+        }, type)
+    }
 }
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -78,7 +103,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
             Box(Modifier.fillMaxWidth().weight(1f)) {
                 AndroidView(
                     factory = { context ->
-                        WebView(context).apply {
+                        EditorWebView(context).apply {
                             val owner = this
                             layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
                             settings.javaScriptEnabled = true

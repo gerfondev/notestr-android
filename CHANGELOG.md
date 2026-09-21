@@ -1,5 +1,19 @@
 # Historique de Notestr Android
 
+## 1.2.4 — 21 septembre 2026
+
+- Ajout du logo sur l’écran de lancement de l’application.
+- Correction du chevauchement du menu de sélection Android avec la barre de mise en forme.
+- Correction de la disparition de la barre de mise en forme pendant l’édition d’une note.
+
+Maintenance : Kotlin 2.4.20 ; DOMPurify intégré ancien supprimé et remplacé par DOMPurify 3.4.15, commun aux chemins de filtrage HTML. Distribution Gradle vérifiée par SHA-256.
+
+APK complet non débogable, versionCode 14, certificat identique aux versions précédentes. La version locale de test nommée 1.2.5 est regroupée dans cette publication 1.2.4 et n’est pas une release distincte.
+
+- [Télécharger l’APK complet 1.2.4](https://github.com/gerfondev/notestr-android/releases/download/v1.2.4/Notestr-Android.apk)
+- Tag : `v1.2.4`.
+- SHA-256 : `d07486c5189289c87c2d30af4ee5ce44f5f794daf2fc911385ea89fbfbc66e25`.
+
 ## 1.2.3 — 20 septembre 2026
 
 - Remplacement du champ de langage des blocs de code par un bouton Copier en mode Visuel.

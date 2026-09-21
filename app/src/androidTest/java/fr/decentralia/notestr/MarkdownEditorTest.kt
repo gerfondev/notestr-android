@@ -59,9 +59,11 @@ class MarkdownEditorTest {
         }
     }
 
-    private fun tapHtml(selector: String) {
+    private fun tapHtml(selector: String, longPressText: Boolean = false) {
         val raw = javascript("""
-            (function(){var r=document.querySelector(${JSONObject.quote(selector)}).getBoundingClientRect();
+            (function(){var el=document.querySelector(${JSONObject.quote(selector)});
+            var range=document.createRange();range.selectNodeContents(el);
+            var r=$longPressText ? range.getBoundingClientRect() : el.getBoundingClientRect();
             return {x:r.left+r.width/2,y:r.top+r.height/2,width:innerWidth};})()
         """.trimIndent())
         val point = JSONObject(raw)
@@ -78,7 +80,47 @@ class MarkdownEditorTest {
         for (action in listOf(android.view.MotionEvent.ACTION_DOWN, android.view.MotionEvent.ACTION_UP)) {
             val event = android.view.MotionEvent.obtain(time, android.os.SystemClock.uptimeMillis(), action, x, y, 0)
             instrumentation.sendPointerSync(event); event.recycle()
+            if (longPressText && action == android.view.MotionEvent.ACTION_DOWN) Thread.sleep(800)
         }
+    }
+
+    @Test fun currentSanitizerProtectsCustomAndDefaultEditorPaths() {
+        val source = mutableStateOf("Test sécurité")
+        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        assertVisual("Test sécurité")
+        assertTrue(javascript("DOMPurify.version") == JSONObject.quote("3.4.15"))
+        val result = javascript("""
+            (function(){
+                var sanitize=DOMPurify.sanitize, calls=0, extra=null, host=document.createElement('div');
+                DOMPurify.sanitize=function(){calls++;return sanitize.apply(this,arguments);};
+                var payload='<img src="https://example.invalid/image.png" onerror="alert(1)"><a href="javascript:alert(1)">lien</a><script>alert(1)</script>';
+                function clean(el){return !el.querySelector('script,[onerror],[onclick],a[href^="javascript:"]');}
+                try {
+                    notesEditor.setDocument(payload,100);
+                    var customOk=calls>0 && clean(document.querySelector('.toastui-editor-ww-container'));
+                    calls=0;document.body.appendChild(host);
+                    extra=new toastui.Editor({el:host,height:'200px',initialEditType:'wysiwyg',usageStatistics:false});
+                    extra.setHTML(payload);
+                    return customOk && calls>0 && clean(host);
+                } finally {
+                    if(extra)extra.destroy();host.remove();DOMPurify.sanitize=sanitize;
+                }
+            })()
+        """.trimIndent())
+        assertTrue("Both sanitizer paths must invoke current DOMPurify and remove active HTML", result == "true")
+    }
+
+    @Test fun firstLineSelectionStillAllowsBoldAndItalic() {
+        val source = mutableStateOf("Première")
+        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        assertVisual("Première")
+        tapHtml(".toastui-editor-ww-container p", longPressText = true)
+        compose.waitUntil(5000) { javascript("window.getSelection().toString()") == JSONObject.quote("Première") }
+        // Use real touch events: a native menu covering the toolbar intercepts them.
+        tapHtml("button.bold")
+        compose.waitUntil(5000) { source.value == "**Première**" }
+        tapHtml("button.italic")
+        compose.waitUntil(5000) { javascript("!!document.querySelector('.toastui-editor-ww-container strong em, .toastui-editor-ww-container em strong')") == "true" }
     }
 
     @Test fun copyCodeBlockWritesOnlyCodeToAndroidClipboard() {
