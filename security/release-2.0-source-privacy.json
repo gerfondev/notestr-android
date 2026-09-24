@@ -1,0 +1,70 @@
+{
+  "date": "2026-09-24",
+  "scope": "tree",
+  "entriesScannedIncludingArchives": 1445,
+  "findings": [],
+  "genericHomePathCandidates": [],
+  "images": [
+    {
+      "file": "app/src/main/res/drawable-nodpi/notestr_logo.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "artwork/notestr.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    }
+  ],
+  "limits": "Targeted signatures and metadata inspection; not a proof of absence of encoded secrets. Upstream synthetic fixtures require separate review."
+}

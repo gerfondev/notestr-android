@@ -1,3 +1,35 @@
+# Validation de publication — 2.0, 24 septembre 2026
+
+VersionCode 20 ; publication autorisée explicitement par l’utilisateur. Sauvegardes et actions à icônes issues des candidats locaux ; normalisation des titres inchangée avec nom de fonction générique et présentation actualisée.
+
+- **13 tests JVM réussis** : titres, normalisation Markdown et sauvegarde lors de la publication.
+- **17 tests instrumentés réussis sur l’APK release final** : sauvegarde/refus de relais, compatibilité des sauvegardes, restauration par icône puis publication, NIP-44, Amber simulé, coffre, clavier et Retour.
+- Contrôles de sources, archives imbriquées, métadonnées d’images et contenu décompressé de l’APK ; aucun secret ou marqueur personnel recherché trouvé dans les fichiers distribués.
+- Réserve historique : deux commits déjà publiés sur GitHub possèdent une adresse d’auteur ; aucune réécriture d’historique. Identité neutre pour le nouveau commit et le tag.
+- Signature et certificat existant vérifiés ; APK non débogable, versionCode 20 ; empreintes natives conformes et alignements 64 bits vérifiés.
+
+SHA-256 : `e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5`.
+
+Émulateur jetable API 30, clés synthétiques et relais loopback. Pas d’essai complet sur tous les téléphones, de TalkBack manuel ou d’Amber réel. Les tests isolés de l’éditeur HTML ont passé sur 1.2.5 avec les mêmes ressources ; ils ne sont pas comptés dans ces 30 tests. Limites des audits et de pagination conservées. Voir les rapports `security/release-2.0-*.json`.
+
+Les sections suivantes sont historiques.
+
+---
+
+# Candidat local à icônes — 1.2.5-test.19
+
+VersionCode 19. Aucune publication ; copie de publication inchangée.
+
+Actions Actualiser, Réglages, Verrouiller, Retour, Version précédente, Supprimer et Publier présentées sous forme d’icônes de 24 dp dans des cibles tactiles de 48 dp. Infobulles par appui long et descriptions accessibles. Nouvelle note utilise une icône plus. Version précédente rejoint la barre de l’éditeur ; les confirmations gardent leurs boutons explicites.
+
+13 tests JVM réussis ; 3 tests UI release réussis sur émulateur API 30 : restauration/publication, clavier, Retour avec marge système et appui réel. Signature, manifeste non débogable, empreintes natives et contenu APK contrôlés. Revue de sécurité renouvelée sans alerte OSV retournée ; les limites et exceptions de 1.2.5 restent applicables.
+
+SHA-256 : `c09322ae18b0d323530a269dac2c2c94d60fe3e5cd9ca4b373a674b578edc537`.
+
+Rendu et ergonomie sur smartphone à tester. Les sections suivantes concernent les versions précédentes.
+
+---
+
 # Validation de publication — 1.2.5, 24 septembre 2026
 
 Le candidat de sauvegarde 1.2.4-test.17 a été testé sur smartphone ; l’utilisateur a indiqué qu’il fonctionne et autorisé sa publication sous 1.2.5 après contrôle. Version finale : versionCode 18, DOMPurify 3.4.16 et métadonnées JNA anonymisées en complément. Aucune autre modification fonctionnelle depuis le candidat validé.
@@ -168,7 +200,7 @@ Version code 8. Cette version ajoute le déverrouillage biométrique ; les chang
 
 Émulateur Android 11 / API 30, empreinte simulée enregistrée, aucun compte utilisateur réel.
 
-- 8 tests unitaires : titres, conversion compatible Pages et normalisation du Markdown.
+- 8 tests unitaires : titres, conversion des titres à la publication et normalisation du Markdown.
 - BiometricVaultTest : une opération sans authentification est refusée ; la clé exige une authentification par opération ; chiffrement et déchiffrement après authentification réussis ; annulation sans déverrouillage ; mot de passe de secours opérationnel ; changement du mot de passe supprimant l’accès et la clé biométriques.
 - BiometricUiTest : activation depuis les vrais réglages de MainActivity, annulation, nouvelle activation, verrouillage au passage en arrière-plan, retour au compte par biométrie, puis désactivation.
 - Non-régression Android : menu H1–H6, bascules Markdown/Visuel, édition visuelle, coffre à mot de passe et vecteur NIP-44.

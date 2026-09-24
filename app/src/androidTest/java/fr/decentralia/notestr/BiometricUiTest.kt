@@ -3,6 +3,7 @@ package fr.decentralia.notestr
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollTo
@@ -31,7 +32,7 @@ class BiometricUiTest {
         try {
             compose.waitUntil(30000) { !vm.state.busy }
             assertEquals(Screen.Notes, vm.state.screen)
-            compose.onNodeWithText("Réglages").performClick()
+            compose.onNodeWithContentDescription("Réglages").performClick()
             compose.onNodeWithText("Activer la biométrie").performScrollTo().performClick()
             Thread.sleep(700)
             assertTrue(instrumentation.uiAutomation.performGlobalAction(android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_BACK))
@@ -51,7 +52,7 @@ class BiometricUiTest {
             compose.waitUntil(90000) { vm.state.screen == Screen.Notes }
             assertEquals("79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798", vm.state.publicKey)
             compose.waitUntil(30000) { !vm.state.busy }
-            compose.onNodeWithText("Réglages").performClick()
+            compose.onNodeWithContentDescription("Réglages").performClick()
             compose.onNodeWithText("Désactiver la biométrie").performScrollTo().performClick()
             assertFalse(vm.state.biometricEnabled)
         } finally { compose.runOnIdle { vm.resetConnection() } }

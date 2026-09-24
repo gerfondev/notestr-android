@@ -1,3 +1,29 @@
+# Publication 2.0 — contrôle du 24 septembre 2026
+
+Publication 2.0 explicitement autorisée par l’utilisateur après remise du candidat à icônes. VersionCode 20. Contrôle des dépendances renouvelé : 658 requêtes OSV sans avis retourné ; métadonnées Maven, Rust et JavaScript vérifiées sans erreur de collecte. Les versions corrigées et exceptions de maintenance restent celles de 1.2.5 : SDK reconstruit, JNA aux métadonnées nettoyées, DOMPurify 3.4.16 et outils de compilation corrigés. Aucune correction supplémentaire identifiée par ce contrôle. TOAST UI reste archivé ; les limites de l’inventaire JavaScript et des versions d’outillage conservées sont documentées ci-dessous.
+
+Confidentialité : les deux nouveaux commits déjà présents sur GitHub avant cette intervention contiennent une adresse e-mail d’auteur. Cette donnée historique n’est pas reproduite dans le rapport et aucun historique distant n’est réécrit. Le nouveau commit et le tag utilisent l’identité neutre du projet. Sources distribuées, archives imbriquées, images et APK inspectés : aucun marqueur personnel recherché détecté dans ces fichiers, y compris l’adresse identifiée dans les commits historiques. L’archive complète d’exemples du SDK demeure exclue du dépôt et de l’APK.
+
+La présentation actuelle ne contient plus de référence à l’autre application ; la normalisation des titres garde son comportement avec un nom de fonction générique. Notes de version centrées sur les sauvegardes lors de la publication d’une modification et les actions à icônes.
+
+Validation finale : 13 tests JVM et 17 tests instrumentés sur l’APK release 2.0 réussis. Sauvegardes, refus de relais, restauration via icônes, format Linux, NIP-44, Amber simulé, coffre, clavier et Retour vérifiés. Les essais réels sur téléphone et Amber ne couvrent pas tous les cas ; TalkBack n’a pas été testé manuellement.
+
+APK non débogable, versionCode 20, certificat existant et signature v2 vérifiés. 489 entrées décompressées contrôlées sans secret ou chemin personnel correspondant aux motifs recherchés. Empreintes du SDK natif, JNA et DOMPurify conformes ; alignement 16 Ko des bibliothèques 64 bits vérifié. SHA-256 : `e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5`. Rapports `security/release-2.0-*.json`. Les résultats ci-dessous concernent les versions précédentes et ne constituent pas une garantie exhaustive de sécurité ou de confidentialité.
+
+---
+
+# Candidat local à icônes — 1.2.5-test.19, 24 septembre 2026
+
+Publication interdite pour ce changement. Actions de menu remplacées par des icônes vectorielles locales avec description accessible, infobulle et cible tactile de 48 dp ; confirmations conservées. Aucune dépendance ajoutée. Versions, correctifs et exceptions documentés pour 1.2.5 conservés.
+
+Avant compilation : contrôle OSV renouvelé sur 658 coordonnées, aucun avis retourné ; versions officielles et maintenance reconsultées. Trois formats de version Cargo ont nécessité de conserver le résultat du contrôle complet effectué plus tôt le même jour ; détail explicite dans `security/icons-test-19-dependencies.json`. TOAST UI archivé et limites de l’inventaire JavaScript restent documentés ci-dessous. Ressources graphiques vectorielles sans métadonnées personnelles, licence Material incluse.
+
+Validation terminée : 13 tests JVM et 3 tests UI sur l’APK release réussis. Restauration/publication par les icônes, clavier et appui tactile sur Retour sous la barre système vérifiés. Les noms des icônes restent accessibles aux lecteurs d’écran ; l’usage réel de TalkBack et le rendu sur smartphone ne sont pas validés manuellement.
+
+APK non débogable, versionCode 19, certificat inchangé ; 489 entrées décompressées inspectées sans secret ou chemin personnel correspondant aux motifs recherchés. Bibliothèques natives et DOMPurify identiques aux fichiers vérifiés de 1.2.5 ; signature et empreinte contrôlées. SHA-256 : `c09322ae18b0d323530a269dac2c2c94d60fe3e5cd9ca4b373a674b578edc537`. Résultats dans `security/icons-test-19-*.json`. Ce contrôle ciblé ne garantit pas l’absence de vulnérabilité inconnue ou donnée encodée. La copie de publication reste inchangée.
+
+---
+
 # Publication 1.2.5 — contrôle du 24 septembre 2026
 
 L’utilisateur a testé le candidat 1.2.4-test.17 sur smartphone, indiqué qu’il fonctionne et autorisé explicitement la publication sous 1.2.5. Numéro technique 18 pour remplacer le candidat local. La version finale ajoute DOMPurify 3.4.16, dont l’intégrité npm est vérifiée et les tests de filtrage sont rejoués.

@@ -1,20 +1,30 @@
 # Notestr Android
 
-Application Android native de notes privées Nostr compatible avec Notestr Linux. Interface en français.
+Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Interface en français, sauvegarde de la version précédente et actions à icônes.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **1.2.5**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **2.0**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`.
+SHA-256 : `e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5`.
 
-## Modifications récentes — 1.2.5
+## Modifications récentes — 2.0
+
+- Sauvegarde automatique de la version précédente lors de la publication d’une note modifiée : une seule sauvegarde chiffrée, conservée localement et sur les relais qui l’acceptent.
+- Restauration via **Version précédente**, puis **Publier** pour confirmer.
+- Actions principales sous forme d’icônes ; un appui long affiche leur fonction. Descriptions accessibles et zones tactiles de 48 dp.
+- Davantage de place pour le contenu : l’action de restauration rejoint la barre de l’éditeur.
+- Correctifs de sécurité du SDK, des bibliothèques et de l’outillage inclus ; contrôles renouvelés avant publication.
+
+APK unique non débogable, certificat conservé et versionCode 20 pour remplacer aussi les APK de test. Voir [les notes de version](RELEASE-NOTES-2.0.md), [le protocole de sauvegarde](BACKUP-PROTOCOL.md) et [les vérifications de sécurité](SECURITY-REVIEW.md).
+
+## Modifications précédentes — 1.2.5
 
 - Sauvegarde automatique unique et chiffrée de la version précédente, conservée localement et sur les relais qui l’acceptent.
 - Action **Version précédente** pour charger la sauvegarde ; **Publier** confirme sa restauration.
@@ -77,7 +87,7 @@ Les corrections des titres et du menu de mise en forme H1–H6 sont également i
 - suppression par événement `kind 5` selon NIP-09 ;
 - relais configurables, avec `wss://relay.decentralia.fr` par défaut ;
 - éditeur Markdown visuel local et mode source ;
-- retours simples rendus explicites à la publication pour rester visibles dans Pages ;
+- retours simples rendus explicites à la publication pour préserver la mise en forme ;
 - verrouillage par mot de passe et changement de mot de passe ;
 - clé privée protégée par le mot de passe puis par Android Keystore ;
 - connexion à Amber selon NIP-55 : la clé privée reste dans le signer ;
@@ -90,13 +100,13 @@ Cette application lit les documents personnels kind `33457`, pas les articles ki
 
 Le mode Visuel utilise une hauteur liée à la zone Android disponible. Son chargement affiche une progression ; en cas d’échec, un diagnostic et un bouton Réessayer apparaissent. Le retour au Markdown conserve la source même si le moteur visuel n’a pas démarré.
 
-## Titres et compatibilité Pages
+## Titres et mise en forme
 
 Le bouton H ouvre un menu visible sur mobile : En-tête 1 à En-tête 6, puis Paragraphe. Les titres de la liste Android retirent les marqueurs usuels de mise en forme.
 
-À la publication, une première ligne simple entièrement en gras/italique (par exemple `***Test version Android***`) est convertie en vrai titre H1 (`# Test version Android`). Pages retire les `#` du titre de sa liste, mais ne retire pas les `***`. Cette conversion remplace le gras/italique de cette première ligne par le style H1. Le corps de la note et les premières lignes complexes restent inchangés par cette conversion. Les sauts de ligne continuent d’être normalisés comme auparavant.
+À la publication, une première ligne simple entièrement en gras/italique (par exemple `***Test version Android***`) est convertie en vrai titre H1 (`# Test version Android`). Cette conversion remplace le gras/italique de cette première ligne par le style H1. Le corps de la note et les premières lignes complexes restent inchangés par cette conversion. Les sauts de ligne continuent d’être normalisés comme auparavant.
 
-Pour corriger le titre d’une note déjà publiée dans Pages, ouvrir cette note dans Android puis la republier. Aucune ancienne note n’est republiée automatiquement.
+Pour appliquer cette conversion au titre d’une note déjà publiée, ouvrir cette note dans Android puis la republier. Aucune ancienne note n’est republiée automatiquement.
 
 ## Installer l’APK fourni
 
@@ -125,7 +135,7 @@ cd ~/Documents/Dev/Android/notestr-android
 ## Première ouverture
 
 1. Choisir **Clé locale** ou **Amber**.
-2. Avec une clé locale, saisir la clé `nsec` du compte qui contient les notes Pages. Avec Amber, installer et déverrouiller Amber, puis sélectionner le compte voulu.
+2. Avec une clé locale, saisir la clé `nsec` du compte Nostr qui contient vos notes. Avec Amber, installer et déverrouiller Amber, puis sélectionner le compte voulu.
 3. Choisir un mot de passe d’au moins huit caractères.
 4. Vérifier la liste des relais.
 5. Créer le coffre ou se connecter avec Amber, puis attendre la première synchronisation.
@@ -161,4 +171,4 @@ Avant toute publication du code, vérifier malgré tout les fichiers suivis et n
 - `org.rust-nostr:nostr-sdk:0.44.8` pour les clés, signatures, événements, relais et NIP-44 ;
 - TOAST UI Editor et DOMPurify, chargés uniquement depuis les ressources locales. Leurs licences sont fournies dans `app/src/main/assets/editor/`.
 
-`rust-nostr` fournit une implémentation NIP-44 v2 conforme au format attendu par Pages. Son interface Kotlin est encore annoncée comme alpha par le projet, même si le cœur cryptographique Rust est partagé avec les autres liaisons officielles.
+Le SDK Nostr fournit une implémentation du chiffrement NIP-44 v2. Son interface Kotlin est encore annoncée comme alpha par le projet, même si le cœur cryptographique Rust est partagé avec les autres liaisons officielles.

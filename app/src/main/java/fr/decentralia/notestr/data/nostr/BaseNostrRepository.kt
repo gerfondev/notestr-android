@@ -2,7 +2,7 @@ package fr.decentralia.notestr.data.nostr
 
 import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.explicitLineBreaks
-import fr.decentralia.notestr.domain.pagesCompatibleTitle
+import fr.decentralia.notestr.domain.publicationTitle
 import fr.decentralia.notestr.domain.model.Note
 import java.security.SecureRandom
 import java.time.Duration
@@ -97,7 +97,7 @@ abstract class BaseNostrRepository(
         val existingBackup = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
             .firstOrNull { NoteEvents.identifier(it) == NoteEvents.backupAddress(identifier) }
         val timestamp = NoteEvents.updateTime(old, existingBackup)
-        val normalized = explicitLineBreaks(pagesCompatibleTitle(markdown))
+        val normalized = explicitLineBreaks(publicationTitle(markdown))
         require(normalized.toByteArray(Charsets.UTF_8).size in 1..65535) {
             "Le Markdown doit contenir entre 1 et 65 535 octets UTF-8 (NIP-44 v2)."
         }

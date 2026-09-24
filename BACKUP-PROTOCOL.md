@@ -1,6 +1,6 @@
 # Sauvegarde partagée Linux / Android
 
-Disponible dans Notestr Android 1.2.5. Compatibilité du format vérifiée dans les deux sens avec Linux ; candidat testé sur smartphone. Voir SECURITY-REVIEW.md et VALIDATION.md pour la portée des essais.
+Disponible dans Notestr Android 2.0. Compatibilité du format vérifiée dans les deux sens avec Linux ; candidat testé sur smartphone. Voir SECURITY-REVIEW.md et VALIDATION.md pour la portée des essais.
 
 ## Utilisation
 

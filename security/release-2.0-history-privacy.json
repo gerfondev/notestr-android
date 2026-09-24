@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-24",
+  "scope": "history",
+  "entriesScannedIncludingArchives": 1502,
+  "findings": [
+    {
+      "file": "git:824a53e8e1f9926333e9f9153bee6475e9ab81b6",
+      "pattern": "preExistingAuthorEmail"
+    },
+    {
+      "file": "git:c7bd847aa7afbe3ccf577760ff778c0e674e9101",
+      "pattern": "preExistingAuthorEmail"
+    }
+  ],
+  "genericHomePathCandidates": [],
+  "images": [],
+  "limits": "Targeted signatures and metadata inspection; not a proof of absence of encoded secrets. Upstream synthetic fixtures require separate review.",
+  "scopeNote": "Distributed project files exclude local upstream SDK source cache. Existing remote author emails are documented without reproducing their value; no remote history rewriting authorized."
+}

@@ -1,13 +1,13 @@
-# Publication — Notestr Android 1.2.5
+# Publication — Notestr Android 2.0
 
-Le 24 septembre 2026, après essai satisfaisant du candidat sur smartphone, l’utilisateur a autorisé les contrôles de sécurité et de confidentialité puis la publication de cette mise à jour sous la version 1.2.5.
+Publication GitHub explicitement autorisée par l’utilisateur le 24 septembre 2026. Version 2.0, versionCode 20, APK unique release non débogable. Certificat conservé pour remplacer aussi les candidats locaux, sans désinstallation.
 
-APK unique release non débogable, versionName 1.2.5, versionCode 18. Certificat conservé pour installer par-dessus les versions publique et de test, sans désinstallation. Les sources retenues correspondent au candidat testé, complété par DOMPurify 3.4.16 et le retrait des chemins personnels du fournisseur dans les métadonnées JNA.
+Fonctions mises en avant : sauvegarde unique de la version précédente lors de la publication d’une modification et actions à icônes. Documentation en français actualisée, avec les modifications README déjà publiées conservées.
 
-L’archive source amont du SDK est exclue du dépôt à cause des clés présentes dans ses exemples ; la reconstruction la télécharge et vérifie son empreinte. Caches, journaux locaux, résultats XML, propriétés locales, bases privées et clés de signature sont exclus. Identité Git de projet uniquement.
+Sources, dépendances, archives et APK contrôlés ; résultats et limites dans SECURITY-REVIEW.md et VALIDATION.md. Les deux commits distants récents contiennent déjà une adresse d’auteur : cette donnée n’est pas reproduite dans les rapports, les nouveaux fichiers ou l’APK. Historique distant conservé ; identité neutre de projet pour le nouveau commit et le tag.
 
-Les contrôles, tests, exceptions et limites figurent dans SECURITY-REVIEW.md, VALIDATION.md et les rapports `security/release-1.2.5-*.json`. L’absence de correspondance aux motifs recherchés ne constitue pas une garantie exhaustive.
+Caches, logs locaux, propriétés locales, bases privées, clés de signature et archive des exemples amont sont exclus des fichiers publiés. Les clés présentes dans les tests sont synthétiques et identifiées.
 
-SHA-256 de l’APK : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`.
+SHA-256 APK : `e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5`.
 
-Notes de version : RELEASE-NOTES-1.2.5.md. Publication prévue sur GitHub uniquement, sans réécriture de l’historique existant.
+Notes de version : RELEASE-NOTES-2.0.md. Distribution sur GitHub uniquement.

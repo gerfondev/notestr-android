@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-24",
+  "version": "1.2.5-test.19",
+  "apkSha256": "c09322ae18b0d323530a269dac2c2c94d60fe3e5cd9ca4b373a674b578edc537",
+  "unitTestsPassed": 13,
+  "releaseUiTestsPassed": 3,
+  "uiCoverage": [
+    "Restoration confirmation and publication via icon descriptions",
+    "Editor keyboard layout",
+    "Back icon real touch with system bar clearance"
+  ],
+  "limits": "Disposable API 30 emulator. Smartphone appearance and TalkBack not manually validated. Existing tests adapted to icon content descriptions; no real account or public relay used.",
+  "publication": "None; published 1.2.5 and publication checkout unchanged."
+}

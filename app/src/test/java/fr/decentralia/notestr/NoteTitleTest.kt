@@ -1,7 +1,7 @@
 package fr.decentralia.notestr
 
 import fr.decentralia.notestr.domain.noteTitle
-import fr.decentralia.notestr.domain.pagesCompatibleTitle
+import fr.decentralia.notestr.domain.publicationTitle
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -22,14 +22,14 @@ class NoteTitleTest {
         assertEquals("Sans titre", noteTitle(" \n\n"))
         assertEquals("Lien", noteTitle("\n[**Lien**](https://example.test)\nSuite"))
     }
-    @Test fun simpleEmphasizedTitleBecomesPagesHeadingOnlyAtPublication() {
-        assertEquals("# Test version Android\n\n~~Texte barré~~", pagesCompatibleTitle("***Test version Android***\n\n~~Texte barré~~"))
-        assertEquals("\r\n# Titre\r\nCorps", pagesCompatibleTitle("\r\n**Titre**\r\nCorps"))
-        assertEquals("# Titre", pagesCompatibleTitle(pagesCompatibleTitle("___Titre___")))
+    @Test fun simpleEmphasizedTitleBecomesHeadingOnlyAtPublication() {
+        assertEquals("# Test version Android\n\n~~Texte barré~~", publicationTitle("***Test version Android***\n\n~~Texte barré~~"))
+        assertEquals("\r\n# Titre\r\nCorps", publicationTitle("\r\n**Titre**\r\nCorps"))
+        assertEquals("# Titre", publicationTitle(publicationTitle("___Titre___")))
     }
     @Test fun publicationPreservesComplexAndExistingTitles() {
         for (text in listOf("# Titre", "## Titre", "**Un** et **deux**", "* Liste", "***", "Texte\n**Suite**", "`code`")) {
-            assertEquals(text, pagesCompatibleTitle(text))
+            assertEquals(text, publicationTitle(text))
         }
     }
 }

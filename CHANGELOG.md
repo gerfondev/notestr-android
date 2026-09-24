@@ -1,3 +1,12 @@
+# 2.0 — 24 septembre 2026
+
+- Sauvegarde automatique, unique et chiffrée de la version précédente lors de la publication d’une modification ; conservation locale et sur les relais qui l’acceptent.
+- Restauration par « Version précédente », puis confirmation avec « Publier ».
+- Icônes pour Actualiser, Réglages, Verrouiller, Retour, Version précédente, Supprimer, Publier et Nouvelle note.
+- Infobulles sur les actions de menu, descriptions accessibles et cibles tactiles de 48 dp ; davantage de place pour le texte.
+- Correctifs de sécurité maintenus et audit des dépendances renouvelé ; contrôles de confidentialité des sources et de l’APK.
+- Présentation et documentation actualisées ; normalisation des titres conservée sous un nom de fonction générique.
+
 # 1.2.5 — 24 septembre 2026
 
 - Sauvegarde chiffrée unique par note, conservée localement et envoyée aux relais avant la note modifiée.

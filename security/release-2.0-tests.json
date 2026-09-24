@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-24",
+  "version": "2.0",
+  "versionCode": 20,
+  "apkSha256": "e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5",
+  "unitTests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "releaseAndroidTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "coverage": [
+    "backup publication ordering and relay refusal",
+    "shared encrypted backup format and Linux fixture",
+    "icon actions for restore and publication",
+    "NIP-44",
+    "simulated Amber signing and authorization",
+    "encrypted vault",
+    "editor keyboard",
+    "back icon touch below system bars"
+  ],
+  "limits": [
+    "Disposable API 30 emulator, not all phone models.",
+    "No real Amber or public relay test.",
+    "TalkBack not manually tested.",
+    "Five isolated editor tests were last run successfully for 1.2.5 with the same editor assets and libraries; not counted in these 30 tests."
+  ]
+}

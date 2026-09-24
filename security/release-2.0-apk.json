@@ -1,0 +1,1066 @@
+{
+  "date": "2026-09-24",
+  "version": "2.0",
+  "versionCode": 20,
+  "sha256": "e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5",
+  "bytes": 25787483,
+  "debuggable": false,
+  "signatureVerified": true,
+  "certificateSha256": "8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+  "nativeSdkHashesMatch": true,
+  "jnaHashesMatch": true,
+  "privacy": {
+    "date": "2026-09-24",
+    "scope": "apk",
+    "entriesScannedIncludingArchives": 489,
+    "findings": [],
+    "genericHomePathCandidates": [],
+    "images": [
+      {
+        "file": "app-release.apk!res/-B.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/-N.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/0c.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/0x.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/1I.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/1J.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/1e.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/2K.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/2P.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/2d.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/33.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/3u.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/42.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/49.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/4k.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/5D.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/5U.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/5c.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/62.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/65.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/6t.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/7C.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/7I.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/7_.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/7i.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/7o.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/8h.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/8h.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/9N.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/9X.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/9n.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/9w.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/9z.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/BG.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/BL.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/BM.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/CK.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/C_.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/DL.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/D_.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/E5.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/EA.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/EP.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Em.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/FS.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/FW.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/G2.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Gf.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Gt.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/H-.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/IX.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/JJ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/KH.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/KM.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/K_.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Lf.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Li.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/MF.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/MQ.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Ma.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/NA.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/NG.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/NZ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Nk.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/No.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/PL.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Pa.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Pb.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Pg.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/QJ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/QZ.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/RJ.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/RV.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/SV.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Sq.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Su.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Th.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Tj.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/U-.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/UE.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/UR.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/W4.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Wh.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Wr.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Wz.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/X3.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/X4.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Y7.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/YG.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Yt.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Yw.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/Z8.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ZN.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/_U.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/_q.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/aU.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ar.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/as.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/bX.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/d3.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/d5.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/dW.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/dY.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/eR.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/eT.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ej.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ev.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/fM.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/g-.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/gE.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/gK.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/gZ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/gj.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/gt.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/h7.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/hZ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/hh.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/i6.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/iO.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/iR.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/io.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/j4.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/jS.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/jS1.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/jW.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/je.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/kJ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/kp.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/lP.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ly.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/m0.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/mm.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/nI.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/nf.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/o-.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/o9.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/o_.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/o_.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/op.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/pY.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/pk.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ps.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/pu.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/py.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/qD.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/qp.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/rP.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/rj.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/s0.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/s3.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/s4.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/sA.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/sg.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/tG.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/tS.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/tU.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/tZ.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/te.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/u3.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/uL.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/uj.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/ut.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/uu.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/v4.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/vL.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/vz.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/wL.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/wN.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/w_.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/x3.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/x7.png",
+        "metadataKeys": [
+          "transparency"
+        ],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/xH.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/xR.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/xa.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/yH.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/yY.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/yg.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/yn.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/z-.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/z9.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/zE.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/zV.9.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      },
+      {
+        "file": "app-release.apk!res/zr.png",
+        "metadataKeys": [],
+        "exifEntries": 0
+      }
+    ],
+    "limits": "Targeted signatures and metadata inspection; not a proof of absence of encoded secrets. Upstream synthetic fixtures require separate review."
+  },
+  "nativeAlignment": [
+    {
+      "entry": "lib/arm64-v8a/libandroidx.graphics.path.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/arm64-v8a/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/arm64-v8a/libnostr_sdk_ffi.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/armeabi-v7a/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/armeabi-v7a/libnostr_sdk_ffi.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/armeabi/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/mips/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/mips64/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86/libandroidx.graphics.path.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86/libnostr_sdk_ffi.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libandroidx.graphics.path.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libjnidispatch.so",
+      "loadAlignment": [
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "lib/x86_64/libnostr_sdk_ffi.so",
+      "loadAlignment": [
+        16384,
+        16384,
+        16384
+      ]
+    }
+  ]
+}

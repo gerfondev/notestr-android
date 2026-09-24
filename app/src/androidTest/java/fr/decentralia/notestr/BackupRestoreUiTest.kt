@@ -33,15 +33,15 @@ class BackupRestoreUiTest {
             NotestrViewModel::class.java.getDeclaredField("repository").apply { isAccessible = true }.set(vm, repo)
             vm.edit(note)
         }
-        compose.onNodeWithText("Version précédente").performClick()
+        compose.onNodeWithContentDescription("Version précédente").performClick()
         compose.onNodeWithText("Annuler").performClick()
         compose.runOnIdle { assertNull(repo.published) }
-        compose.onNodeWithText("Version précédente").performClick()
+        compose.onNodeWithContentDescription("Version précédente").performClick()
         compose.onNodeWithText("Charger").performClick()
         compose.onNodeWithText("Markdown", substring = false).performClick()
         compose.onNode(hasSetTextAction()).assertTextContains("Version sauvegardée")
         compose.runOnIdle { assertNull(repo.published) }
-        compose.onNodeWithText("Publier").performClick()
+        compose.onNodeWithContentDescription("Publier").performClick()
         compose.runOnIdle {
             assertEquals("Version sauvegardée", repo.published)
             assertEquals(note, repo.previousAtPublish)

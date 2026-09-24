@@ -40,7 +40,12 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.PlainTooltip
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -53,6 +58,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.annotation.DrawableRes
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -183,9 +190,11 @@ private fun ColumnScope.ConnectionLogo() {
 private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Notestr") }, actions = {
-            TextButton(vm::refresh) { Text("Actualiser") }; TextButton(vm::settings) { Text("Réglages") }; TextButton(vm::lock) { Text("Verrouiller") }
+            ActionIcon("Actualiser", R.drawable.ic_action_refresh, vm::refresh)
+            ActionIcon("Réglages", R.drawable.ic_action_settings, vm::settings)
+            ActionIcon("Verrouiller", R.drawable.ic_action_lock, vm::lock)
         }) },
-        floatingActionButton = { FloatingActionButton({ vm.edit() }) { Text("+") } }
+        floatingActionButton = { FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = "Nouvelle note") } }
     ) { padding ->
         if (state.notes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text("Vos notes privées apparaîtront ici.") }
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -209,13 +218,18 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
     var editorRevision by remember { mutableStateOf(0) }
     val busy = vm.state.busy
     Scaffold(topBar = { TopAppBar(
-        title = { Text(if (note == null) "Nouvelle note" else note.title, maxLines = 1) },
-        navigationIcon = { TextButton(vm::backToNotes, enabled = !busy) { Text("Retour") } },
-        actions = { if (note != null) TextButton({ confirmDelete = true }, enabled = !busy) { Text("Supprimer") }; TextButton({ vm.save(markdown, note) }, enabled = !busy) { Text("Publier") } },
+        title = { Text(if (note == null) "Nouvelle note" else note.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        navigationIcon = { ActionIcon("Retour", R.drawable.ic_action_back, vm::backToNotes, enabled = !busy) },
+        actions = {
+            if (note != null) {
+                ActionIcon("Version précédente", R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
+                ActionIcon("Supprimer", R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
+            }
+            ActionIcon("Publier", R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
+        },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) {
-            if (note != null) TextButton({ confirmRestore = true }, enabled = !busy) { Text("Version précédente") }
             key(editorRevision) {
                 MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f))
             }
@@ -281,6 +295,23 @@ private fun FormPage(title: String, back: (() -> Unit)? = null, content: @Compos
     // Insets belong outside the scrollable content so scrolling cannot remove them.
     Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()
         .verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        if (back != null) TextButton(back) { Text("Retour") }; Text(title, style = MaterialTheme.typography.headlineSmall); content()
+        if (back != null) ActionIcon("Retour", R.drawable.ic_action_back, back)
+        Text(title, style = MaterialTheme.typography.headlineSmall)
+        content()
+    }
+}
+
+/** Labels serve TalkBack and the long-press tooltip; touch targets remain 48 dp. */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun ActionIcon(label: String, @DrawableRes icon: Int, onClick: () -> Unit, enabled: Boolean = true) {
+    TooltipBox(
+        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        tooltip = { PlainTooltip { Text(label) } },
+        state = rememberTooltipState()
+    ) {
+        IconButton(onClick = onClick, enabled = enabled, modifier = Modifier.size(48.dp)) {
+            Icon(painterResource(icon), contentDescription = label, modifier = Modifier.size(24.dp))
+        }
     }
 }

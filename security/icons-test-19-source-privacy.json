@@ -1,0 +1,88 @@
+{
+  "date": "2026-09-24",
+  "scope": "tree",
+  "entriesScannedIncludingArchives": 1439,
+  "findings": [],
+  "genericHomePathCandidates": [],
+  "images": [
+    {
+      "file": "app/src/main/res/drawable-nodpi/notestr_logo.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "artwork/notestr.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "tests/android-visual-verified.png",
+      "metadataKeys": [
+        "srgb"
+      ],
+      "exifEntries": 0
+    },
+    {
+      "file": "tests/editor-verified.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    },
+    {
+      "file": "tests/headings-verified.png",
+      "metadataKeys": [],
+      "exifEntries": 0
+    }
+  ],
+  "limits": "Targeted signatures and metadata inspection; not a proof of absence of encoded secrets. Upstream synthetic fixtures require separate review.",
+  "excludedLocalCache": "Upstream SDK source archive, ignored and never included in the APK; earlier review documented public upstream example keys."
+}

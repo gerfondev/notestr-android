@@ -3,6 +3,7 @@ package fr.decentralia.notestr
 import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -18,7 +19,7 @@ import org.junit.Test
 class SettingsNavigationTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
-    @Test fun backLabelHasSystemBarClearanceAndAcceptsTouchOnItsTopHalf() {
+    @Test fun backIconHasSystemBarClearanceAndAcceptsTouchOnItsTopHalf() {
         lateinit var vm: NotestrViewModel
         compose.runOnIdle {
             // Recent Android versions enforce this mode for target SDK 36.
@@ -27,7 +28,7 @@ class SettingsNavigationTest {
             vm.settings()
         }
         compose.waitForIdle()
-        val label = compose.onNodeWithText("Retour", useUnmergedTree = true).fetchSemanticsNode().boundsInWindow
+        val label = compose.onNodeWithContentDescription("Retour", useUnmergedTree = false).fetchSemanticsNode().boundsInWindow
         var safeTop = 0
         var margin = 0f
         compose.runOnIdle {

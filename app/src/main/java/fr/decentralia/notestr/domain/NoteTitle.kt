@@ -19,10 +19,10 @@ fun noteTitle(markdown: String): String {
     return text.trim().ifBlank { "Sans titre" }
 }
 
-/** Pages strips heading markers from its list title, but keeps emphasis markers.
+/** Normalize a simple emphasized first line to an explicit Markdown heading at publication.
  * Convert only a simple, wholly emphasized first line; preserve all other content.
  */
-fun pagesCompatibleTitle(markdown: String): String {
+fun publicationTitle(markdown: String): String {
     val first = Regex("[^\\r\\n]+").findAll(markdown).firstOrNull { it.value.isNotBlank() } ?: return markdown
     val emphasized = Regex("^(\\*{1,3}|_{1,3})([^*_`<>\\[\\]\\\\]+)\\1$").matchEntire(first.value.trim()) ?: return markdown
     val title = emphasized.groupValues[2].trim()
