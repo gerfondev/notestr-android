@@ -5,7 +5,7 @@ import android.content.Intent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.net.Uri
-import rust.nostr.sdk.PublicKey
+import org.nostrdevkit.sdk.PublicKey
 
 data class AmberAccount(val publicKey: String, val packageName: String) {
     fun encode(): CharArray = "$PREFIX$publicKey|$packageName".toCharArray()

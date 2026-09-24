@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -13,8 +15,8 @@ android {
         applicationId = "fr.decentralia.notestr"
         minSdk = 26
         targetSdk = 36
-        versionCode = 16
-        versionName = "1.2.4"
+        versionCode = 18
+        versionName = "1.2.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,7 +62,10 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("org.rust-nostr:nostr-sdk:0.44.8")
+    implementation(files(rootProject.file("vendor/nostr-sdk/nostr-sdk-0.45.1-notestr.1.aar")))
+    implementation(files(rootProject.file("vendor/jna/jna-5.19.1-notestr.1.aar")))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    implementation("androidx.appcompat:appcompat:1.8.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.3.0")
@@ -75,3 +80,30 @@ kotlin {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
     }
 }
+
+// Fail before packaging if the locally rebuilt SDK no longer matches its recorded artifact.
+val verifyNostrSdk by tasks.registering {
+    val sdk = rootProject.file("vendor/nostr-sdk/nostr-sdk-0.45.1-notestr.1.aar")
+    val sums = rootProject.file("vendor/nostr-sdk/SHA256SUMS")
+    inputs.files(sdk, sums)
+    doLast {
+        val expected = sums.readText().trim().substringBefore(" ")
+        val actual = MessageDigest.getInstance("SHA-256").digest(sdk.readBytes())
+            .joinToString("") { "%02x".format(it) }
+        check(actual == expected) { "Le SDK natif ne correspond pas à son empreinte vérifiée." }
+    }
+}
+tasks.named("preBuild") { dependsOn(verifyNostrSdk) }
+
+val verifyJna by tasks.registering {
+    val library = rootProject.file("vendor/jna/jna-5.19.1-notestr.1.aar")
+    val sums = rootProject.file("vendor/jna/SHA256SUMS")
+    inputs.files(library, sums)
+    doLast {
+        val expected = sums.readText().trim().substringBefore(" ")
+        val actual = MessageDigest.getInstance("SHA-256").digest(library.readBytes())
+            .joinToString("") { "%02x".format(it) }
+        check(actual == expected) { "JNA ne correspond pas à son empreinte vérifiée." }
+    }
+}
+tasks.named("preBuild") { dependsOn(verifyJna) }

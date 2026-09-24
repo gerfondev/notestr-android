@@ -1,0 +1,5271 @@
+{
+  "date": "2026-09-24",
+  "queries": [
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.activity:activity"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.activity:activity-compose"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.activity:activity-ktx"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.annotation:annotation"
+      },
+      "version": "1.9.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.annotation:annotation-experimental"
+      },
+      "version": "1.4.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.annotation:annotation-jvm"
+      },
+      "version": "1.9.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.appcompat:appcompat"
+      },
+      "version": "1.8.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.appcompat:appcompat-resources"
+      },
+      "version": "1.8.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.arch.core:core-common"
+      },
+      "version": "2.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.arch.core:core-runtime"
+      },
+      "version": "2.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.autofill:autofill"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.biometric:biometric"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.collection:collection"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.collection:collection-jvm"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.collection:collection-ktx"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose:compose-bom"
+      },
+      "version": "2025.08.01"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.animation:animation"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.animation:animation-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.animation:animation-core"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.animation:animation-core-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.foundation:foundation"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.foundation:foundation-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.foundation:foundation-layout"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.foundation:foundation-layout-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material:material-icons-core"
+      },
+      "version": "1.7.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material:material-icons-core-android"
+      },
+      "version": "1.7.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material:material-ripple"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material:material-ripple-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material3:material3"
+      },
+      "version": "1.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.material3:material3-android"
+      },
+      "version": "1.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime-annotation"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime-annotation-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime-saveable"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.runtime:runtime-saveable-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-geometry"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-geometry-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-graphics"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-graphics-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-test"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-test-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-test-junit4"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-test-junit4-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-text"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-text-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-tooling-preview"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-tooling-preview-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-unit"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-unit-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-util"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.compose.ui:ui-util-android"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.concurrent:concurrent-futures"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.concurrent:concurrent-futures-ktx"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.core:core"
+      },
+      "version": "1.15.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.core:core-ktx"
+      },
+      "version": "1.15.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.core:core-viewtree"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.cursoradapter:cursoradapter"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.customview:customview"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.customview:customview-poolingcontainer"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.databinding:databinding-common"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.databinding:databinding-compiler-common"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.drawerlayout:drawerlayout"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.emoji2:emoji2"
+      },
+      "version": "1.4.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.emoji2:emoji2-views-helper"
+      },
+      "version": "1.4.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.fragment:fragment"
+      },
+      "version": "1.8.9"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.graphics:graphics-path"
+      },
+      "version": "1.0.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.interpolator:interpolator"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-common"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-common-java8"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-common-jvm"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-livedata"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-livedata-core"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-livedata-core-ktx"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-process"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime-compose"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime-compose-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime-ktx"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-runtime-ktx-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-compose"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-compose-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-ktx"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-savedstate"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.lifecycle:lifecycle-viewmodel-savedstate-android"
+      },
+      "version": "2.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.loader:loader"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.profileinstaller:profileinstaller"
+      },
+      "version": "1.4.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.resourceinspection:resourceinspection-annotation"
+      },
+      "version": "1.0.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.savedstate:savedstate"
+      },
+      "version": "1.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.savedstate:savedstate-android"
+      },
+      "version": "1.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.savedstate:savedstate-compose"
+      },
+      "version": "1.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.savedstate:savedstate-compose-android"
+      },
+      "version": "1.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.savedstate:savedstate-ktx"
+      },
+      "version": "1.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.startup:startup-runtime"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test:core"
+      },
+      "version": "1.7.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test:monitor"
+      },
+      "version": "1.8.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test:runner"
+      },
+      "version": "1.7.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test.espresso:espresso-core"
+      },
+      "version": "3.7.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test.espresso:espresso-idling-resource"
+      },
+      "version": "3.7.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test.ext:junit"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.test.services:storage"
+      },
+      "version": "1.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.tracing:tracing"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.vectordrawable:vectordrawable"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.vectordrawable:vectordrawable-animated"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.versionedparcelable:versionedparcelable"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "androidx.viewpager:viewpager"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android:signflinger"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android:zipflinger"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.application:com.android.application.gradle.plugin"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.databinding:baseLibrary"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:annotations"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:common"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:dvlib"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:repository"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:sdk-common"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools:sdklib"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.analytics-library:crash"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.analytics-library:protos"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.analytics-library:shared"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.analytics-library:tracker"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:aapt2-proto"
+      },
+      "version": "8.13.2-14304508"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:aaptcompiler"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:apksig"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:apkzlib"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:builder"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:builder-model"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:builder-test-api"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:bundletool"
+      },
+      "version": "1.18.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:gradle"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:gradle-api"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:gradle-common-api"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:gradle-settings-api"
+      },
+      "version": "8.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:manifest-merger"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build:transform-api"
+      },
+      "version": "2.0.0-deprecated-use-gradle-api"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build.jetifier:jetifier-core"
+      },
+      "version": "1.0.0-beta10"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.build.jetifier:jetifier-processor"
+      },
+      "version": "1.0.0-beta10"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.ddms:ddmlib"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.layoutlib:layoutlib-api"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.lint:lint-model"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.lint:lint-typedef-remover"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-device-provider-ddmlib-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-device-provider-profile-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-host-additional-test-output-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-host-apk-installer-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-host-coverage-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-host-emulator-control-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-host-logcat-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.android.tools.utp:android-test-plugin-result-listener-gradle-proto"
+      },
+      "version": "31.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.android:annotations"
+      },
+      "version": "4.1.1.4"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.api.grpc:proto-google-common-protos"
+      },
+      "version": "2.48.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.auto.value:auto-value-annotations"
+      },
+      "version": "1.6.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.code.findbugs:jsr305"
+      },
+      "version": "3.0.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.code.gson:gson"
+      },
+      "version": "2.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.crypto.tink:tink"
+      },
+      "version": "1.7.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.dagger:dagger"
+      },
+      "version": "2.28.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.errorprone:error_prone_annotations"
+      },
+      "version": "2.30.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.flatbuffers:flatbuffers-java"
+      },
+      "version": "1.12.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.guava:failureaccess"
+      },
+      "version": "1.0.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.guava:guava"
+      },
+      "version": "33.3.1-jre"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.guava:listenablefuture"
+      },
+      "version": "1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.guava:listenablefuture"
+      },
+      "version": "9999.0-empty-to-avoid-conflict-with-guava"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.j2objc:j2objc-annotations"
+      },
+      "version": "3.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.jimfs:jimfs"
+      },
+      "version": "1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.protobuf:protobuf-java"
+      },
+      "version": "3.25.5"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.protobuf:protobuf-java-util"
+      },
+      "version": "3.25.5"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.google.testing.platform:core-proto"
+      },
+      "version": "0.0.9-alpha03"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.googlecode.juniversalchardet:juniversalchardet"
+      },
+      "version": "1.0.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.squareup:javapoet"
+      },
+      "version": "1.10.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.squareup:javawriter"
+      },
+      "version": "2.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sun.activation:javax.activation"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sun.istack:istack-commons-runtime"
+      },
+      "version": "3.0.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "com.sun.xml.fastinfoset:FastInfoset"
+      },
+      "version": "1.2.16"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "commons-codec:commons-codec"
+      },
+      "version": "1.19.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "commons-io:commons-io"
+      },
+      "version": "2.20.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "commons-logging:commons-logging"
+      },
+      "version": "1.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-api"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-context"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-core"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-inprocess"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-netty"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-protobuf"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-protobuf-lite"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-stub"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.grpc:grpc-util"
+      },
+      "version": "1.69.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-buffer"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-codec"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-codec-http"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-codec-http2"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-codec-socks"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-common"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-handler"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-handler-proxy"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-resolver"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-transport"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.netty:netty-transport-native-unix-common"
+      },
+      "version": "4.1.138.Final"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "io.perfmark:perfmark-api"
+      },
+      "version": "0.27.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "jakarta.activation:jakarta.activation-api"
+      },
+      "version": "1.2.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "jakarta.xml.bind:jakarta.xml.bind-api"
+      },
+      "version": "2.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "javax.annotation:javax.annotation-api"
+      },
+      "version": "1.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "javax.inject:javax.inject"
+      },
+      "version": "1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "junit:junit"
+      },
+      "version": "4.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "net.java.dev.jna:jna"
+      },
+      "version": "5.19.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "net.java.dev.jna:jna"
+      },
+      "version": "5.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "net.java.dev.jna:jna-platform"
+      },
+      "version": "5.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "net.sf.jopt-simple:jopt-simple"
+      },
+      "version": "4.9"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "net.sf.kxml:kxml2"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.commons:commons-compress"
+      },
+      "version": "1.28.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.commons:commons-lang3"
+      },
+      "version": "3.18.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.httpcomponents:httpclient"
+      },
+      "version": "4.5.14"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.httpcomponents:httpcore"
+      },
+      "version": "4.4.16"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.apache.httpcomponents:httpmime"
+      },
+      "version": "4.5.6"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bitbucket.b_c:jose4j"
+      },
+      "version": "0.9.7"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bouncycastle:bcpkix-jdk18on"
+      },
+      "version": "1.86"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bouncycastle:bcprov-jdk18on"
+      },
+      "version": "1.86"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.bouncycastle:bcutil-jdk18on"
+      },
+      "version": "1.86"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.checkerframework:checker-qual"
+      },
+      "version": "3.43.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.codehaus.mojo:animal-sniffer-annotations"
+      },
+      "version": "1.24"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.glassfish.jaxb:jaxb-runtime"
+      },
+      "version": "2.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.glassfish.jaxb:txw2"
+      },
+      "version": "2.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.hamcrest:hamcrest-core"
+      },
+      "version": "1.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.hamcrest:hamcrest-library"
+      },
+      "version": "1.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jdom:jdom2"
+      },
+      "version": "2.0.6.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains:annotations"
+      },
+      "version": "13.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains:annotations"
+      },
+      "version": "23.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:compose-compiler-gradle-plugin"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:fus-statistics-gradle-plugin"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-build-statistics"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-build-tools-api"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-compiler-runner"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-daemon-client"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugin-annotations"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugin-api"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugin-idea"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugin-idea-proto"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-gradle-plugins-bom"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-klib-commonizer-api"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-native-utils"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-reflect"
+      },
+      "version": "2.0.21"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-stdlib"
+      },
+      "version": "2.0.21"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-stdlib"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-stdlib-common"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+      },
+      "version": "2.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+      },
+      "version": "2.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-tooling-core"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-util-io"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-util-klib"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin:kotlin-util-klib-metadata"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin"
+      },
+      "version": "2.4.20"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-android"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-bom"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-bom"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-test"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-coroutines-test-jvm"
+      },
+      "version": "1.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-serialization-bom"
+      },
+      "version": "1.7.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-serialization-core"
+      },
+      "version": "1.7.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm"
+      },
+      "version": "1.7.3"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jspecify:jspecify"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.jvnet.staxex:stax-ex"
+      },
+      "version": "1.8.1"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.ow2.asm:asm"
+      },
+      "version": "9.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.ow2.asm:asm-analysis"
+      },
+      "version": "9.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.ow2.asm:asm-commons"
+      },
+      "version": "9.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.ow2.asm:asm-tree"
+      },
+      "version": "9.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.ow2.asm:asm-util"
+      },
+      "version": "9.8"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.slf4j:slf4j-api"
+      },
+      "version": "1.7.30"
+    },
+    {
+      "package": {
+        "ecosystem": "Maven",
+        "name": "org.tensorflow:tensorflow-lite-metadata"
+      },
+      "version": "0.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "adler32"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "aead"
+      },
+      "version": "0.5.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "aes"
+      },
+      "version": "0.8.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "aho-corasick"
+      },
+      "version": "1.1.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "allocator-api2"
+      },
+      "version": "0.2.21"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "anstyle"
+      },
+      "version": "1.0.14"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "anyhow"
+      },
+      "version": "1.0.104"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "arrayvec"
+      },
+      "version": "0.7.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "askama"
+      },
+      "version": "0.14.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "askama_derive"
+      },
+      "version": "0.14.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "askama_parser"
+      },
+      "version": "0.14.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "async-compat"
+      },
+      "version": "0.2.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "async-trait"
+      },
+      "version": "0.1.92"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "async-utility"
+      },
+      "version": "0.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "async-wsocket"
+      },
+      "version": "0.17.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "autocfg"
+      },
+      "version": "1.5.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "base64"
+      },
+      "version": "0.22.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "base64"
+      },
+      "version": "0.23.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "basic-toml"
+      },
+      "version": "0.1.10"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bech32"
+      },
+      "version": "0.12.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bindgen"
+      },
+      "version": "0.69.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bip39"
+      },
+      "version": "2.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitcoin-consensus-encoding"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitcoin-internals"
+      },
+      "version": "0.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitcoin-io"
+      },
+      "version": "0.1.101"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitcoin_hashes"
+      },
+      "version": "0.14.101"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitcoin_hashes"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitflags"
+      },
+      "version": "1.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bitflags"
+      },
+      "version": "2.13.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "block-buffer"
+      },
+      "version": "0.10.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "block-buffer"
+      },
+      "version": "0.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "block-padding"
+      },
+      "version": "0.3.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "btreecap"
+      },
+      "version": "0.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bumpalo"
+      },
+      "version": "3.20.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "byteorder"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "bytes"
+      },
+      "version": "1.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "camino"
+      },
+      "version": "1.2.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cargo-platform"
+      },
+      "version": "0.1.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cargo_metadata"
+      },
+      "version": "0.19.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cbc"
+      },
+      "version": "0.1.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cc"
+      },
+      "version": "1.4.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cexpr"
+      },
+      "version": "0.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cfg-if"
+      },
+      "version": "1.0.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "chacha20"
+      },
+      "version": "0.9.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "chacha20poly1305"
+      },
+      "version": "0.10.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cipher"
+      },
+      "version": "0.4.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cipher"
+      },
+      "version": "0.5.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "clang-sys"
+      },
+      "version": "1.9.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "clap"
+      },
+      "version": "4.6.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "clap_builder"
+      },
+      "version": "4.6.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "clap_derive"
+      },
+      "version": "4.6.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "clap_lex"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cmov"
+      },
+      "version": "0.5.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cpufeatures"
+      },
+      "version": "0.2.17"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "cpufeatures"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crc32fast"
+      },
+      "version": "1.5.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crossbeam-queue"
+      },
+      "version": "0.3.14"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crossbeam-utils"
+      },
+      "version": "0.8.23"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crypto-common"
+      },
+      "version": "0.1.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "crypto-common"
+      },
+      "version": "0.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ctutils"
+      },
+      "version": "0.4.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "dary_heap"
+      },
+      "version": "0.3.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "data-encoding"
+      },
+      "version": "2.11.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "defmt"
+      },
+      "version": "0.3.100"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "defmt"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "defmt-macros"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "defmt-parser"
+      },
+      "version": "1.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "digest"
+      },
+      "version": "0.10.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "digest"
+      },
+      "version": "0.11.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "displaydoc"
+      },
+      "version": "0.2.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "doxygen-rs"
+      },
+      "version": "0.4.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "either"
+      },
+      "version": "1.18.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "equivalent"
+      },
+      "version": "1.0.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "errno"
+      },
+      "version": "0.3.14"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "fallible-iterator"
+      },
+      "version": "0.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "fallible-streaming-iterator"
+      },
+      "version": "0.1.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "faster-hex"
+      },
+      "version": "0.10.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "fastrand"
+      },
+      "version": "2.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "filetime"
+      },
+      "version": "0.2.29"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "find-msvc-tools"
+      },
+      "version": "0.1.13"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "flatbuffers"
+      },
+      "version": "23.5.26"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "flatbuffers"
+      },
+      "version": "25.12.19"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "flate2"
+      },
+      "version": "1.1.10"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "flume"
+      },
+      "version": "0.12.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "foldhash"
+      },
+      "version": "0.1.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "foldhash"
+      },
+      "version": "0.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "form_urlencoded"
+      },
+      "version": "1.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "fs-err"
+      },
+      "version": "2.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-channel"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-core"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-executor"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-io"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-macro"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-sink"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-task"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "futures-util"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "generic-array"
+      },
+      "version": "0.14.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "getrandom"
+      },
+      "version": "0.2.17"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "getrandom"
+      },
+      "version": "0.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "getrandom"
+      },
+      "version": "0.4.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "glob"
+      },
+      "version": "0.3.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "gloo-timers"
+      },
+      "version": "0.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "goblin"
+      },
+      "version": "0.8.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hash32"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hashbrown"
+      },
+      "version": "0.15.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hashbrown"
+      },
+      "version": "0.16.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hashbrown"
+      },
+      "version": "0.17.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "heapless"
+      },
+      "version": "0.8.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "heck"
+      },
+      "version": "0.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "heed"
+      },
+      "version": "0.20.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "heed-traits"
+      },
+      "version": "0.20.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "heed-types"
+      },
+      "version": "0.20.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hex-conservative"
+      },
+      "version": "0.2.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hex-conservative"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hmac"
+      },
+      "version": "0.13.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "home"
+      },
+      "version": "0.5.12"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "http"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "httparse"
+      },
+      "version": "1.10.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "hybrid-array"
+      },
+      "version": "0.4.15"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_collections"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_locale_core"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_normalizer"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_normalizer_data"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_properties"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_properties_data"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "icu_provider"
+      },
+      "version": "2.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "id-arena"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "idna"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "idna_adapter"
+      },
+      "version": "1.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "indexmap"
+      },
+      "version": "2.14.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "inout"
+      },
+      "version": "0.1.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "inout"
+      },
+      "version": "0.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "itertools"
+      },
+      "version": "0.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "itoa"
+      },
+      "version": "1.0.18"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "jni-sys"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "jni-sys"
+      },
+      "version": "0.4.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "jni-sys-macros"
+      },
+      "version": "0.4.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "js-sys"
+      },
+      "version": "0.3.105"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lazy_static"
+      },
+      "version": "1.5.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lazycell"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "leb128fmt"
+      },
+      "version": "0.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libc"
+      },
+      "version": "0.2.189"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libflate"
+      },
+      "version": "2.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libflate_lz77"
+      },
+      "version": "2.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libloading"
+      },
+      "version": "0.8.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libsodium-sys-stable"
+      },
+      "version": "1.24.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "libsqlite3-sys"
+      },
+      "version": "0.36.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "linux-raw-sys"
+      },
+      "version": "0.4.15"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "linux-raw-sys"
+      },
+      "version": "0.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "litemap"
+      },
+      "version": "0.8.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lmdb-master-sys"
+      },
+      "version": "0.2.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lock_api"
+      },
+      "version": "0.4.14"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "log"
+      },
+      "version": "0.4.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "lru"
+      },
+      "version": "0.18.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "memchr"
+      },
+      "version": "2.8.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "minimal-lexical"
+      },
+      "version": "0.2.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "minisign-verify"
+      },
+      "version": "0.2.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "mio"
+      },
+      "version": "1.2.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ndk-sys"
+      },
+      "version": "0.5.0+25.2.9519653"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "negentropy"
+      },
+      "version": "0.5.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "no_std_io2"
+      },
+      "version": "0.9.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nom"
+      },
+      "version": "7.1.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr"
+      },
+      "version": "0.45.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-connect"
+      },
+      "version": "0.45.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-database"
+      },
+      "version": "0.45.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-gossip"
+      },
+      "version": "0.45.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-gossip-memory"
+      },
+      "version": "0.45.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-gossip-sqlite"
+      },
+      "version": "0.45.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-lmdb"
+      },
+      "version": "0.45.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-memory"
+      },
+      "version": "0.45.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-ndb"
+      },
+      "version": "0.45.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostr-sdk"
+      },
+      "version": "0.45.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nostrdb"
+      },
+      "version": "0.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nu-ansi-term"
+      },
+      "version": "0.50.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "nwc"
+      },
+      "version": "0.45.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "once_cell"
+      },
+      "version": "1.21.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "opaque-debug"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "opaquerr"
+      },
+      "version": "0.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "page_size"
+      },
+      "version": "0.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "paranoid-android"
+      },
+      "version": "0.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "pbkdf2"
+      },
+      "version": "0.13.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "percent-encoding"
+      },
+      "version": "2.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phf"
+      },
+      "version": "0.11.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phf_generator"
+      },
+      "version": "0.11.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phf_macros"
+      },
+      "version": "0.11.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "phf_shared"
+      },
+      "version": "0.11.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "pin-project-lite"
+      },
+      "version": "0.2.17"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "pkg-config"
+      },
+      "version": "0.3.34"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "plain"
+      },
+      "version": "0.2.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "poly1305"
+      },
+      "version": "0.8.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "potential_utf"
+      },
+      "version": "0.1.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ppv-lite86"
+      },
+      "version": "0.2.21"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "prettyplease"
+      },
+      "version": "0.2.37"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "proc-macro2"
+      },
+      "version": "1.0.107"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "quote"
+      },
+      "version": "1.0.47"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "r-efi"
+      },
+      "version": "5.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "r-efi"
+      },
+      "version": "6.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand"
+      },
+      "version": "0.8.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand"
+      },
+      "version": "0.9.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand"
+      },
+      "version": "0.10.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand_chacha"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand_chacha"
+      },
+      "version": "0.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand_core"
+      },
+      "version": "0.6.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand_core"
+      },
+      "version": "0.9.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rand_core"
+      },
+      "version": "0.10.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "regex"
+      },
+      "version": "1.13.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "regex-automata"
+      },
+      "version": "0.4.18"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "regex-syntax"
+      },
+      "version": "0.8.11"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ring"
+      },
+      "version": "0.17.14"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rle-decode-fast"
+      },
+      "version": "1.0.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rsqlite-vfs"
+      },
+      "version": "0.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rusqlite"
+      },
+      "version": "0.38.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustc-hash"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustc-hash"
+      },
+      "version": "2.1.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustc_version"
+      },
+      "version": "0.4.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustix"
+      },
+      "version": "0.38.44"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustix"
+      },
+      "version": "1.1.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustls"
+      },
+      "version": "0.23.45"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustls-pki-types"
+      },
+      "version": "1.15.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustls-webpki"
+      },
+      "version": "0.103.15"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "rustversion"
+      },
+      "version": "1.0.23"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "salsa20"
+      },
+      "version": "0.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "scopeguard"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "scroll"
+      },
+      "version": "0.12.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "scroll_derive"
+      },
+      "version": "0.12.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "scrypt"
+      },
+      "version": "0.12.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "secp256k1"
+      },
+      "version": "0.30.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "secp256k1-sys"
+      },
+      "version": "0.10.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "semver"
+      },
+      "version": "1.0.28"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde"
+      },
+      "version": "1.0.229"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde_core"
+      },
+      "version": "1.0.229"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde_derive"
+      },
+      "version": "1.0.229"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde_json"
+      },
+      "version": "1.0.151"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "serde_spanned"
+      },
+      "version": "1.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "sha1"
+      },
+      "version": "0.10.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "sha2"
+      },
+      "version": "0.11.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "sharded-slab"
+      },
+      "version": "0.1.7"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "shlex"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "shlex"
+      },
+      "version": "2.0.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "simd-adler32"
+      },
+      "version": "0.3.10"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "siphasher"
+      },
+      "version": "1.0.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "slab"
+      },
+      "version": "0.4.12"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "smallvec"
+      },
+      "version": "1.16.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "smawk"
+      },
+      "version": "0.3.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "socket2"
+      },
+      "version": "0.6.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "spin"
+      },
+      "version": "0.9.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "sqlite-wasm-rs"
+      },
+      "version": "0.5.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "stable_deref_trait"
+      },
+      "version": "1.2.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "static_assertions"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "strsim"
+      },
+      "version": "0.11.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "subtle"
+      },
+      "version": "2.6.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "syn"
+      },
+      "version": "2.0.119"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "syn"
+      },
+      "version": "3.0.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "synchronoise"
+      },
+      "version": "1.0.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "synstructure"
+      },
+      "version": "0.14.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tar"
+      },
+      "version": "0.4.46"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tempfile"
+      },
+      "version": "3.27.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "textwrap"
+      },
+      "version": "0.16.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "thiserror"
+      },
+      "version": "1.0.69"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "thiserror"
+      },
+      "version": "2.0.21"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "thiserror-impl"
+      },
+      "version": "1.0.69"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "thiserror-impl"
+      },
+      "version": "2.0.21"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "thread_local"
+      },
+      "version": "1.1.10"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tinystr"
+      },
+      "version": "0.8.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tinyvec"
+      },
+      "version": "1.13.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio"
+      },
+      "version": "1.49.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-happy-eyeballs"
+      },
+      "version": "0.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-macros"
+      },
+      "version": "2.6.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-rustls"
+      },
+      "version": "0.26.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-socks"
+      },
+      "version": "0.5.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-stream"
+      },
+      "version": "0.1.19"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-tungstenite"
+      },
+      "version": "0.28.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tokio-util"
+      },
+      "version": "0.7.19"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "toml"
+      },
+      "version": "0.9.12+spec-1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "toml_datetime"
+      },
+      "version": "0.7.5+spec-1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "toml_parser"
+      },
+      "version": "1.1.3+spec-1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "toml_writer"
+      },
+      "version": "1.1.2+spec-1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tracing"
+      },
+      "version": "0.1.44"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tracing-attributes"
+      },
+      "version": "0.1.31"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tracing-core"
+      },
+      "version": "0.1.36"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tracing-log"
+      },
+      "version": "0.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tracing-subscriber"
+      },
+      "version": "0.3.23"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "tungstenite"
+      },
+      "version": "0.28.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "typed-path"
+      },
+      "version": "0.12.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "typenum"
+      },
+      "version": "1.20.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "unicode-ident"
+      },
+      "version": "1.0.26"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "unicode-normalization"
+      },
+      "version": "0.1.25"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "unicode-width"
+      },
+      "version": "0.2.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "unicode-xid"
+      },
+      "version": "0.2.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_bindgen"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_core"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_internal_macros"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_macros"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_meta"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_pipeline"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "uniffi_udl"
+      },
+      "version": "0.31.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "universal-hash"
+      },
+      "version": "0.5.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "universal-time"
+      },
+      "version": "0.3.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "untrusted"
+      },
+      "version": "0.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ureq"
+      },
+      "version": "3.4.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "ureq-proto"
+      },
+      "version": "0.6.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "url"
+      },
+      "version": "2.5.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "utf-8"
+      },
+      "version": "0.7.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "utf8-zero"
+      },
+      "version": "0.8.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "utf8_iter"
+      },
+      "version": "1.0.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "valuable"
+      },
+      "version": "0.1.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "vcpkg"
+      },
+      "version": "0.2.15"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "version_check"
+      },
+      "version": "0.9.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasi"
+      },
+      "version": "0.11.1+wasi-snapshot-preview1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasi"
+      },
+      "version": "0.14.7+wasi-0.2.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasip2"
+      },
+      "version": "1.0.4+wasi-0.2.12"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasip3"
+      },
+      "version": "0.4.0+wasi-0.3.0-rc-2026-01-06"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-bindgen"
+      },
+      "version": "0.2.128"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-bindgen-futures"
+      },
+      "version": "0.4.78"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-bindgen-macro"
+      },
+      "version": "0.2.128"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-bindgen-macro-support"
+      },
+      "version": "0.2.128"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-bindgen-shared"
+      },
+      "version": "0.2.128"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-encoder"
+      },
+      "version": "0.244.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasm-metadata"
+      },
+      "version": "0.244.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wasmparser"
+      },
+      "version": "0.244.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "web-sys"
+      },
+      "version": "0.3.105"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "web-time"
+      },
+      "version": "1.1.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "webpki-roots"
+      },
+      "version": "0.26.11"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "webpki-roots"
+      },
+      "version": "1.0.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "weedle2"
+      },
+      "version": "5.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "which"
+      },
+      "version": "4.4.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "winapi"
+      },
+      "version": "0.3.9"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "winapi-i686-pc-windows-gnu"
+      },
+      "version": "0.4.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "winapi-x86_64-pc-windows-gnu"
+      },
+      "version": "0.4.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows-link"
+      },
+      "version": "0.2.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows-sys"
+      },
+      "version": "0.52.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows-sys"
+      },
+      "version": "0.59.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows-sys"
+      },
+      "version": "0.61.2"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows-targets"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_aarch64_gnullvm"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_aarch64_msvc"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_i686_gnu"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_i686_gnullvm"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_i686_msvc"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_x86_64_gnu"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_x86_64_gnullvm"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "windows_x86_64_msvc"
+      },
+      "version": "0.52.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "winnow"
+      },
+      "version": "0.7.15"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "winnow"
+      },
+      "version": "1.0.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-bindgen"
+      },
+      "version": "0.51.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-bindgen"
+      },
+      "version": "0.57.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-bindgen-core"
+      },
+      "version": "0.51.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-bindgen-rust"
+      },
+      "version": "0.51.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-bindgen-rust-macro"
+      },
+      "version": "0.51.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-component"
+      },
+      "version": "0.244.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "wit-parser"
+      },
+      "version": "0.244.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "writeable"
+      },
+      "version": "0.6.4"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "xattr"
+      },
+      "version": "1.6.1"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "yoke"
+      },
+      "version": "0.8.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "yoke-derive"
+      },
+      "version": "0.8.3"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerocopy"
+      },
+      "version": "0.8.57"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerocopy-derive"
+      },
+      "version": "0.8.57"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerofrom"
+      },
+      "version": "0.1.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerofrom-derive"
+      },
+      "version": "0.1.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zeroize"
+      },
+      "version": "1.9.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerotrie"
+      },
+      "version": "0.2.5"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerovec"
+      },
+      "version": "0.11.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zerovec-derive"
+      },
+      "version": "0.11.6"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zip"
+      },
+      "version": "8.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zlib-rs"
+      },
+      "version": "0.6.8"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zmij"
+      },
+      "version": "1.0.23"
+    },
+    {
+      "package": {
+        "ecosystem": "crates.io",
+        "name": "zopfli"
+      },
+      "version": "0.8.3"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "orderedmap"
+      },
+      "version": "2.0.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-commands"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-history"
+      },
+      "version": "1.3.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-inputrules"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-keymap"
+      },
+      "version": "1.2.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-model"
+      },
+      "version": "1.18.1"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-state"
+      },
+      "version": "1.4.1"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-transform"
+      },
+      "version": "1.6.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "prosemirror-view"
+      },
+      "version": "1.27.0"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "rope-sequence"
+      },
+      "version": "1.3.2"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "w3c-keyname"
+      },
+      "version": "2.2.4"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "dompurify"
+      },
+      "version": "3.4.15"
+    },
+    {
+      "package": {
+        "ecosystem": "npm",
+        "name": "@toast-ui/editor"
+      },
+      "version": "3.2.2"
+    }
+  ],
+  "results": [
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {},
+    {}
+  ]
+}

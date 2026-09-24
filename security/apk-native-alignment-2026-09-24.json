@@ -1,0 +1,115 @@
+[
+  {
+    "entry": "lib/arm64-v8a/libandroidx.graphics.path.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/arm64-v8a/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/arm64-v8a/libnostr_sdk_ffi.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/armeabi-v7a/libandroidx.graphics.path.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/armeabi-v7a/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/armeabi-v7a/libnostr_sdk_ffi.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/armeabi/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/mips/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/mips64/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86/libandroidx.graphics.path.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86/libnostr_sdk_ffi.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86_64/libandroidx.graphics.path.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86_64/libjnidispatch.so",
+    "loadAlignment": [
+      16384,
+      16384
+    ]
+  },
+  {
+    "entry": "lib/x86_64/libnostr_sdk_ffi.so",
+    "loadAlignment": [
+      16384,
+      16384,
+      16384
+    ]
+  }
+]

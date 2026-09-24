@@ -88,7 +88,7 @@ class MarkdownEditorTest {
         val source = mutableStateOf("Test sécurité")
         compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("Test sécurité")
-        assertTrue(javascript("DOMPurify.version") == JSONObject.quote("3.4.15"))
+        org.junit.Assert.assertEquals(JSONObject.quote("3.4.16"), javascript("DOMPurify.version"))
         val result = javascript("""
             (function(){
                 var sanitize=DOMPurify.sanitize, calls=0, extra=null, host=document.createElement('div');

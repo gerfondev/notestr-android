@@ -1,11 +1,13 @@
-# Vérification avant publication — 1.2.4
+# Publication — Notestr Android 1.2.5
 
-APK complet release non débogable ; versionName 1.2.4 et versionCode 16. Le numéro technique supérieur permet de remplacer les APK de test locaux sans désinstallation. Certificat identique aux versions précédentes ; clé privée exclue du dépôt.
+Le 24 septembre 2026, après essai satisfaisant du candidat sur smartphone, l’utilisateur a autorisé les contrôles de sécurité et de confidentialité puis la publication de cette mise à jour sous la version 1.2.5.
 
-La mise à jour de la release GitHub 1.2.4 et de ses fichiers avec le correctif Retour a été explicitement demandée par l’utilisateur. La version de test locale nommée 1.2.5 n’est pas publiée.
+APK unique release non débogable, versionName 1.2.5, versionCode 18. Certificat conservé pour installer par-dessus les versions publique et de test, sans désinstallation. Les sources retenues correspondent au candidat testé, complété par DOMPurify 3.4.16 et le retrait des chemins personnels du fournisseur dans les métadonnées JNA.
 
-Sources, documents de version, historique ajouté et APK examinés pour rechercher des secrets et des données personnelles du propriétaire. Les résultats, exceptions de versions et limites sont consignés dans SECURITY-REVIEW.md. Caches, résultats XML de tests, journaux, propriétés locales, bases privées et clés de signature ne font pas partie des fichiers à publier.
+L’archive source amont du SDK est exclue du dépôt à cause des clés présentes dans ses exemples ; la reconstruction la télécharge et vérifie son empreinte. Caches, journaux locaux, résultats XML, propriétés locales, bases privées et clés de signature sont exclus. Identité Git de projet uniquement.
 
-SHA-256 : `34834299085c421630f8ccce877984b82634083ffca447f5f7c1d85cce33386c`.
+Les contrôles, tests, exceptions et limites figurent dans SECURITY-REVIEW.md, VALIDATION.md et les rapports `security/release-1.2.5-*.json`. L’absence de correspondance aux motifs recherchés ne constitue pas une garantie exhaustive.
 
-Notes de version : RELEASE-NOTES-1.2.4.md.
+SHA-256 de l’APK : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`.
+
+Notes de version : RELEASE-NOTES-1.2.5.md. Publication prévue sur GitHub uniquement, sans réécriture de l’historique existant.

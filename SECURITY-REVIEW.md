@@ -1,3 +1,121 @@
+# Publication 1.2.5 — contrôle du 24 septembre 2026
+
+L’utilisateur a testé le candidat 1.2.4-test.17 sur smartphone, indiqué qu’il fonctionne et autorisé explicitement la publication sous 1.2.5. Numéro technique 18 pour remplacer le candidat local. La version finale ajoute DOMPurify 3.4.16, dont l’intégrité npm est vérifiée et les tests de filtrage sont rejoués.
+
+Audit renouvelé : 658 coordonnées interrogées auprès d’OSV, sans alerte retournée ; métadonnées Maven, registre Cargo officiel et npm consultés pour les dépendances directes, transitives et le graphe natif verrouillé. Détails dans `security/release-1.2.5-dependencies.json`. La composition JavaScript minifiée reste une reconstruction du graphe amont, pas une preuve d’identité de chaque module ; le verrou Cargo comprend aussi des composants optionnels. Le SDK natif corrigé, son empreinte et les 522 vérifications d’interface sont conservés du candidat testé.
+
+DOMPurify 3.4.16 remplace 3.4.15. SDK Nostr 0.45.1 reconstruit avec rustls 0.23.45 et les autres corrections détaillées ci-dessous ; JNA 5.19.1, coroutines 1.11.0, AppCompat 1.8.0 et Gradle 8.14.5. Correctifs de sécurité transitifs de l’outillage conservés. Aucune mise à jour majeure supplémentaire n’est présentée comme nécessaire en l’absence d’avis identifié ; les exceptions de versions AGP/AndroidX/Rust restent celles du contrôle précédent.
+
+Maintenance : SDK Nostr et DOMPurify actifs ; TOAST UI Editor archivé, conservé pour sa compatibilité Markdown, avec ancien filtre embarqué retiré et filtre maintenu externe. Sa migration reste une action de maintenance à prévoir. Le fournisseur qualifie encore les bindings du SDK d’API en évolution ; la version publiée sans suffixe de préversion et son interface vérifiée sont épinglées.
+
+Confidentialité avant compilation : sources applicatives, AAR et archives imbriquées inspectés ; aucun marqueur personnel ciblé détecté. L’archive source amont contient des clés dans ses exemples : elle est exclue des fichiers publiés, téléchargée à la demande et vérifiée par empreinte pour reconstruire le SDK. Les clés de nos tests sont les scalaires synthétiques publics 1 et 2, identifiés comme tels. L’historique existant et ses auteurs/committers ont été vérifiés : identité de projet uniquement, aucun marqueur ciblé détecté. Aucun cache, journal local, base privée ou clé de signature ne sera publié.
+
+JNA : quatre noms de version ELF de base de l’AAR officiel contenaient un chemin personnel du fournisseur. Une copie locale vérifiée remplace ces seules métadonnées par un chemin neutre et actualise leur hash ELF. Sections exécutables et classes JVM inchangées, transformations reproductibles et empreintes dans `vendor/jna`. Les essais sont renouvelés après cette correction.
+
+Contrôles finaux réussis : 13 tests JVM, 17 tests Android sur l’APK release et 5 tests isolés d’éditeur en debug. Filtrage HTML 3.4.16 vérifié sur les chemins personnalisés et par défaut. Lecture Linux de la fixture Android finale confirmée. Rapport `security/release-1.2.5-tests.json`.
+
+APK final non débogable, versionCode 18, signature v2 valide et certificat des versions précédentes conservé. 480 entrées APK inspectées : aucun marqueur de secret ou chemin personnel recherché détecté ; bibliothèques natives comparées aux empreintes contrôlées, alignement 16 Ko des bibliothèques 64 bits vérifié. SHA-256 : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`. Rapport `security/release-1.2.5-apk.json`.
+
+Fichiers de publication, archives décompressées et métadonnées d’images examinés ; historique existant inspecté sans correspondance aux motifs recherchés. Identités auteur/committer de projet uniquement. Rapports `security/release-1.2.5-source-privacy.json` et `security/release-1.2.5-history-privacy.json`. Les modifications de la version finale n’ont pas encore été testées séparément sur le téléphone ; elles sont couvertes par les essais automatisés renouvelés, dans les limites indiquées. L’absence d’alerte dans les bases interrogées et de correspondance aux motifs de confidentialité n’est pas une garantie exhaustive. Les sections suivantes conservent les résultats et limites des contrôles antérieurs.
+
+---
+
+# Contrôle du 24 septembre 2026 — SDK corrigé, candidat Android local
+
+Statut : candidat local 1.2.4-test.17 contrôlé et prêt pour le test smartphone ; aucune publication autorisée.
+
+Ce contrôle remplace le statut bloquant du 23 septembre, conservé ci-dessous comme historique. Le registre officiel a changé de groupe : `org.nostrdevkit:nostr-sdk:0.45.1`. L’ancienne recherche dans `org.rust-nostr` ne permettait pas de conclure sur la dernière version du SDK.
+
+- SDK 0.45.1 reconstruit depuis le commit amont identifié dans `vendor/nostr-sdk/provenance.json`, avec verrou Cargo mis à jour et patch bip39 épinglé par révision. AAR local `0.45.1-notestr.1`, distinct de l’artefact officiel. Classes JVM officielles conservées ; 522 sommes de contrôle d’API UniFFI et contrat 30 concordants.
+- Correctifs natifs : nostr 0.45.5, nostr-sdk 0.45.4, rustls 0.23.45, rustls-webpki 0.103.15, lru 0.18.5, anyhow 1.0.104, bytes 1.12.1 ; anciens modules relay-pool/relay-builder retirés du graphe. Cargo.lock complet conservé.
+- JNA 5.19.1, coroutines 1.11.0, AppCompat 1.8.0 ; Gradle 8.14.5. Correctifs transitifs des outils de compilation : Netty 4.1.138.Final, Bouncy Castle 1.86, commons-compress 1.28.0, jose4j 0.9.7, JDOM 2.0.6.1. Ces substitutions sont validées par compilation et inventaire résolu.
+- NDK stable 30.0.16248370 ; Rust 1.95.0 conservé pour reproduire la chaîne explicitement utilisée par l’amont. Rust stable actuel 1.98.1 recensé ; avis officiels examinés : avis Windows/Cygwin sans exposition dans les cibles Linux/Android utilisées, anciens avis généraux antérieurs au compilateur retenu. Ce choix reste une exception de version, pas une affirmation de dernière version.
+- AGP 8.13.2, Kotlin 2.4.20, SDK Android 36, JDK Temurin 17.0.20.1+1 conservés. Les versions AndroidX antérieurement validées restent conservées hors mises à jour explicites ; les migrations majeures d’outillage ne sont pas incluses.
+- OSV : **658 requêtes, aucune correspondance** sur les versions Maven résolues, le verrou Cargo complet et l’inventaire JavaScript. Rapport `security/sdk-osv-2026-09-24.json`. Cela ne garantit pas l’absence de vulnérabilité inconnue ou non répertoriée. Le verrou Cargo inclut également des composants optionnels non nécessairement liés.
+- Métadonnées Maven officielles consultées pour les 276 coordonnées résolues ; signflinger, zipflinger et core-proto vérifiés sur Google Maven après correction du registre de recherche (leurs dernières entrées incluent des préversions non adoptées). TOAST UI reste archivé ; DOMPurify 3.4.15 et les mesures de filtrage documentées précédemment sont conservés.
+- Contrôle ciblé sources et métadonnées images : `security/source-review-2026-09-24.json`. Aucun nouveau commit ; aucun historique local à publier. Les tests utilisent exclusivement des clés synthétiques identifiées et un relais loopback.
+
+Validation terminée : 13 tests JVM, 15 tests instrumentés sur l’APK release et 5 tests isolés d’éditeur en debug réussis. APK non débogable, versionCode 17, 478 entrées décompressées inspectées sans marqueur ciblé détecté ; signature v2 et certificat existant vérifiés, bibliothèques natives conformes aux empreintes contrôlées. SHA-256 APK : `e31831f5d2c0810a3ad6d54b49e91d319280b43d5be76ab6208f163f6734396b`. Rapports dans `security/apk-check-2026-09-24.json` et VALIDATION.md. Le test sur smartphone et avec Amber réel restera à effectuer par l’utilisateur. Aucun push, tag distant ou transfert vers la copie de publication.
+
+---
+
+# Contrôle du 23 septembre 2026 — sauvegarde Linux / Android, non livrée
+
+**Statut : code fonctionnel validé sur émulateur, livraison smartphone suspendue aux corrections du SDK natif. Aucune publication GitHub, aucun tag, aucun push, aucune modification de la copie `publication/notestr-android`.**
+
+Ce contrôle complète et corrige la portée du rapport du 21 septembre ci-dessous : l’absence d’alerte Maven ne couvrait pas les dépendances Cargo embarquées. Les avis ci-dessous concernent des versions identifiées dans le SDK déjà utilisé ; ils ne sont pas introduits par la sauvegarde.
+
+## Versions et sources examinées
+
+- SDK Android `org.rust-nostr:nostr-sdk:0.44.8`, dernière version stable de ces coordonnées dans Maven Central au moment du contrôle. `0.45.0-alpha.7` est une préversion et n’a pas été adoptée. Le dépôt FFI expose un tag `v0.45.0`, mais aucun artefact Android stable `0.45.0` n’apparaît dans le registre consulté ; absence de release GitHub à cette adresse. Le tag exact `v0.44.8` reste absent de la liste consultée.
+- Inventaire de 113 coordonnées Maven (111 modules du précédent inventaire runtime, Kotlin Gradle Plugin 2.4.20 et AGP 8.13.2) : métadonnées officielles Google Maven/Maven Central consultées. Requête OSV de 115 coordonnées en incluant DOMPurify 3.4.15 et TOAST UI Editor 3.2.2 : aucun avis retourné. Ce résultat ne remplace pas le contrôle natif.
+- Extraction des chemins crate/version des quatre bibliothèques `libnostr_sdk_ffi.so` de l’AAR release : **94 couples crate/version** identifiés et interrogés dans OSV et crates.io. Empreintes de l’AAR et des bibliothèques dans `security/native-dependencies-2026-09-23.json`. Extraction reproductible avec `tools/audit-native-dependencies.py`. Ce n’est pas un SBOM complet : des composants sans chemins conservés peuvent manquer.
+- Reconstruction candidate du graphe runtime JavaScript à partir du `package.json` de l’éditeur et du lock officiel : 11 dépendances ProseMirror et utilitaires interrogées dans OSV, aucun avis retourné. Versions stables npm également consultées. L’ancien DOMPurify intégré reste externalisé au profit de 3.4.15. Cette reconstruction ne prouve pas l’identité exacte de chaque module minifié ; TOAST UI reste archivé et sa migration reste nécessaire à terme.
+- JDK effectivement exécuté : Temurin 17.0.20.1+1 ; endpoint Adoptium consulté et conservé dans l’inventaire. AGP 8.13.2, SDK de compilation 36 et AndroidX validés conservés ; les versions stables plus récentes recensées impliquent une migration coordonnée. BOM et autres outils ne sont pas annoncés comme tous à jour.
+- Les résultats JSON, versions consultées et sources publiques sont conservés dans `security/dependency-review-2026-09-23.json`. Aucun identifiant personnel ou secret n’y figure.
+
+## Correction de l’outil de compilation
+
+Gradle **8.13 → 8.14.4**, avec SHA-256 officiel fixé dans le wrapper : `f1771298a70f6db5a29daf62378c4e18a17fc33c9ba6b14362e0cdf40610380d`.
+
+Cette version corrige **GHSA-mqwm-5m85-gmcv** et **GHSA-w78c-w6vf-rw82**, concernant le repli vers un autre dépôt après certaines erreurs réseau. La branche 8 compatible avec AGP est conservée plutôt que de migrer simultanément vers Gradle 9. Les compilations de vérification et les 13 tests JVM passent avec 8.14.4 ; pas de réutilisation du build cache.
+
+## Alertes natives ouvertes et exposition
+
+Les versions sont celles extraites des binaires. Une preuve de correctif fournisseur rétroporté n’est pas disponible. Les minima corrigés ci-dessous proviennent des avis OSV/RustSec ; ils ne constituent pas une validation de compatibilité binaire.
+
+| Composant embarqué | Avis RustSec | Correction annoncée / action |
+| --- | --- | --- |
+| anyhow 1.0.97 | RUSTSEC-2026-0190 | ≥ 1.0.103 ; vérifier les usages de `downcast_mut` après ajout de contexte |
+| bytes 1.10.1 | RUSTSEC-2026-0007 | ≥ 1.11.1 ; débordement dans `BytesMut::reserve`, atteignabilité depuis le transport non exclue |
+| lru 0.16.0 | RUSTSEC-2026-0002, RUSTSEC-2026-0253 | ≥ 0.18.2 pour couvrir les deux ; valider la migration de l’API et les types de cache |
+| rand 0.8.5 et 0.9.0 | RUSTSEC-2026-0097 | ≥ 0.8.6 / ≥ 0.9.3 ; problème conditionné à un logger réentrant utilisant le RNG |
+| rustls 0.23.25 | RUSTSEC-2026-0285 | ≥ 0.23.45 ; traitement des niveaux de chiffrement pendant le handshake TLS 1.3 |
+| rustls-webpki 0.103.0 | RUSTSEC-2026-0049, -0098, -0099, -0104 | ≥ 0.103.13 pour couvrir les quatre ; contraintes de certificats et traitement des CRL |
+| nostr-relay-builder 0.44.1 | RUSTSEC-2026-0237 | Composant non maintenu ; retirer la fonction serveur inutilisée ou migrer |
+| nostr-relay-pool 0.44.3 | RUSTSEC-2026-0243 | Composant non maintenu séparément ; fonctions intégrées au SDK Rust 0.45.0 |
+
+Analyse d’exposition :
+
+- TLS/WebPKI est utilisé pour les connexions `wss://`, donc son code est sur le chemin réseau. L’avis rustls précise que le transcript reste authentifié et n’établit pas une possibilité de falsification du handshake par un attaquant réseau. Les avis WebPKI de contraintes de noms exigent des certificats signés incorrectement émis ; cette condition réduit l’exposition sans la supprimer. Les avis CRL exigent l’utilisation de CRL, non configurée directement par l’application ; la configuration complète du binaire fournisseur n’a pas été reconstruite.
+- L’application ne configure ni logger Rust personnalisé utilisant le RNG, ni serveur de relais, ni caches avec destructeurs personnalisés. Les préconditions de certains avis ne sont donc pas établies dans les appels Kotlin. Cela ne suffit pas à prouver l’absence de chemins internes concernés, notamment pour `lru`, `bytes` et `anyhow`.
+- Les avis spécifiques Nostr publiés par l’amont (validation des événements, NIP-44/NIP-04, etc.) ont été consultés. Les versions natives repérées `nostr 0.44.7` et `nostr-relay-pool 0.44.3` correspondent aux correctifs annoncés pour la release FFI 0.44.8. Cela ne corrige pas les avis transitifs listés plus haut.
+
+**Exception limitée aux essais** : le SDK actuel a été conservé uniquement pour les tests en émulateur jetable, avec clé synthétique publique et relais loopback. Aucun compte réel ni relais public utilisé. **Aucune exception de livraison sur smartphone n’est accordée par ce rapport.**
+
+Action nécessaire : produire un SDK Android avec dépendances natives corrigées et provenance vérifiable (reconstruction contrôlée avec vérification des bindings, ou migration vers une distribution stable corrigée), puis rejouer les essais sur les architectures distribuées. Un simple changement de version Gradle/Maven ne met pas à jour les crates à l’intérieur d’un AAR déjà compilé.
+
+## Fonctionnalité et vérifications
+
+Format partagé vérifié avec le code Linux local : kind 30078, adresse `notestr/previous/` + SHA-256 de l’identifiant, contenu NIP-44 de la précédente note repris sans déchiffrement/réchiffrement, même timestamp que la mise à jour, tag `e`. Le cache Android vérifie signatures et auteur, compacte les sauvegardes et utilise une écriture atomique. Chaque relais doit accepter la sauvegarde avant de recevoir la mise à jour.
+
+Résultats : 13 tests JVM et 19 tests instrumentés Android réussis, puis lecture de la fixture produite par Android avec le code Linux. Voir VALIDATION.md pour le détail et les limites.
+
+APK **interne de test uniquement**, toujours versionName 1.2.4 / versionCode 16, débogable, non livré. Signature v2 vérifiée ; certificat Android Debug habituel. SHA-256 : `fb703fa8462a7e0d860beb255844d7a0988c5e328a097ea9784fef3565f5cba8`. Cette empreinte ne désigne pas un nouvel APK de publication.
+
+Contrôle ciblé des fichiers source hors caches/builds et des entrées décompressées de cet APK : aucun marqueur personnel, chemin personnel ou secret correspondant aux motifs recherchés. Les fixtures et clés de test synthétiques sont réservées à androidTest et absentes de l’APK applicatif. Résultats dans `security/test-artifact-check-2026-09-23.json`. Les images n’ont pas été modifiées. Aucun commit créé ; aucun nouvel historique destiné à publication. La vérification des métadonnées des images et de l’historique complet n’a pas été renouvelée ; elle restera nécessaire avant une livraison/publication.
+
+## Limites et sources
+
+Ce contrôle n’est pas exhaustif. Les graphes natifs et JavaScript sont partiellement reconstruits ; le graphe des plugins/outils de compilation n’est pas intégralement réinventorié ; l’inventaire Maven runtime reste celui de la version précédente, sans changement de dépendances applicatives. Le niveau Android/WebView du smartphone n’a pas été contrôlé. Aucune affirmation « sans vulnérabilité » n’est faite.
+
+- [Registre Maven du SDK](https://repo.maven.apache.org/maven2/org/rust-nostr/nostr-sdk/maven-metadata.xml)
+- [Tags du dépôt FFI](https://github.com/rust-nostr/nostr-sdk-ffi/tags)
+- [Avis Gradle sur le repli entre dépôts](https://github.com/gradle/gradle/security/advisories/GHSA-mqwm-5m85-gmcv) et [hôte inconnu](https://github.com/gradle/gradle/security/advisories/GHSA-w78c-w6vf-rw82)
+- [Avis rustls TLS 1.3](https://rustsec.org/advisories/RUSTSEC-2026-0285.html)
+- [Avis WebPKI sur les contraintes DNS](https://rustsec.org/advisories/RUSTSEC-2026-0099.html)
+- [Avis WebPKI sur les CRL](https://rustsec.org/advisories/RUSTSEC-2026-0104.html)
+- [Avis de maintenance du pool Nostr](https://rustsec.org/advisories/RUSTSEC-2026-0243.html)
+- [Avis du SDK Nostr](https://github.com/rust-nostr/nostr/security/advisories)
+- [TOAST UI archivé](https://github.com/nhn/tui.editor), [DOMPurify](https://github.com/cure53/DOMPurify/releases)
+- [OSV](https://osv.dev/), [crates.io](https://crates.io/), [Google Maven](https://maven.google.com/), [npm](https://www.npmjs.com/)
+
+---
+
+# Historique des contrôles antérieurs
+
+Les conclusions ci-dessous sont conservées comme historique. Pour l’état actuel des alertes et de la livraison, utiliser le contrôle du 23 septembre ci-dessus.
+
 # Complément pour la mise à jour du bouton Retour
 
 Dépendances inchangées ; contrôle des versions de la même journée conservé et requête OSV renouvelée avant compilation : 114 coordonnées, aucune alerte retournée. Les exceptions et limites ci-dessous restent applicables.

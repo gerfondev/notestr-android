@@ -22,7 +22,7 @@ import fr.decentralia.notestr.data.storage.AppPreferences
 import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.model.Note
 import kotlinx.coroutines.launch
-import rust.nostr.sdk.SecretKey
+import org.nostrdevkit.sdk.SecretKey
 
 sealed interface Screen {
     data object Setup : Screen
@@ -160,13 +160,25 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
 
     fun save(markdown: String, note: Note?) = runTask {
         val expected = session
-        val saved = repository?.publish(markdown, note?.identifier)?.getOrThrow() ?: error("Application verrouillée")
+        val publication = repository?.publish(markdown, note)?.getOrThrow() ?: error("Application verrouillée")
+        val saved = publication.note
         if (expected != session) return@runTask
         state = state.copy(
             screen = Screen.Notes,
             notes = (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedByDescending(Note::createdAt),
-            message = "Note publiée."
+            message = publication.warning ?: "Note publiée."
         )
+    }
+
+    fun restorePrevious(note: Note, loaded: (String) -> Unit) = runTask {
+        val expected = session
+        val result = repository?.previous(note)?.getOrThrow() ?: run {
+            if (expected == session) fail("Aucune version précédente disponible pour cette note.")
+            return@runTask
+        }
+        if (expected != session || state.screen != Screen.Editor(note)) return@runTask
+        loaded(result)
+        state = state.copy(message = "Version précédente chargée. Vérifiez puis appuyez sur Publier pour la restaurer.")
     }
 
     fun delete(note: Note) = runTask {

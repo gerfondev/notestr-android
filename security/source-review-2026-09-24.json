@@ -1,0 +1,67 @@
+{
+  "date": "2026-09-24",
+  "sourceFilesChecked": 107,
+  "findings": [],
+  "gitHistoryCommits": null,
+  "newCommitsCreated": 0,
+  "publicationCopyChanged": false,
+  "images": [
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/drawable-nodpi/notestr_logo.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "metadataKeys": [],
+      "findings": []
+    },
+    {
+      "file": "app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "metadataKeys": [],
+      "findings": []
+    }
+  ],
+  "gitHistoryStatus": "No HEAD in local working repository; no new commits or author/committer records created.",
+  "limits": "Targeted pattern and metadata checks; publication repository was not changed or re-audited."
+}

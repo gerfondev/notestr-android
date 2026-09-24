@@ -1,0 +1,28 @@
+{
+  "artifact": "nostr-sdk-0.45.1-notestr.1.aar",
+  "sha256": "2bfbe7abcfd7d1fb9772eb9bbefd83dcfda9ccf6798ee3ecef19cbb07f66ac4d",
+  "nativeLibraries": {
+    "x86_64": {
+      "sha256": "e47dc5c8630dc383abe50e1a52a046f458d3244d23365e0e11518840e0881f4d",
+      "target": "x86_64-linux-android"
+    },
+    "arm64-v8a": {
+      "sha256": "36a61b358656fb88d6e691e08f29cbe7e9d6a0e38a9e7062fd87a6ff078a413f",
+      "target": "aarch64-linux-android"
+    },
+    "armeabi-v7a": {
+      "sha256": "1ad24fffab54d947b3b81df73862910a939731269759b1c17c4f577bf9d97fab",
+      "target": "armv7-linux-androideabi"
+    },
+    "x86": {
+      "sha256": "4a1429072045239d5ae03e0e5a9399c77a2148fda6fc26f55be2da22cf0c68ad",
+      "target": "i686-linux-android"
+    }
+  },
+  "uniffiContract": 30,
+  "apiChecksumsVerified": 522,
+  "cargoLockSha256": "45faf5cf4ca46a7f97e94da35c18df8d05df865c01a225d874c5ef44a31478b2",
+  "upstreamCommit": "0aa3edde1438d95048a1306f039b98e97642da35",
+  "rustToolchain": "1.95.0",
+  "androidNdk": "30.0.16248370"
+}

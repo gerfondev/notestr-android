@@ -6,15 +6,24 @@ Application Android native de notes privées Nostr compatible avec Pages by Form
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **1.2.4**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **1.2.5**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `34834299085c421630f8ccce877984b82634083ffca447f5f7c1d85cce33386c`.
+SHA-256 : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`.
 
-## Modifications récentes — 1.2.4
+## Modifications récentes — 1.2.5
+
+- Sauvegarde automatique unique et chiffrée de la version précédente, conservée localement et sur les relais qui l’acceptent.
+- Action **Version précédente** pour charger la sauvegarde ; **Publier** confirme sa restauration.
+- Format partagé avec Notestr Linux ; cache et gestion des refus de relais renforcés.
+- SDK Nostr et bibliothèques natives corrigés, filtre HTML DOMPurify 3.4.16 et dépendances de compilation mises à jour.
+
+APK unique non débogable, certificat conservé et versionCode 18. Voir [les notes de version](RELEASE-NOTES-1.2.5.md), [le protocole de sauvegarde](BACKUP-PROTOCOL.md) et [les vérifications de sécurité](SECURITY-REVIEW.md).
+
+## Modifications précédentes — 1.2.4
 
 - Ajout du logo sur l’écran de lancement de l’application.
 - Correction du chevauchement du menu de sélection Android avec la barre de mise en forme.

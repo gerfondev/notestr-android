@@ -1,3 +1,13 @@
+# 1.2.5 — 24 septembre 2026
+
+- Sauvegarde chiffrée unique par note, conservée localement et envoyée aux relais avant la note modifiée.
+- Action « Version précédente » avec confirmation et publication explicite de la restauration.
+- Compatibilité des sauvegardes Linux / Android ; protocole partagé entre clé locale et Amber.
+- Cache fusionné, vérifié et écrit atomiquement ; gestion cohérente des refus de relais, identifiants historiques, dates et suppressions.
+- SDK Nostr 0.45.1 reconstruit avec ses dépendances natives corrigées ; JNA 5.19.1, coroutines 1.11.0 et AppCompat 1.8.0.
+- DOMPurify 3.4.16, Gradle 8.14.5 et correctifs de sécurité des dépendances transitives de compilation.
+- Contrôles renouvelés de sécurité et de confidentialité, avec limites documentées ; versionCode 18 et certificat conservé pour la mise à jour sans désinstallation.
+
 # Historique de Notestr Android
 
 ## 1.2.4 — 21 septembre 2026

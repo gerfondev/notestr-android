@@ -1,0 +1,59 @@
+{
+  "version": "5.19.1",
+  "officialUrl": "https://repo.maven.apache.org/maven2/net/java/dev/jna/jna/5.19.1/jna-5.19.1.aar",
+  "officialSha256": "b57125cb7d16253f0d65a80f7d3a4c3664effa711b8bdbb7f87fb572ce1624ed",
+  "artifact": "jna-5.19.1-notestr.1.aar",
+  "sha256": "7c51d0f7511f8109f73290ca5e986911ee7315469443cce3dd03516899f1e86b",
+  "nativeLibraries": [
+    {
+      "entry": "jni/arm64-v8a/libjnidispatch.so",
+      "originalSha256": "abc26e994517bcaa3309acdb0a27373864086c7569c89d3087b8626fada9ef06",
+      "sha256": "abc26e994517bcaa3309acdb0a27373864086c7569c89d3087b8626fada9ef06",
+      "baseVersionNamesAnonymized": 0,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/armeabi/libjnidispatch.so",
+      "originalSha256": "101daa2222382f3727800c0c49731346c5c4f81f1ecf1fde85ebcea64b151901",
+      "sha256": "891203c14c0963e4e78d256fd8a1f6ad948904ebcec54f757a9d8da7fa82d38f",
+      "baseVersionNamesAnonymized": 1,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/armeabi-v7a/libjnidispatch.so",
+      "originalSha256": "9652282ef31834281229370a354d56c1522fe36e93625169df99b3e346f76092",
+      "sha256": "d916ac271f087101556d59a92cba7f31ee40c3d9a6ec6ddc081a617de9016bed",
+      "baseVersionNamesAnonymized": 1,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/mips/libjnidispatch.so",
+      "originalSha256": "eb549d34eb17b394f4ba74c21c51f41340d8b049aa90cc9feaef734695890402",
+      "sha256": "eb549d34eb17b394f4ba74c21c51f41340d8b049aa90cc9feaef734695890402",
+      "baseVersionNamesAnonymized": 0,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/mips64/libjnidispatch.so",
+      "originalSha256": "93f5b0bec919b95160db0bf35c5ed6904d4d48f282501f0ff4a85f6511f3e44d",
+      "sha256": "93f5b0bec919b95160db0bf35c5ed6904d4d48f282501f0ff4a85f6511f3e44d",
+      "baseVersionNamesAnonymized": 0,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/x86_64/libjnidispatch.so",
+      "originalSha256": "3809247e9b804a05ed8377b87d545cf5b5e97f960f75e725bc8497b40260e417",
+      "sha256": "a27f7826da5c678eb8eb50cc3f453dc0b4ff077078d6ec8e4e7bafa883cc396d",
+      "baseVersionNamesAnonymized": 1,
+      "executableSectionsUnchanged": true
+    },
+    {
+      "entry": "jni/x86/libjnidispatch.so",
+      "originalSha256": "d10fcc75029621a88fa6020807e7ba82ff434a01ead396cf0e36c50e6c393118",
+      "sha256": "8c501f2cec086f42d03efffdcda4fa21bd036bc021a133dc0cfdbf1834b55020",
+      "baseVersionNamesAnonymized": 1,
+      "executableSectionsUnchanged": true
+    }
+  ],
+  "scope": "Only ELF base version name and corresponding ELF hash changed; executable sections and JVM classes unchanged."
+}

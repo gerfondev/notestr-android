@@ -1,3 +1,80 @@
+# Validation de publication — 1.2.5, 24 septembre 2026
+
+Le candidat de sauvegarde 1.2.4-test.17 a été testé sur smartphone ; l’utilisateur a indiqué qu’il fonctionne et autorisé sa publication sous 1.2.5 après contrôle. Version finale : versionCode 18, DOMPurify 3.4.16 et métadonnées JNA anonymisées en complément. Aucune autre modification fonctionnelle depuis le candidat validé.
+
+- Compilation release non débogable, signature existante et **13 tests JVM réussis**.
+- **17 tests Android réussis sur l’APK release final** : sauvegarde/refus de relais, compatibilité Linux, restauration, NIP-44, Amber simulé, coffre, clavier de l’éditeur et bouton Retour.
+- **5 tests isolés de l’éditeur réussis en debug** avec les mêmes ressources et bibliothèques : sélection, mise en forme, copie du code et filtrage HTML sur les deux chemins de l’éditeur. L’assertion de version du test a été mise à jour pour DOMPurify 3.4.16.
+- Fixture produite par l’Android final déchiffrée avec le code Linux existant : note Unicode et sauvegarde unique correctes. Fixture Linux vérifiée côté Android. Aucune source Linux modifiée.
+- Contrôle de confidentialité des fichiers de publication et des archives imbriquées ; signatures, empreintes natives, alignements et contenu décompressé de l’APK vérifiés. Aucun secret ou chemin personnel correspondant aux motifs recherchés détecté.
+
+SHA-256 APK : `d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182`.
+
+Essais sur émulateur API 30 jetable avec clés synthétiques et relais loopback. Amber réel, relais publics, tous les matériels et le téléphone avec le binaire final ne sont pas couverts. Les cinq tests d’éditeur utilisent leur activité réservée au debug ; ils ne sont pas annoncés comme des tests release. Les limites de pagination et de sécurité déjà documentées restent applicables. Rapports dans `security/release-1.2.5-*.json`.
+
+Les sections suivantes sont historiques.
+
+---
+
+# Validation du 24 septembre 2026 — candidat 1.2.4-test.17
+
+Candidat Android local, versionCode 17, aucune publication. SDK reconstruit et dépendances corrigées ; détails et limites dans SECURITY-REVIEW.md.
+
+- 13 tests JVM réussis avec Gradle 8.14.5 et le SDK mis à jour.
+- Sur l’APK release final non débogable : 15 tests instrumentés réussis sur émulateur API 30 (relais local, compatibilité des sauvegardes, restauration UI, NIP-44, Amber simulé, coffre).
+- Les cinq tests isolés de l’éditeur nécessitent l’activité fournie par la variante debug. Leur lancement initial en release échouait avant exécution faute de cette activité ; l’essai de manifeste séparé a été retiré. Ils ont tous réussi dans leur configuration debug habituelle, avec le même code et SDK (5/5).
+- Android → Linux vérifié à nouveau avec la fixture synthétique produite par cet APK : note courante Unicode et unique sauvegarde lues par le code Linux existant. Linux → Android couvert par les tests instrumentés. Aucun changement des sources Linux.
+- Inspection de 478 entrées décompressées de l’APK : aucun marqueur ciblé de secret, donnée personnelle ou fichier de test détecté ; empreintes natives conformes à l’AAR contrôlé. Signature v2 et certificat inchangé vérifiés. Alignement des bibliothèques 64 bits à 16 Ko vérifié.
+- APK : SHA-256 `e31831f5d2c0810a3ad6d54b49e91d319280b43d5be76ab6208f163f6734396b`, 25 776 429 octets.
+
+Reste à faire par l’utilisateur : test sur smartphone, notamment sauvegarde/restauration et Amber réel si utilisé. Les essais locaux ne couvrent pas tous les matériels, WebView, relais publics ou comportement d’Amber réel. La pagination au-delà de 2 000 événements par kind reste limitée. Aucune publication sans autorisation explicite pour cette version.
+
+Les sections suivantes sont historiques ; leur ancien blocage SDK est remplacé par le contrôle du 24 septembre.
+
+---
+
+# Validation du 23 septembre 2026 — sauvegarde compatible Linux
+
+Statut : changement local, non publié ; aucun APK à livrer tant que les alertes natives de SECURITY-REVIEW.md ne sont pas corrigées. La copie de publication est inchangée. Version applicative volontairement inchangée pour ces seuls essais internes.
+
+## Résultats
+
+- Gradle 8.14.4, JDK Temurin 17.0.20.1+1 : `testDebugUnitTest assembleDebug assembleDebugAndroidTest --no-build-cache --offline` réussis.
+- **13 tests JVM réussis**, dont cinq nouveaux cas : nouvelle note sans sauvegarde, restriction aux relais ayant accepté la sauvegarde, refus total de sauvegarde, refus de mise à jour, échec du disque avant envoi de la mise à jour.
+- **19 tests instrumentés réussis** sur émulateur Android 11 / API 30 jetable : BackupRelayTest (1), NoteBackupCompatibilityTest (4), BackupRestoreUiTest (1), Nip44CompatibilityTest (1), AmberSignerTest (4), AmberAuthorizationTest (3), MarkdownEditorTest (5).
+- Linux → Android : fixture réellement produite par `Identity.save` et `Identity.backup` du code Linux local ; signature et contenu NIP-44 vérifiés dans l’émulateur, accents/Unicode et identifiant historique non limité à six caractères conservés.
+- Android → Linux : fixture écrite par le code Android, lue avec `Identity.notes` et `Identity.previous` sous Linux ; note courante et sauvegarde correctement déchiffrées et sélectionnées.
+- Sur deux chemins d’un relais loopback, dont un refuse le kind 30078 : publication réussie sur le relais acceptant, aucune note mise à jour envoyée au relais refusant la sauvegarde (trace des neuf envois contrôlée).
+- Après effacement du cache de test : récupération de la sauvegarde depuis le relais, restauration avec le même identifiant, sauvegarde remplacée par la version quittée, une seule sauvegarde active en cache.
+- Réponse de relais vide : note et sauvegarde locales conservées. Suppression : note et sauvegarde deviennent toutes deux indisponibles après actualisation.
+- Dates identiques/futures refusées, départage par plus petit ID, suppressions datées, rejet d’un autre auteur et d’un contenu altéré vérifiés.
+- Interface : annulation sans publication, chargement explicite de la sauvegarde, contenu visible en mode Markdown, publication séparée, conservation de la note courante comme référence de sauvegarde.
+
+## Reproduction du test réseau local
+
+Le test BackupRelayTest est ignoré sans l’argument d’instrumentation `localBackupRelay=true`. Il utilise uniquement une clé synthétique publique (scalaire 1) et les adresses `ws://10.0.2.2:18765/accept`, `/reject`, `/empty` sur l’émulateur. Le champ des relais de l’application continue d’exiger `wss://`.
+
+Démarrer `tests/backup-relay.py` dans un environnement Python possédant `websockets`. Installer les APK debug et androidTest uniquement sur un émulateur jetable, puis exécuter :
+
+```sh
+adb -s emulator-5584 shell am instrument -w \
+  -e localBackupRelay true \
+  -e class fr.decentralia.notestr.BackupRelayTest \
+  fr.decentralia.notestr.test/androidx.test.runner.AndroidJUnitRunner
+```
+
+Le relais est strictement local, n’utilise aucun compte réel et écrit seulement la trace des événements synthétiques dans `/tmp/notestr-backup-relay-traffic.json`. Relancer le relais avec un état vide avant de rejouer le scénario. Le port/série peuvent être adaptés au nouvel émulateur.
+
+## Limites et reste à faire
+
+- Tests exécutés en debug sur x86_64/API 30. Aucun essai sur le smartphone de l’utilisateur, sur ARM réel, sur relais public ou avec une véritable installation Amber pour ce changement.
+- Les tests Amber portent sur un signataire simulé ; le code de protocole est commun aux deux modes, mais les doubles demandes de signature avec Amber réel doivent encore être validées sur appareil.
+- Le chargement dépassement de 2 000 événements par kind n’est pas couvert par une pagination exhaustive.
+- Corriger/reconstruire les composants natifs du SDK, répéter les tests, attribuer une version de test supérieure à versionCode 16, puis effectuer les contrôles de l’APK release non débogable avant remise pour test sur smartphone.
+- **Aucune publication GitHub sans validation explicite de l’utilisateur après son test de la version concernée.**
+
+---
+
 # Mise à jour 1.2.4 : bouton Retour
 
 VersionCode 16. Marges système appliquées aux formulaires, en dehors de la zone défilante. Le libellé Retour reste sous la barre système et les découpes de l’écran.

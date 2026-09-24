@@ -1,0 +1,14 @@
+{
+  "date": "2026-09-24",
+  "apk": "app-release.apk",
+  "sha256": "e31831f5d2c0810a3ad6d54b49e91d319280b43d5be76ab6208f163f6734396b",
+  "bytes": 25776429,
+  "entriesScanned": 478,
+  "findings": [],
+  "nativeSdkHashesMatch": true,
+  "debuggable": false,
+  "versionCode": 17,
+  "versionName": "1.2.4-test.17",
+  "signature": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1\nSigner #1 certificate DN: C=US, O=Android, CN=Android Debug\nSigner #1 certificate SHA-256 digest: 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8\nSigner #1 certificate SHA-1 digest: 70f084502019c4e7960b1288b2038a70b1262ee4\nSigner #1 certificate MD5 digest: 8acc69f4ac449d98dbd7afd06738bfb2\nSigner #1 key algorithm: RSA\nSigner #1 key size (bits): 2048\nSigner #1 public key SHA-256 digest: 7f182fc512023e2244402cf622fcfe61f8777c891c72099570c281b3c89b5bad\nSigner #1 public key SHA-1 digest: 26240d1e7c12c6b51bb1b91dbb514538a3081e64\nSigner #1 public key MD5 digest: e28d940b5fd0329ec9f68e127bc1774d\n",
+  "limits": "Targeted patterns only; no exhaustive secret or vulnerability guarantee. Smartphone test pending."
+}

@@ -1,0 +1,2126 @@
+[
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "2.4.20",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains",
+        "name": "annotations",
+        "version": "23.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-common",
+        "version": "2.4.20",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.biometric",
+        "name": "biometric",
+        "version": "1.1.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation",
+        "version": "1.9.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation-jvm",
+        "version": "1.9.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core-ktx",
+        "version": "1.15.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core",
+        "version": "1.15.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation-experimental",
+        "version": "1.4.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection",
+        "version": "1.5.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection-jvm",
+        "version": "1.5.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection-ktx",
+        "version": "1.5.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.concurrent",
+        "name": "concurrent-futures",
+        "version": "1.1.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "com.google.guava",
+        "name": "listenablefuture",
+        "version": "1.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.interpolator",
+        "name": "interpolator",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.arch.core",
+        "name": "core-common",
+        "version": "2.2.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.arch.core",
+        "name": "core-runtime",
+        "version": "2.2.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core-viewtree",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-common",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-common-jvm",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-bom",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-android",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jspecify",
+        "name": "jspecify",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-common-java8",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-livedata",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-livedata-core",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-ktx",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-ktx-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-livedata-core-ktx",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-compose",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-compose-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-annotation",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-annotation-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-saveable",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-saveable-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-compose",
+        "version": "1.3.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-compose-android",
+        "version": "1.3.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate",
+        "version": "1.3.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-android",
+        "version": "1.3.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-core",
+        "version": "1.7.3",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-core-jvm",
+        "version": "1.7.3",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-bom",
+        "version": "1.7.3",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-ktx",
+        "version": "1.3.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-compose",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-compose-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity-ktx",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-ktx",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-savedstate",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-savedstate-android",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-process",
+        "version": "2.9.4",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.startup",
+        "name": "startup-runtime",
+        "version": "1.1.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.tracing",
+        "name": "tracing",
+        "version": "1.2.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity-compose",
+        "version": "1.11.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.autofill",
+        "name": "autofill",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-geometry",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-geometry-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-util",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-util-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-graphics",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-graphics-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-unit",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-unit-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-text",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-text-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.emoji2",
+        "name": "emoji2",
+        "version": "1.4.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.emoji2",
+        "name": "emoji2-views-helper",
+        "version": "1.4.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-tooling-preview",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-tooling-preview-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.graphics",
+        "name": "graphics-path",
+        "version": "1.0.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.customview",
+        "name": "customview-poolingcontainer",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.profileinstaller",
+        "name": "profileinstaller",
+        "version": "1.4.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.foundation",
+        "name": "foundation",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.foundation",
+        "name": "foundation-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.animation",
+        "name": "animation",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.animation",
+        "name": "animation-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.animation",
+        "name": "animation-core",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.animation",
+        "name": "animation-core-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.foundation",
+        "name": "foundation-layout",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.foundation",
+        "name": "foundation-layout-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.versionedparcelable",
+        "name": "versionedparcelable",
+        "version": "1.1.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.appcompat",
+        "name": "appcompat",
+        "version": "1.8.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.appcompat",
+        "name": "appcompat-resources",
+        "version": "1.8.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.vectordrawable",
+        "name": "vectordrawable",
+        "version": "1.1.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.vectordrawable",
+        "name": "vectordrawable-animated",
+        "version": "1.1.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.cursoradapter",
+        "name": "cursoradapter",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.drawerlayout",
+        "name": "drawerlayout",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.customview",
+        "name": "customview",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.fragment",
+        "name": "fragment",
+        "version": "1.8.9",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.loader",
+        "name": "loader",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.viewpager",
+        "name": "viewpager",
+        "version": "1.0.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.resourceinspection",
+        "name": "resourceinspection-annotation",
+        "version": "1.0.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose",
+        "name": "compose-bom",
+        "version": "2025.08.01",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material3",
+        "name": "material3",
+        "version": "1.3.2",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material3",
+        "name": "material3-android",
+        "version": "1.3.2",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material",
+        "name": "material-icons-core",
+        "version": "1.7.8",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material",
+        "name": "material-icons-core-android",
+        "version": "1.7.8",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material",
+        "name": "material-ripple",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.material",
+        "name": "material-ripple-android",
+        "version": "1.9.0",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "net.java.dev.jna",
+        "name": "jna",
+        "version": "5.19.1",
+        "scope": "releaseRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose",
+        "name": "compose-bom",
+        "version": "2025.08.01",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-test-junit4",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-test-junit4-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation",
+        "version": "1.9.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation-jvm",
+        "version": "1.9.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "2.4.20",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains",
+        "name": "annotations",
+        "version": "23.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-common",
+        "version": "2.4.20",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core-ktx",
+        "version": "1.15.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core",
+        "version": "1.15.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.annotation",
+        "name": "annotation-experimental",
+        "version": "1.4.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection",
+        "version": "1.5.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection-jvm",
+        "version": "1.5.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.collection",
+        "name": "collection-ktx",
+        "version": "1.5.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.concurrent",
+        "name": "concurrent-futures",
+        "version": "1.1.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "com.google.guava",
+        "name": "listenablefuture",
+        "version": "1.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.interpolator",
+        "name": "interpolator",
+        "version": "1.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-android",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.arch.core",
+        "name": "core-common",
+        "version": "2.2.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.arch.core",
+        "name": "core-runtime",
+        "version": "2.2.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.core",
+        "name": "core-viewtree",
+        "version": "1.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-common",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-common-jvm",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-bom",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-test",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-test-jvm",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-android",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jspecify",
+        "name": "jspecify",
+        "version": "1.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-android",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-compose",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-compose-android",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-annotation",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-annotation-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-saveable",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.runtime",
+        "name": "runtime-saveable-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-compose",
+        "version": "1.3.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-compose-android",
+        "version": "1.3.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate",
+        "version": "1.3.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-android",
+        "version": "1.3.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-core",
+        "version": "1.7.3",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-core-jvm",
+        "version": "1.7.3",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-serialization-bom",
+        "version": "1.7.3",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.savedstate",
+        "name": "savedstate-ktx",
+        "version": "1.3.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-ktx",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-runtime-ktx-android",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-livedata-core",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-ktx",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-savedstate",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-viewmodel-savedstate-android",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.lifecycle",
+        "name": "lifecycle-process",
+        "version": "2.9.4",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.startup",
+        "name": "startup-runtime",
+        "version": "1.1.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.tracing",
+        "name": "tracing",
+        "version": "1.2.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.profileinstaller",
+        "name": "profileinstaller",
+        "version": "1.4.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.versionedparcelable",
+        "name": "versionedparcelable",
+        "version": "1.1.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity-compose",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.activity",
+        "name": "activity-ktx",
+        "version": "1.11.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.autofill",
+        "name": "autofill",
+        "version": "1.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-geometry",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-geometry-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-util",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-util-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-graphics",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-graphics-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-unit",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-unit-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-test",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-test-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-text",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.compose.ui",
+        "name": "ui-text-android",
+        "version": "1.9.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.emoji2",
+        "name": "emoji2",
+        "version": "1.4.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test",
+        "name": "monitor",
+        "version": "1.8.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test.espresso",
+        "name": "espresso-core",
+        "version": "3.7.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test.espresso",
+        "name": "espresso-idling-resource",
+        "version": "3.7.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test.services",
+        "name": "storage",
+        "version": "1.6.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test",
+        "name": "core",
+        "version": "1.7.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.concurrent",
+        "name": "concurrent-futures-ktx",
+        "version": "1.2.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test",
+        "name": "runner",
+        "version": "1.7.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "junit",
+        "name": "junit",
+        "version": "4.13.2",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.hamcrest",
+        "name": "hamcrest-core",
+        "version": "1.3",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "com.google.code.findbugs",
+        "name": "jsr305",
+        "version": "3.0.2",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "com.google.errorprone",
+        "name": "error_prone_annotations",
+        "version": "2.30.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "javax.inject",
+        "name": "javax.inject",
+        "version": "1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "org.hamcrest",
+        "name": "hamcrest-library",
+        "version": "1.3",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.graphics",
+        "name": "graphics-path",
+        "version": "1.0.1",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.customview",
+        "name": "customview-poolingcontainer",
+        "version": "1.0.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "androidx.test.ext",
+        "name": "junit",
+        "version": "1.3.0",
+        "scope": "debugAndroidTestRuntimeClasspath"
+    },
+    {
+        "group": "com.android.application",
+        "name": "com.android.application.gradle.plugin",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "gradle",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "gradle-settings-api",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib",
+        "version": "2.0.21",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains",
+        "name": "annotations",
+        "version": "13.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk8",
+        "version": "2.2.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-stdlib-jdk7",
+        "version": "2.2.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "gradle-common-api",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "gradle-api",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "builder-test-api",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.ddms",
+        "name": "ddmlib",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "common",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "annotations",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.guava",
+        "name": "guava",
+        "version": "33.3.1-jre",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.guava",
+        "name": "failureaccess",
+        "version": "1.0.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.guava",
+        "name": "listenablefuture",
+        "version": "9999.0-empty-to-avoid-conflict-with-guava",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.code.findbugs",
+        "name": "jsr305",
+        "version": "3.0.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.checkerframework",
+        "name": "checker-qual",
+        "version": "3.43.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.errorprone",
+        "name": "error_prone_annotations",
+        "version": "2.30.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.j2objc",
+        "name": "j2objc-annotations",
+        "version": "3.0.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "net.java.dev.jna",
+        "name": "jna-platform",
+        "version": "5.6.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "net.java.dev.jna",
+        "name": "jna",
+        "version": "5.6.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.protobuf",
+        "name": "protobuf-java",
+        "version": "3.25.5",
+        "scope": "buildTools"
+    },
+    {
+        "group": "net.sf.kxml",
+        "name": "kxml2",
+        "version": "2.3.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.ow2.asm",
+        "name": "asm",
+        "version": "9.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "sdk-common",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.analytics-library",
+        "name": "shared",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.analytics-library",
+        "name": "protos",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.code.gson",
+        "name": "gson",
+        "version": "2.11.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "aapt2-proto",
+        "version": "8.13.2-14304508",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.layoutlib",
+        "name": "layoutlib-api",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "sdklib",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "repository",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.jimfs",
+        "name": "jimfs",
+        "version": "1.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.sun.activation",
+        "name": "javax.activation",
+        "version": "1.2.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.apache.commons",
+        "name": "commons-compress",
+        "version": "1.28.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "commons-codec",
+        "name": "commons-codec",
+        "version": "1.19.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "commons-io",
+        "name": "commons-io",
+        "version": "2.20.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.apache.commons",
+        "name": "commons-lang3",
+        "version": "3.18.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.glassfish.jaxb",
+        "name": "jaxb-runtime",
+        "version": "2.3.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "jakarta.xml.bind",
+        "name": "jakarta.xml.bind-api",
+        "version": "2.3.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "jakarta.activation",
+        "name": "jakarta.activation-api",
+        "version": "1.2.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.glassfish.jaxb",
+        "name": "txw2",
+        "version": "2.3.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.sun.istack",
+        "name": "istack-commons-runtime",
+        "version": "3.0.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jvnet.staxex",
+        "name": "stax-ex",
+        "version": "1.8.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.sun.xml.fastinfoset",
+        "name": "FastInfoset",
+        "version": "1.2.16",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core",
+        "version": "1.9.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-core-jvm",
+        "version": "1.9.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlinx",
+        "name": "kotlinx-coroutines-bom",
+        "version": "1.9.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools",
+        "name": "dvlib",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.apache.httpcomponents",
+        "name": "httpcore",
+        "version": "4.4.16",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.apache.httpcomponents",
+        "name": "httpmime",
+        "version": "4.5.6",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.apache.httpcomponents",
+        "name": "httpclient",
+        "version": "4.5.14",
+        "scope": "buildTools"
+    },
+    {
+        "group": "commons-logging",
+        "name": "commons-logging",
+        "version": "1.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "javax.inject",
+        "name": "javax.inject",
+        "version": "1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.bouncycastle",
+        "name": "bcpkix-jdk18on",
+        "version": "1.86",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.bouncycastle",
+        "name": "bcutil-jdk18on",
+        "version": "1.86",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.bouncycastle",
+        "name": "bcprov-jdk18on",
+        "version": "1.86",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-reflect",
+        "version": "2.0.21",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "aaptcompiler",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.analytics-library",
+        "name": "crash",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.lint",
+        "name": "lint-model",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "builder-model",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.lint",
+        "name": "lint-typedef-remover",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "androidx.databinding",
+        "name": "databinding-compiler-common",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "androidx.databinding",
+        "name": "databinding-common",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.databinding",
+        "name": "baseLibrary",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build.jetifier",
+        "name": "jetifier-core",
+        "version": "1.0.0-beta10",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.googlecode.juniversalchardet",
+        "name": "juniversalchardet",
+        "version": "1.0.3",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.squareup",
+        "name": "javapoet",
+        "version": "1.10.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-device-provider-ddmlib-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-device-provider-profile-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-host-additional-test-output-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-host-coverage-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-host-emulator-control-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-host-logcat-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-host-apk-installer-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.utp",
+        "name": "android-test-plugin-result-listener-gradle-proto",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-core",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-api",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.android",
+        "name": "annotations",
+        "version": "4.1.1.4",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.codehaus.mojo",
+        "name": "animal-sniffer-annotations",
+        "version": "1.24",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.perfmark",
+        "name": "perfmark-api",
+        "version": "0.27.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-context",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-inprocess",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-netty",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-codec-http2",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-common",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-buffer",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-transport",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-resolver",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-codec",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-handler",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-transport-native-unix-common",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-codec-http",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-handler-proxy",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.netty",
+        "name": "netty-codec-socks",
+        "version": "4.1.138.Final",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-util",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-protobuf",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.api.grpc",
+        "name": "proto-google-common-protos",
+        "version": "2.48.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-protobuf-lite",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "io.grpc",
+        "name": "grpc-stub",
+        "version": "1.69.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "javax.annotation",
+        "name": "javax.annotation-api",
+        "version": "1.3.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "transform-api",
+        "version": "2.0.0-deprecated-use-gradle-api",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.ow2.asm",
+        "name": "asm-analysis",
+        "version": "9.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.ow2.asm",
+        "name": "asm-tree",
+        "version": "9.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.ow2.asm",
+        "name": "asm-commons",
+        "version": "9.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.ow2.asm",
+        "name": "asm-util",
+        "version": "9.8",
+        "scope": "buildTools"
+    },
+    {
+        "group": "net.sf.jopt-simple",
+        "name": "jopt-simple",
+        "version": "4.9",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "bundletool",
+        "version": "1.18.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.auto.value",
+        "name": "auto-value-annotations",
+        "version": "1.6.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.protobuf",
+        "name": "protobuf-java-util",
+        "version": "3.25.5",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.dagger",
+        "name": "dagger",
+        "version": "2.28.3",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.bitbucket.b_c",
+        "name": "jose4j",
+        "version": "0.9.7",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.slf4j",
+        "name": "slf4j-api",
+        "version": "1.7.30",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build.jetifier",
+        "name": "jetifier-processor",
+        "version": "1.0.0-beta10",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jdom",
+        "name": "jdom2",
+        "version": "2.0.6.1",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.crypto.tink",
+        "name": "tink",
+        "version": "1.7.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.testing.platform",
+        "name": "core-proto",
+        "version": "0.0.9-alpha03",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.google.flatbuffers",
+        "name": "flatbuffers-java",
+        "version": "1.12.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.tensorflow",
+        "name": "tensorflow-lite-metadata",
+        "version": "0.2.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "builder",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android",
+        "name": "signflinger",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "apksig",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android",
+        "name": "zipflinger",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.analytics-library",
+        "name": "tracker",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "manifest-merger",
+        "version": "31.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.android.tools.build",
+        "name": "apkzlib",
+        "version": "8.13.2",
+        "scope": "buildTools"
+    },
+    {
+        "group": "com.squareup",
+        "name": "javawriter",
+        "version": "2.5.0",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin.android",
+        "name": "org.jetbrains.kotlin.android.gradle.plugin",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugins-bom",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin-api",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin-annotations",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-native-utils",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-util-io",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-util-klib",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-tooling-core",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-build-tools-api",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "fus-statistics-gradle-plugin",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "compose-compiler-gradle-plugin",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin-idea",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-gradle-plugin-idea-proto",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-klib-commonizer-api",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-build-statistics",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-util-klib-metadata",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-compiler-runner",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin",
+        "name": "kotlin-daemon-client",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    },
+    {
+        "group": "org.jetbrains.kotlin.plugin.compose",
+        "name": "org.jetbrains.kotlin.plugin.compose.gradle.plugin",
+        "version": "2.4.20",
+        "scope": "buildTools"
+    }
+]

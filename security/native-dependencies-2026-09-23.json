@@ -1,0 +1,1510 @@
+{
+  "aarSha256": "81978371eb9e925ce583b7bdea814e8df80ab1c01eb6c8c193c3561b7e31d7cd",
+  "completeSbom": false,
+  "libraries": [
+    {
+      "library": "jni/arm64-v8a/libnostr_sdk_ffi.so",
+      "sha256": "55818cf6fedb9af58015cddd25228f799cebcee43282dbc68140157d025277e5",
+      "crates": [
+        {
+          "name": "addr2line",
+          "version": "0.24.2"
+        },
+        {
+          "name": "aead",
+          "version": "0.5.2"
+        },
+        {
+          "name": "aes",
+          "version": "0.8.4"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.97"
+        },
+        {
+          "name": "async-compat",
+          "version": "0.2.4"
+        },
+        {
+          "name": "async-utility",
+          "version": "0.3.1"
+        },
+        {
+          "name": "async-wsocket",
+          "version": "0.13.1"
+        },
+        {
+          "name": "base64",
+          "version": "0.22.1"
+        },
+        {
+          "name": "bech32",
+          "version": "0.11.0"
+        },
+        {
+          "name": "bitcoin_hashes",
+          "version": "0.14.0"
+        },
+        {
+          "name": "block-buffer",
+          "version": "0.10.4"
+        },
+        {
+          "name": "block-padding",
+          "version": "0.3.3"
+        },
+        {
+          "name": "byteorder",
+          "version": "1.5.0"
+        },
+        {
+          "name": "bytes",
+          "version": "1.10.1"
+        },
+        {
+          "name": "chacha20",
+          "version": "0.9.1"
+        },
+        {
+          "name": "chacha20poly1305",
+          "version": "0.10.1"
+        },
+        {
+          "name": "cipher",
+          "version": "0.4.4"
+        },
+        {
+          "name": "data-encoding",
+          "version": "2.8.0"
+        },
+        {
+          "name": "flatbuffers",
+          "version": "25.2.10"
+        },
+        {
+          "name": "flume",
+          "version": "0.11.1"
+        },
+        {
+          "name": "form_urlencoded",
+          "version": "1.2.1"
+        },
+        {
+          "name": "futures-core",
+          "version": "0.3.31"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3.31"
+        },
+        {
+          "name": "generic-array",
+          "version": "0.14.7"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.3.2"
+        },
+        {
+          "name": "gimli",
+          "version": "0.31.1"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.15.2"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.16.0"
+        },
+        {
+          "name": "heed",
+          "version": "0.20.5"
+        },
+        {
+          "name": "heed-types",
+          "version": "0.20.1"
+        },
+        {
+          "name": "hex",
+          "version": "0.4.3"
+        },
+        {
+          "name": "hex-conservative",
+          "version": "0.2.1"
+        },
+        {
+          "name": "hmac",
+          "version": "0.12.1"
+        },
+        {
+          "name": "http",
+          "version": "1.3.1"
+        },
+        {
+          "name": "httparse",
+          "version": "1.10.1"
+        },
+        {
+          "name": "icu_normalizer",
+          "version": "1.5.0"
+        },
+        {
+          "name": "idna",
+          "version": "1.0.3"
+        },
+        {
+          "name": "indexmap",
+          "version": "2.12.0"
+        },
+        {
+          "name": "lazy_static",
+          "version": "1.5.0"
+        },
+        {
+          "name": "lru",
+          "version": "0.16.0"
+        },
+        {
+          "name": "miniz_oxide",
+          "version": "0.8.3"
+        },
+        {
+          "name": "mio",
+          "version": "1.0.3"
+        },
+        {
+          "name": "negentropy",
+          "version": "0.5.0"
+        },
+        {
+          "name": "nostr",
+          "version": "0.44.7"
+        },
+        {
+          "name": "nostr-connect",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-database",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-gossip-memory",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-lmdb",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-builder",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-pool",
+          "version": "0.44.3"
+        },
+        {
+          "name": "nostr-sdk",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nwc",
+          "version": "0.44.0"
+        },
+        {
+          "name": "once_cell",
+          "version": "1.21.1"
+        },
+        {
+          "name": "page_size",
+          "version": "0.6.0"
+        },
+        {
+          "name": "paranoid-android",
+          "version": "0.2.2"
+        },
+        {
+          "name": "percent-encoding",
+          "version": "2.3.1"
+        },
+        {
+          "name": "ppv-lite86",
+          "version": "0.2.21"
+        },
+        {
+          "name": "rand",
+          "version": "0.8.5"
+        },
+        {
+          "name": "rand",
+          "version": "0.9.0"
+        },
+        {
+          "name": "rand_core",
+          "version": "0.6.4"
+        },
+        {
+          "name": "ring",
+          "version": "0.17.14"
+        },
+        {
+          "name": "rustc-demangle",
+          "version": "0.1.24"
+        },
+        {
+          "name": "rustls",
+          "version": "0.23.25"
+        },
+        {
+          "name": "rustls-pki-types",
+          "version": "1.11.0"
+        },
+        {
+          "name": "rustls-webpki",
+          "version": "0.103.0"
+        },
+        {
+          "name": "salsa20",
+          "version": "0.10.2"
+        },
+        {
+          "name": "scrypt",
+          "version": "0.11.0"
+        },
+        {
+          "name": "secp256k1",
+          "version": "0.29.1"
+        },
+        {
+          "name": "secp256k1-sys",
+          "version": "0.10.1"
+        },
+        {
+          "name": "serde",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_core",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_json",
+          "version": "1.0.140"
+        },
+        {
+          "name": "sha1",
+          "version": "0.10.6"
+        },
+        {
+          "name": "sharded-slab",
+          "version": "0.1.7"
+        },
+        {
+          "name": "smallvec",
+          "version": "1.14.0"
+        },
+        {
+          "name": "thread_local",
+          "version": "1.1.8"
+        },
+        {
+          "name": "tinyvec",
+          "version": "1.9.0"
+        },
+        {
+          "name": "tokio",
+          "version": "1.49.0"
+        },
+        {
+          "name": "tokio-rustls",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tokio-socks",
+          "version": "0.5.2"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tracing-core",
+          "version": "0.1.33"
+        },
+        {
+          "name": "tracing-log",
+          "version": "0.2.0"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "0.3.20"
+        },
+        {
+          "name": "tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "unicode-normalization",
+          "version": "0.1.22"
+        },
+        {
+          "name": "uniffi_core",
+          "version": "0.29.4"
+        },
+        {
+          "name": "universal-hash",
+          "version": "0.5.1"
+        },
+        {
+          "name": "untrusted",
+          "version": "0.9.0"
+        },
+        {
+          "name": "url",
+          "version": "2.5.4"
+        },
+        {
+          "name": "utf-8",
+          "version": "0.7.6"
+        },
+        {
+          "name": "utf8_iter",
+          "version": "1.0.4"
+        }
+      ]
+    },
+    {
+      "library": "jni/armeabi-v7a/libnostr_sdk_ffi.so",
+      "sha256": "3bdac7f5bdcd28d2594e3a8869284276a84e2c69d0a91fbe65d1799748d4c145",
+      "crates": [
+        {
+          "name": "addr2line",
+          "version": "0.24.2"
+        },
+        {
+          "name": "aead",
+          "version": "0.5.2"
+        },
+        {
+          "name": "aes",
+          "version": "0.8.4"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.97"
+        },
+        {
+          "name": "async-compat",
+          "version": "0.2.4"
+        },
+        {
+          "name": "async-utility",
+          "version": "0.3.1"
+        },
+        {
+          "name": "async-wsocket",
+          "version": "0.13.1"
+        },
+        {
+          "name": "base64",
+          "version": "0.22.1"
+        },
+        {
+          "name": "bech32",
+          "version": "0.11.0"
+        },
+        {
+          "name": "bitcoin_hashes",
+          "version": "0.14.0"
+        },
+        {
+          "name": "block-buffer",
+          "version": "0.10.4"
+        },
+        {
+          "name": "block-padding",
+          "version": "0.3.3"
+        },
+        {
+          "name": "byteorder",
+          "version": "1.5.0"
+        },
+        {
+          "name": "bytes",
+          "version": "1.10.1"
+        },
+        {
+          "name": "chacha20",
+          "version": "0.9.1"
+        },
+        {
+          "name": "chacha20poly1305",
+          "version": "0.10.1"
+        },
+        {
+          "name": "cipher",
+          "version": "0.4.4"
+        },
+        {
+          "name": "data-encoding",
+          "version": "2.8.0"
+        },
+        {
+          "name": "flatbuffers",
+          "version": "25.2.10"
+        },
+        {
+          "name": "flume",
+          "version": "0.11.1"
+        },
+        {
+          "name": "form_urlencoded",
+          "version": "1.2.1"
+        },
+        {
+          "name": "futures-core",
+          "version": "0.3.31"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3.31"
+        },
+        {
+          "name": "generic-array",
+          "version": "0.14.7"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.3.2"
+        },
+        {
+          "name": "gimli",
+          "version": "0.31.1"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.15.2"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.16.0"
+        },
+        {
+          "name": "heed",
+          "version": "0.20.5"
+        },
+        {
+          "name": "heed-types",
+          "version": "0.20.1"
+        },
+        {
+          "name": "hex",
+          "version": "0.4.3"
+        },
+        {
+          "name": "hex-conservative",
+          "version": "0.2.1"
+        },
+        {
+          "name": "hmac",
+          "version": "0.12.1"
+        },
+        {
+          "name": "http",
+          "version": "1.3.1"
+        },
+        {
+          "name": "httparse",
+          "version": "1.10.1"
+        },
+        {
+          "name": "icu_normalizer",
+          "version": "1.5.0"
+        },
+        {
+          "name": "idna",
+          "version": "1.0.3"
+        },
+        {
+          "name": "indexmap",
+          "version": "2.12.0"
+        },
+        {
+          "name": "lazy_static",
+          "version": "1.5.0"
+        },
+        {
+          "name": "lru",
+          "version": "0.16.0"
+        },
+        {
+          "name": "miniz_oxide",
+          "version": "0.8.3"
+        },
+        {
+          "name": "mio",
+          "version": "1.0.3"
+        },
+        {
+          "name": "negentropy",
+          "version": "0.5.0"
+        },
+        {
+          "name": "nostr",
+          "version": "0.44.7"
+        },
+        {
+          "name": "nostr-connect",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-database",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-gossip-memory",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-lmdb",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-builder",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-pool",
+          "version": "0.44.3"
+        },
+        {
+          "name": "nostr-sdk",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nwc",
+          "version": "0.44.0"
+        },
+        {
+          "name": "once_cell",
+          "version": "1.21.1"
+        },
+        {
+          "name": "page_size",
+          "version": "0.6.0"
+        },
+        {
+          "name": "paranoid-android",
+          "version": "0.2.2"
+        },
+        {
+          "name": "percent-encoding",
+          "version": "2.3.1"
+        },
+        {
+          "name": "ppv-lite86",
+          "version": "0.2.21"
+        },
+        {
+          "name": "rand",
+          "version": "0.8.5"
+        },
+        {
+          "name": "rand",
+          "version": "0.9.0"
+        },
+        {
+          "name": "rand_core",
+          "version": "0.6.4"
+        },
+        {
+          "name": "ring",
+          "version": "0.17.14"
+        },
+        {
+          "name": "rustc-demangle",
+          "version": "0.1.24"
+        },
+        {
+          "name": "rustls",
+          "version": "0.23.25"
+        },
+        {
+          "name": "rustls-pki-types",
+          "version": "1.11.0"
+        },
+        {
+          "name": "rustls-webpki",
+          "version": "0.103.0"
+        },
+        {
+          "name": "salsa20",
+          "version": "0.10.2"
+        },
+        {
+          "name": "scrypt",
+          "version": "0.11.0"
+        },
+        {
+          "name": "secp256k1",
+          "version": "0.29.1"
+        },
+        {
+          "name": "secp256k1-sys",
+          "version": "0.10.1"
+        },
+        {
+          "name": "serde",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_core",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_json",
+          "version": "1.0.140"
+        },
+        {
+          "name": "sha1",
+          "version": "0.10.6"
+        },
+        {
+          "name": "sharded-slab",
+          "version": "0.1.7"
+        },
+        {
+          "name": "smallvec",
+          "version": "1.14.0"
+        },
+        {
+          "name": "thread_local",
+          "version": "1.1.8"
+        },
+        {
+          "name": "tinyvec",
+          "version": "1.9.0"
+        },
+        {
+          "name": "tokio",
+          "version": "1.49.0"
+        },
+        {
+          "name": "tokio-rustls",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tokio-socks",
+          "version": "0.5.2"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tracing-core",
+          "version": "0.1.33"
+        },
+        {
+          "name": "tracing-log",
+          "version": "0.2.0"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "0.3.20"
+        },
+        {
+          "name": "tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "unicode-normalization",
+          "version": "0.1.22"
+        },
+        {
+          "name": "uniffi_core",
+          "version": "0.29.4"
+        },
+        {
+          "name": "universal-hash",
+          "version": "0.5.1"
+        },
+        {
+          "name": "untrusted",
+          "version": "0.9.0"
+        },
+        {
+          "name": "url",
+          "version": "2.5.4"
+        },
+        {
+          "name": "utf-8",
+          "version": "0.7.6"
+        },
+        {
+          "name": "utf8_iter",
+          "version": "1.0.4"
+        }
+      ]
+    },
+    {
+      "library": "jni/x86/libnostr_sdk_ffi.so",
+      "sha256": "1e069e8c0c91d65e83040a06c0a6198450638ed4f85234392e21bb989c39b105",
+      "crates": [
+        {
+          "name": "addr2line",
+          "version": "0.24.2"
+        },
+        {
+          "name": "aead",
+          "version": "0.5.2"
+        },
+        {
+          "name": "aes",
+          "version": "0.8.4"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.97"
+        },
+        {
+          "name": "async-compat",
+          "version": "0.2.4"
+        },
+        {
+          "name": "async-utility",
+          "version": "0.3.1"
+        },
+        {
+          "name": "async-wsocket",
+          "version": "0.13.1"
+        },
+        {
+          "name": "base64",
+          "version": "0.22.1"
+        },
+        {
+          "name": "bech32",
+          "version": "0.11.0"
+        },
+        {
+          "name": "bitcoin_hashes",
+          "version": "0.14.0"
+        },
+        {
+          "name": "block-buffer",
+          "version": "0.10.4"
+        },
+        {
+          "name": "block-padding",
+          "version": "0.3.3"
+        },
+        {
+          "name": "byteorder",
+          "version": "1.5.0"
+        },
+        {
+          "name": "bytes",
+          "version": "1.10.1"
+        },
+        {
+          "name": "chacha20",
+          "version": "0.9.1"
+        },
+        {
+          "name": "chacha20poly1305",
+          "version": "0.10.1"
+        },
+        {
+          "name": "cipher",
+          "version": "0.4.4"
+        },
+        {
+          "name": "data-encoding",
+          "version": "2.8.0"
+        },
+        {
+          "name": "flatbuffers",
+          "version": "25.2.10"
+        },
+        {
+          "name": "flume",
+          "version": "0.11.1"
+        },
+        {
+          "name": "form_urlencoded",
+          "version": "1.2.1"
+        },
+        {
+          "name": "futures-core",
+          "version": "0.3.31"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3.31"
+        },
+        {
+          "name": "generic-array",
+          "version": "0.14.7"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.3.2"
+        },
+        {
+          "name": "gimli",
+          "version": "0.31.1"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.15.2"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.16.0"
+        },
+        {
+          "name": "heed",
+          "version": "0.20.5"
+        },
+        {
+          "name": "heed-types",
+          "version": "0.20.1"
+        },
+        {
+          "name": "hex",
+          "version": "0.4.3"
+        },
+        {
+          "name": "hex-conservative",
+          "version": "0.2.1"
+        },
+        {
+          "name": "hmac",
+          "version": "0.12.1"
+        },
+        {
+          "name": "http",
+          "version": "1.3.1"
+        },
+        {
+          "name": "httparse",
+          "version": "1.10.1"
+        },
+        {
+          "name": "icu_normalizer",
+          "version": "1.5.0"
+        },
+        {
+          "name": "idna",
+          "version": "1.0.3"
+        },
+        {
+          "name": "indexmap",
+          "version": "2.12.0"
+        },
+        {
+          "name": "lazy_static",
+          "version": "1.5.0"
+        },
+        {
+          "name": "lru",
+          "version": "0.16.0"
+        },
+        {
+          "name": "miniz_oxide",
+          "version": "0.8.3"
+        },
+        {
+          "name": "mio",
+          "version": "1.0.3"
+        },
+        {
+          "name": "negentropy",
+          "version": "0.5.0"
+        },
+        {
+          "name": "nostr",
+          "version": "0.44.7"
+        },
+        {
+          "name": "nostr-connect",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-database",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-gossip-memory",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-lmdb",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-builder",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-pool",
+          "version": "0.44.3"
+        },
+        {
+          "name": "nostr-sdk",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nwc",
+          "version": "0.44.0"
+        },
+        {
+          "name": "once_cell",
+          "version": "1.21.1"
+        },
+        {
+          "name": "page_size",
+          "version": "0.6.0"
+        },
+        {
+          "name": "paranoid-android",
+          "version": "0.2.2"
+        },
+        {
+          "name": "percent-encoding",
+          "version": "2.3.1"
+        },
+        {
+          "name": "poly1305",
+          "version": "0.8.0"
+        },
+        {
+          "name": "ppv-lite86",
+          "version": "0.2.21"
+        },
+        {
+          "name": "rand",
+          "version": "0.8.5"
+        },
+        {
+          "name": "rand",
+          "version": "0.9.0"
+        },
+        {
+          "name": "rand_core",
+          "version": "0.6.4"
+        },
+        {
+          "name": "ring",
+          "version": "0.17.14"
+        },
+        {
+          "name": "rustc-demangle",
+          "version": "0.1.24"
+        },
+        {
+          "name": "rustls",
+          "version": "0.23.25"
+        },
+        {
+          "name": "rustls-pki-types",
+          "version": "1.11.0"
+        },
+        {
+          "name": "rustls-webpki",
+          "version": "0.103.0"
+        },
+        {
+          "name": "salsa20",
+          "version": "0.10.2"
+        },
+        {
+          "name": "scrypt",
+          "version": "0.11.0"
+        },
+        {
+          "name": "secp256k1",
+          "version": "0.29.1"
+        },
+        {
+          "name": "secp256k1-sys",
+          "version": "0.10.1"
+        },
+        {
+          "name": "serde",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_core",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_json",
+          "version": "1.0.140"
+        },
+        {
+          "name": "sha1",
+          "version": "0.10.6"
+        },
+        {
+          "name": "sharded-slab",
+          "version": "0.1.7"
+        },
+        {
+          "name": "smallvec",
+          "version": "1.14.0"
+        },
+        {
+          "name": "thread_local",
+          "version": "1.1.8"
+        },
+        {
+          "name": "tinyvec",
+          "version": "1.9.0"
+        },
+        {
+          "name": "tokio",
+          "version": "1.49.0"
+        },
+        {
+          "name": "tokio-rustls",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tokio-socks",
+          "version": "0.5.2"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tracing-core",
+          "version": "0.1.33"
+        },
+        {
+          "name": "tracing-log",
+          "version": "0.2.0"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "0.3.20"
+        },
+        {
+          "name": "tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "unicode-normalization",
+          "version": "0.1.22"
+        },
+        {
+          "name": "uniffi_core",
+          "version": "0.29.4"
+        },
+        {
+          "name": "universal-hash",
+          "version": "0.5.1"
+        },
+        {
+          "name": "untrusted",
+          "version": "0.9.0"
+        },
+        {
+          "name": "url",
+          "version": "2.5.4"
+        },
+        {
+          "name": "utf-8",
+          "version": "0.7.6"
+        },
+        {
+          "name": "utf8_iter",
+          "version": "1.0.4"
+        }
+      ]
+    },
+    {
+      "library": "jni/x86_64/libnostr_sdk_ffi.so",
+      "sha256": "684a2ea4131b579247781e59bc9d4c1862064e71baaa7414c77abdba8674e614",
+      "crates": [
+        {
+          "name": "addr2line",
+          "version": "0.24.2"
+        },
+        {
+          "name": "aead",
+          "version": "0.5.2"
+        },
+        {
+          "name": "aes",
+          "version": "0.8.4"
+        },
+        {
+          "name": "anyhow",
+          "version": "1.0.97"
+        },
+        {
+          "name": "async-compat",
+          "version": "0.2.4"
+        },
+        {
+          "name": "async-utility",
+          "version": "0.3.1"
+        },
+        {
+          "name": "async-wsocket",
+          "version": "0.13.1"
+        },
+        {
+          "name": "base64",
+          "version": "0.22.1"
+        },
+        {
+          "name": "bech32",
+          "version": "0.11.0"
+        },
+        {
+          "name": "bitcoin_hashes",
+          "version": "0.14.0"
+        },
+        {
+          "name": "block-buffer",
+          "version": "0.10.4"
+        },
+        {
+          "name": "block-padding",
+          "version": "0.3.3"
+        },
+        {
+          "name": "byteorder",
+          "version": "1.5.0"
+        },
+        {
+          "name": "bytes",
+          "version": "1.10.1"
+        },
+        {
+          "name": "chacha20",
+          "version": "0.9.1"
+        },
+        {
+          "name": "chacha20poly1305",
+          "version": "0.10.1"
+        },
+        {
+          "name": "cipher",
+          "version": "0.4.4"
+        },
+        {
+          "name": "data-encoding",
+          "version": "2.8.0"
+        },
+        {
+          "name": "flatbuffers",
+          "version": "25.2.10"
+        },
+        {
+          "name": "flume",
+          "version": "0.11.1"
+        },
+        {
+          "name": "form_urlencoded",
+          "version": "1.2.1"
+        },
+        {
+          "name": "futures-core",
+          "version": "0.3.31"
+        },
+        {
+          "name": "futures-util",
+          "version": "0.3.31"
+        },
+        {
+          "name": "generic-array",
+          "version": "0.14.7"
+        },
+        {
+          "name": "getrandom",
+          "version": "0.3.2"
+        },
+        {
+          "name": "gimli",
+          "version": "0.31.1"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.15.2"
+        },
+        {
+          "name": "hashbrown",
+          "version": "0.16.0"
+        },
+        {
+          "name": "heed",
+          "version": "0.20.5"
+        },
+        {
+          "name": "heed-types",
+          "version": "0.20.1"
+        },
+        {
+          "name": "hex",
+          "version": "0.4.3"
+        },
+        {
+          "name": "hex-conservative",
+          "version": "0.2.1"
+        },
+        {
+          "name": "hmac",
+          "version": "0.12.1"
+        },
+        {
+          "name": "http",
+          "version": "1.3.1"
+        },
+        {
+          "name": "httparse",
+          "version": "1.10.1"
+        },
+        {
+          "name": "icu_normalizer",
+          "version": "1.5.0"
+        },
+        {
+          "name": "idna",
+          "version": "1.0.3"
+        },
+        {
+          "name": "indexmap",
+          "version": "2.12.0"
+        },
+        {
+          "name": "lazy_static",
+          "version": "1.5.0"
+        },
+        {
+          "name": "lru",
+          "version": "0.16.0"
+        },
+        {
+          "name": "miniz_oxide",
+          "version": "0.8.3"
+        },
+        {
+          "name": "mio",
+          "version": "1.0.3"
+        },
+        {
+          "name": "negentropy",
+          "version": "0.5.0"
+        },
+        {
+          "name": "nostr",
+          "version": "0.44.7"
+        },
+        {
+          "name": "nostr-connect",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-database",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-gossip-memory",
+          "version": "0.44.0"
+        },
+        {
+          "name": "nostr-lmdb",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-builder",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nostr-relay-pool",
+          "version": "0.44.3"
+        },
+        {
+          "name": "nostr-sdk",
+          "version": "0.44.1"
+        },
+        {
+          "name": "nwc",
+          "version": "0.44.0"
+        },
+        {
+          "name": "once_cell",
+          "version": "1.21.1"
+        },
+        {
+          "name": "page_size",
+          "version": "0.6.0"
+        },
+        {
+          "name": "paranoid-android",
+          "version": "0.2.2"
+        },
+        {
+          "name": "percent-encoding",
+          "version": "2.3.1"
+        },
+        {
+          "name": "poly1305",
+          "version": "0.8.0"
+        },
+        {
+          "name": "rand",
+          "version": "0.8.5"
+        },
+        {
+          "name": "rand",
+          "version": "0.9.0"
+        },
+        {
+          "name": "rand_chacha",
+          "version": "0.3.1"
+        },
+        {
+          "name": "rand_core",
+          "version": "0.6.4"
+        },
+        {
+          "name": "ring",
+          "version": "0.17.14"
+        },
+        {
+          "name": "rustc-demangle",
+          "version": "0.1.24"
+        },
+        {
+          "name": "rustls",
+          "version": "0.23.25"
+        },
+        {
+          "name": "rustls-pki-types",
+          "version": "1.11.0"
+        },
+        {
+          "name": "rustls-webpki",
+          "version": "0.103.0"
+        },
+        {
+          "name": "salsa20",
+          "version": "0.10.2"
+        },
+        {
+          "name": "scrypt",
+          "version": "0.11.0"
+        },
+        {
+          "name": "secp256k1",
+          "version": "0.29.1"
+        },
+        {
+          "name": "secp256k1-sys",
+          "version": "0.10.1"
+        },
+        {
+          "name": "serde",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_core",
+          "version": "1.0.228"
+        },
+        {
+          "name": "serde_json",
+          "version": "1.0.140"
+        },
+        {
+          "name": "sha1",
+          "version": "0.10.6"
+        },
+        {
+          "name": "sharded-slab",
+          "version": "0.1.7"
+        },
+        {
+          "name": "smallvec",
+          "version": "1.14.0"
+        },
+        {
+          "name": "thread_local",
+          "version": "1.1.8"
+        },
+        {
+          "name": "tinyvec",
+          "version": "1.9.0"
+        },
+        {
+          "name": "tokio",
+          "version": "1.49.0"
+        },
+        {
+          "name": "tokio-rustls",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tokio-socks",
+          "version": "0.5.2"
+        },
+        {
+          "name": "tokio-tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "tracing-core",
+          "version": "0.1.33"
+        },
+        {
+          "name": "tracing-log",
+          "version": "0.2.0"
+        },
+        {
+          "name": "tracing-subscriber",
+          "version": "0.3.20"
+        },
+        {
+          "name": "tungstenite",
+          "version": "0.26.2"
+        },
+        {
+          "name": "unicode-normalization",
+          "version": "0.1.22"
+        },
+        {
+          "name": "uniffi_core",
+          "version": "0.29.4"
+        },
+        {
+          "name": "universal-hash",
+          "version": "0.5.1"
+        },
+        {
+          "name": "untrusted",
+          "version": "0.9.0"
+        },
+        {
+          "name": "url",
+          "version": "2.5.4"
+        },
+        {
+          "name": "utf-8",
+          "version": "0.7.6"
+        },
+        {
+          "name": "utf8_iter",
+          "version": "1.0.4"
+        }
+      ]
+    }
+  ]
+}

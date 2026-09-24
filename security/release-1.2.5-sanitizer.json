@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-09-24T06:47:30.856860+00:00",
+  "package": "dompurify",
+  "version": "3.4.16",
+  "source": "https://registry.npmjs.org/dompurify/-/dompurify-3.4.16.tgz",
+  "integrity": "sha512-sqo+pNp3qRhCIpbgRi1y8Tgk27Bo2Ry7w0dC1NBeNTdZChWjz9Xb/KOoZbRP/R6pQZ80Qw8YhXw13hWWBbMRnQ==",
+  "tarballSha256": "d288ced25e6bda3e5fc76d1fc9bca899260cf886e005e84f232e686ada57f1b4",
+  "assetSha256": "2c90a9b46d6463f26038a29b686e82bc91de01fdac9d5229e7cfe3b360134ea2",
+  "releaseNotes": "https://github.com/cure53/DOMPurify/releases/tag/3.4.16"
+}

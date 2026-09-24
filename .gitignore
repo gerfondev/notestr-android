@@ -15,3 +15,5 @@ backups/
 .env.*
 *.log
 tests/*-verified.png
+livrables/
+vendor/nostr-sdk/upstream-source.tar.gz

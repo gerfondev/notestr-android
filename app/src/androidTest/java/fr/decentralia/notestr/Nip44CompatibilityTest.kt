@@ -4,9 +4,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
-import rust.nostr.sdk.Keys
-import rust.nostr.sdk.SecretKey
-import rust.nostr.sdk.nip44Decrypt
+import org.nostrdevkit.sdk.Keys
+import org.nostrdevkit.sdk.SecretKey
+import org.nostrdevkit.sdk.nip44Decrypt
 
 @RunWith(AndroidJUnit4::class)
 class Nip44CompatibilityTest {

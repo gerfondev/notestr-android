@@ -6,12 +6,12 @@ Téléchargées le 12 septembre 2026. Aucun téléchargement n’a lieu à l’e
   JavaScript autonome : https://uicdn.toast.com/editor/3.2.2/toastui-editor-all.min.js
   CSS et français : https://registry.npmjs.org/@toast-ui/editor/-/editor-3.2.2.tgz
   Source : https://github.com/nhn/tui.editor
-  Le bundle inclut notamment ProseMirror et une ancienne copie de DOMPurify ;
-  le point d’entrée customHTMLSanitizer utilise la version externe actuelle ci-dessous.
+  Le bundle inclut notamment ProseMirror. Son ancienne copie de DOMPurify a été
+  retirée ; tous les chemins de filtrage utilisent la version externe ci-dessous.
   Les mentions de licence intégrées au bundle ont été conservées.
-- DOMPurify 3.4.15, Cure53 et contributeurs, licences Apache-2.0 ou MPL-2.0
+- DOMPurify 3.4.16, Cure53 et contributeurs, licences Apache-2.0 ou MPL-2.0
   (`LICENSE-dompurify.txt`).
-  https://registry.npmjs.org/dompurify/-/dompurify-3.4.15.tgz
+  https://registry.npmjs.org/dompurify/-/dompurify-3.4.16.tgz
   Source : https://github.com/cure53/DOMPurify
 
 `SHA256SUMS` permet de contrôler les fichiers tiers distribués avec cette version.

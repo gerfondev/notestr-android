@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-24",
+  "version": "1.2.5",
+  "versionCode": 18,
+  "apkSha256": "d1242c65ed785f54203f3444110839ed9e08055aafbd19b8ead1e9ef74e20182",
+  "unitTests": {
+    "passed": 13,
+    "failed": 0
+  },
+  "releaseAndroidTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "debugEditorTests": {
+    "passed": 5,
+    "failed": 0
+  },
+  "sanitizer": "DOMPurify 3.4.16 verified in Android WebView, both custom and default paths; former version assertion updated from 3.4.15.",
+  "crossPlatform": "Final synthetic Android note and backup decoded by existing Linux code; Linux fixture verified by Android instrumentation.",
+  "userValidation": "User reported candidate 1.2.4-test.17 works on smartphone and authorized 1.2.5 publication. Final 1.2.5 additionally updates DOMPurify and anonymizes JNA metadata.",
+  "limits": [
+    "Final 1.2.5 tested on disposable API 30 emulator, not separately on user smartphone.",
+    "Amber tested with a simulated signer; no real Amber or public relay tests.",
+    "Isolated editor tests use the debug host; release tests exercise the actual non-debuggable APK."
+  ]
+}

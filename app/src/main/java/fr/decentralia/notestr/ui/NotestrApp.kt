@@ -205,16 +205,34 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
 @Composable
 private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
     var markdown by remember { mutableStateOf(note?.markdown.orEmpty()) }; var confirmDelete by remember { mutableStateOf(false) }
+    var confirmRestore by remember { mutableStateOf(false) }
+    var editorRevision by remember { mutableStateOf(0) }
+    val busy = vm.state.busy
     Scaffold(topBar = { TopAppBar(
         title = { Text(if (note == null) "Nouvelle note" else note.title, maxLines = 1) },
-        navigationIcon = { TextButton(vm::backToNotes) { Text("Retour") } },
-        actions = { if (note != null) TextButton({ confirmDelete = true }) { Text("Supprimer") }; TextButton({ vm.save(markdown, note) }) { Text("Publier") } },
+        navigationIcon = { TextButton(vm::backToNotes, enabled = !busy) { Text("Retour") } },
+        actions = { if (note != null) TextButton({ confirmDelete = true }, enabled = !busy) { Text("Supprimer") }; TextButton({ vm.save(markdown, note) }, enabled = !busy) { Text("Publier") } },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
-    ) }) { padding -> MarkdownEditor(markdown, { markdown = it },
-        Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) }
+    ) }) { padding ->
+        Column(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) {
+            if (note != null) TextButton({ confirmRestore = true }, enabled = !busy) { Text("Version précédente") }
+            key(editorRevision) {
+                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f))
+            }
+        }
+    }
+    if (confirmRestore) AlertDialog(
+        onDismissRequest = { confirmRestore = false }, title = { Text("Charger la version précédente ?") },
+        text = { Text("Le texte dans l’éditeur sera remplacé par la sauvegarde. Vérifiez-le puis appuyez sur Publier pour confirmer la restauration.") },
+        confirmButton = { Button({
+            confirmRestore = false
+            note?.let { vm.restorePrevious(it) { restored -> markdown = restored; editorRevision++ } }
+        }, enabled = !busy) { Text("Charger") } },
+        dismissButton = { OutlinedButton({ confirmRestore = false }) { Text("Annuler") } }
+    )
     if (confirmDelete) AlertDialog(
         onDismissRequest = { confirmDelete = false }, title = { Text("Supprimer cette note ?") },
-        text = { Text("Une demande de suppression NIP-09 sera publiée sur les relais.") },
+        text = { Text("Une demande de suppression de la note et de sa sauvegarde sera publiée sur les relais.") },
         confirmButton = { Button({ confirmDelete = false; note?.let(vm::delete) }) { Text("Supprimer") } },
         dismissButton = { OutlinedButton({ confirmDelete = false }) { Text("Annuler") } }
     )

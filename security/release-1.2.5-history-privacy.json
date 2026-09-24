@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-24",
+  "scope": "history",
+  "entriesScannedIncludingArchives": 162,
+  "findings": [],
+  "genericHomePathCandidates": [],
+  "images": [],
+  "limits": "Targeted signatures and metadata inspection; not a proof of absence of encoded secrets. Upstream synthetic fixtures require separate review."
+}

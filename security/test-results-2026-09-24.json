@@ -1,0 +1,28 @@
+{
+  "date": "2026-09-24",
+  "jvm": {
+    "passed": 13,
+    "failed": 0
+  },
+  "releaseInstrumentation": {
+    "passed": 15,
+    "classes": [
+      "BackupRelayTest",
+      "NoteBackupCompatibilityTest",
+      "BackupRestoreUiTest",
+      "Nip44CompatibilityTest",
+      "AmberSignerTest",
+      "AmberAuthorizationTest",
+      "NostrKeyStoreTest"
+    ]
+  },
+  "debugEditorInstrumentation": {
+    "passed": 5,
+    "failed": 0
+  },
+  "initialReleaseEditorAttempt": "Five tests could not start: their ComponentActivity exists only in the debug test host. No production failure; all five passed in debug.",
+  "androidToLinux": "Current Unicode note and unique previous version decrypted with existing Linux implementation",
+  "linuxToAndroid": "Verified by NoteBackupCompatibilityTest",
+  "smartphoneTest": "pending",
+  "publicRelayOrRealAmberTest": "not performed"
+}

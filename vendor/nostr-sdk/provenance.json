@@ -1,0 +1,21 @@
+{
+  "upstreamRepository": "https://github.com/nostrdevkit/nostr-sdk-ffi",
+  "upstreamCommit": "0aa3edde1438d95048a1306f039b98e97642da35",
+  "upstreamSourceSha256": "aa73da17c8ed92903d5d7fefaa5524aaaa2119d0ca82a976c343784f8b0d6045",
+  "officialAarUrl": "https://repo.maven.apache.org/maven2/org/nostrdevkit/nostr-sdk/0.45.1/nostr-sdk-0.45.1-release.aar",
+  "officialAarSha256": "27624c5a226626d77e534bb14a9c25903de029d3763e88b2d9b48fde77104747",
+  "officialSourcesUrl": "https://repo.maven.apache.org/maven2/org/nostrdevkit/nostr-sdk/0.45.1/nostr-sdk-0.45.1-release-sources.jar",
+  "officialSourcesSha256": "c4d38040567301ef17c2646c25c6ff32fa0505ddbf429a5690d599fc5c215b18",
+  "rustToolchain": "1.95.0",
+  "androidNdk": "30.0.16248370",
+  "androidMinApi": 26,
+  "ndkDownload": {
+    "package": "ndk;30.0.16248370",
+    "url": "https://dl.google.com/android/repository/android-ndk-r30-linux.zip",
+    "officialSha1": "5107f898313790e449e87eee2183d9a20602dee9",
+    "sha256": "753611f410d002cfcd3f3dc2ef49aad532089d3180b436c060a90bf0fcb64df2"
+  },
+  "cargoLockSha256": "45faf5cf4ca46a7f97e94da35c18df8d05df865c01a225d874c5ef44a31478b2",
+  "localArtifact": "nostr-sdk-0.45.1-notestr.1.aar",
+  "upstreamSourceUrl": "https://codeload.github.com/nostrdevkit/nostr-sdk-ffi/tar.gz/0aa3edde1438d95048a1306f039b98e97642da35"
+}
