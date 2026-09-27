@@ -24,6 +24,7 @@ class BackupRestoreUiTest {
             published = markdown; previousAtPublish = previous
             return Result.success(Publication(requireNotNull(previous).copy(markdown = markdown)))
         }
+        override suspend fun setPinned(note: Note, pinned: Boolean) = Result.success(Publication(note.copy(pinned = pinned)))
         override suspend fun delete(note: Note) = Result.success(Unit)
     }
     @Test fun restoreRequiresConfirmationAndExplicitPublishAndPreservesOriginalIdentity() {
@@ -46,5 +47,24 @@ class BackupRestoreUiTest {
             assertEquals("Version sauvegardée", repo.published)
             assertEquals(note, repo.previousAtPublish)
         }
+    }
+    @Test fun pinAndUnpinFromListKeepContentAndDate() {
+        val repo = FakeRepository()
+        lateinit var vm: NotestrViewModel
+        compose.runOnIdle {
+            vm = ViewModelProvider(compose.activity)[NotestrViewModel::class.java]
+            NotestrViewModel::class.java.getDeclaredField("repository").apply { isAccessible = true }.set(vm, repo)
+            vm.save(note.markdown, note)
+        }
+        compose.onNodeWithContentDescription("Épingler").performClick()
+        compose.onNodeWithText("Épinglée").assertExists()
+        compose.runOnIdle {
+            assertTrue(vm.state.notes.single().pinned)
+            assertEquals(note.markdown, vm.state.notes.single().markdown)
+            assertEquals(note.createdAt, vm.state.notes.single().createdAt)
+        }
+        compose.onNodeWithContentDescription("Désépingler").performClick()
+        compose.onNodeWithText("Épinglée").assertDoesNotExist()
+        compose.runOnIdle { assertFalse(vm.state.notes.single().pinned) }
     }
 }

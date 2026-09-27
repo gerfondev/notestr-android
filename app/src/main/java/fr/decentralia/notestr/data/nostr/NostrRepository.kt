@@ -8,6 +8,7 @@ interface NostrRepository {
     suspend fun publish(markdown: String, previous: Note? = null): Result<Publication>
     suspend fun previous(note: Note): Result<String?>
     suspend fun delete(note: Note): Result<Unit>
+    suspend fun setPinned(note: Note, pinned: Boolean): Result<Publication>
 }
 
 data class Publication(val note: Note, val warning: String? = null)

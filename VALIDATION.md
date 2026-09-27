@@ -1,3 +1,15 @@
+# Validation de la version 3.6 — 27 septembre 2026
+
+14 tests JVM et 19 tests Android release sur émulateur x86_64/API 30 réussis. Couverture : épinglage, sauvegardes, relais local acceptant/refusant, redémarrage, format Linux, NIP-44, coffre, Amber simulé, clavier et Retour. 45 tests Linux et essais de l’AppImage GTK/WebKit réussis, dont les icônes d’épinglage, conservation du brouillon et export PDF.
+
+APK non débogable, certificat conservé, versionCode 22 ; signature et contenu décompressé vérifiés. Le changement de numéro 3.6 n’a pas été testé sur téléphone physique ; Amber réel et accessibilité exhaustive restent hors couverture. Aucun compte réel utilisé.
+
+---
+
+# Épinglage local — 26 septembre 2026
+
+14 tests JVM et 8 tests instrumentés release réussis : interface, relais loopback (acceptation/refus), redémarrage, lecture Linux, sauvegardes. Événements Android relus par Linux. Voir PINNING.md et SECURITY-REVIEW.md pour les limites.
+
 # Validation de publication — 2.0, 24 septembre 2026
 
 VersionCode 20 ; publication autorisée explicitement par l’utilisateur. Sauvegardes et actions à icônes issues des candidats locaux ; normalisation des titres inchangée avec nom de fonction générique et présentation actualisée.

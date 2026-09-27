@@ -6,15 +6,26 @@ Application Android native de notes privées chiffrées sur Nostr, compatible av
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **2.0**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.6**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `e4f8717281f4acb6c303e6120aff6c658b7e1f4eaa9b32745f8af0800c12cfe5`.
+SHA-256 : `59a54df1a6e04b749824b414a067cc727d4aef99fe661e1f47d3be6940d6308a`.
 
-## Modifications récentes — 2.0
+## Modifications récentes — 3.6
+
+- Épingler et désépingler plusieurs notes depuis la liste, avec une icône et un libellé accessibles.
+- Notes épinglées en tête, classées entre elles par date de modification décroissante.
+- Statut chiffré, signé et envoyé aux relais ; synchronisation avec Linux après **Actualiser**.
+- Texte, date de modification et sauvegarde précédente conservés lors de l’épinglage.
+- **Numéros de version Android et Linux alignés sur 3.6.**
+- Contrôles de sécurité et de confidentialité renouvelés ; correctifs du SDK et des bibliothèques conservés.
+
+APK non débogable, certificat conservé, versionCode 22. Voir [les notes de version](RELEASE-NOTES-3.6.md) et [le fonctionnement de l’épinglage](PINNING.md).
+
+## Modifications précédentes — 2.0
 
 - Sauvegarde automatique de la version précédente lors de la publication d’une note modifiée : une seule sauvegarde chiffrée, conservée localement et sur les relais qui l’acceptent.
 - Restauration via **Version précédente**, puis **Publier** pour confirmer.
@@ -60,7 +71,8 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
-| **1.2.4** | `v1.2.4` | Logo au lancement et corrections des barres de sélection et de mise en forme. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.4/Notestr-Android.apk) |
+| **3.6** | `v3.6` | Épinglage chiffré synchronisé avec Linux ; numérotation commune. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.6/Notestr-Android.apk) |
+| 1.2.4 | `v1.2.4` | Logo au lancement et corrections des barres de sélection et de mise en forme. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.4/Notestr-Android.apk) |
 | 1.2.3 | `v1.2.3` | Bouton Copier dans les blocs de code, à la place du champ de langage ; copie du texte sans modifier la note. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.3/Notestr-Android.apk) |
 | 1.2.2 | `v1.2.2` | Correction d’un bug avec Amber lors de la création ou de la modification d’une note : demande d’autorisation interactive puis reprise de la publication. | [Télécharger](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1) |
 | 1.2.1 | `v1.2.1` | Correction du mode Visuel, biométrie, icône et corrections des titres H1–H6. | [Télécharger](https://blossom.primal.net/b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b) |

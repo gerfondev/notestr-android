@@ -21,6 +21,7 @@ import fr.decentralia.notestr.data.nostr.RustNostrRepository
 import fr.decentralia.notestr.data.storage.AppPreferences
 import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.domain.model.noteOrder
 import kotlinx.coroutines.launch
 import org.nostrdevkit.sdk.SecretKey
 
@@ -165,7 +166,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         if (expected != session) return@runTask
         state = state.copy(
             screen = Screen.Notes,
-            notes = (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedByDescending(Note::createdAt),
+            notes = (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedWith(noteOrder),
             message = publication.warning ?: "Note publiée."
         )
     }
@@ -179,6 +180,16 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         if (expected != session || state.screen != Screen.Editor(note)) return@runTask
         loaded(result)
         state = state.copy(message = "Version précédente chargée. Vérifiez puis appuyez sur Publier pour la restaurer.")
+    }
+
+    fun togglePinned(note: Note) = runTask {
+        val expected = session
+        val result = repository?.setPinned(note, !note.pinned)?.getOrThrow() ?: error("Application verrouillée")
+        if (expected != session) return@runTask
+        state = state.copy(
+            notes = state.notes.map { if (it.identifier == note.identifier) result.note else it }.sortedWith(noteOrder),
+            message = result.warning ?: if (result.note.pinned) "Note épinglée." else "Note désépinglée."
+        )
     }
 
     fun delete(note: Note) = runTask {

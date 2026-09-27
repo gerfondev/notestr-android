@@ -4,6 +4,7 @@ import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.explicitLineBreaks
 import fr.decentralia.notestr.domain.publicationTitle
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.domain.model.noteOrder
 import java.security.SecureRandom
 import java.time.Duration
 import kotlinx.coroutines.CancellationException
@@ -60,13 +61,13 @@ abstract class BaseNostrRepository(
         }
         persist()
         NoteEvents.latest(events, NoteEvents.NOTE, publicKey).mapNotNull { event ->
-            try { event.toNote(decrypt(event.content())) }
+            try { event.toNote(decrypt(event.content())).copy(pinned = pinned(NoteEvents.identifier(event)!!)) }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
                 if (requiresInteractiveDecryption) throw error
                 null
             }
-        }.sortedByDescending(Note::createdAt)
+        }.sortedWith(noteOrder)
     }
 
     protected open val requiresInteractiveDecryption = false
@@ -112,7 +113,35 @@ abstract class BaseNostrRepository(
         val warning = try { persist(); null } catch (_: Exception) {
             "Note publiée, mais écriture du cache local impossible. Actualisez avant de fermer l’application."
         }
-        Publication(update.toNote(normalized), warning)
+        Publication(update.toNote(normalized).copy(pinned = previous?.pinned ?: false), warning)
+    }
+
+    private suspend fun pinned(identifier: String): Boolean {
+        val event = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.pinAddress(identifier) } ?: return false
+        val value = try { decrypt(event.content()) }
+        catch (cancelled: CancellationException) { throw cancelled }
+        catch (error: Exception) { if (requiresInteractiveDecryption) throw error else return false }
+        return value == "true"
+    }
+
+    override suspend fun setPinned(note: Note, pinned: Boolean): Result<Publication> = operation {
+        merge(emptyList())
+        val address = NoteEvents.pinAddress(note.identifier)
+        val previous = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == address }
+        val timestamp = NoteEvents.updateTime(previous, null)
+        val event = sign(EventBuilder(Kind(NoteEvents.BACKUP), encrypt(pinned.toString()))
+            .tags(listOf(Tag.identifier(address))).customCreatedAt(timestamp))
+        connect()
+        check(client.sendEvent(event, ackPolicy = AckPolicy.all()).success.isNotEmpty()) {
+            "Aucun relais n’a accepté l’épinglage. Réessayez après reconnexion."
+        }
+        merge(listOf(event))
+        val warning = try { persist(); null } catch (_: Exception) {
+            "Épinglage synchronisé, mais écriture du cache local impossible. Actualisez avant de fermer."
+        }
+        Publication(note.copy(pinned = pinned), warning)
     }
 
     override suspend fun delete(note: Note): Result<Unit> = operation {

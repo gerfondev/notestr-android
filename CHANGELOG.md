@@ -1,3 +1,7 @@
+# 3.6 — 27 septembre 2026
+
+Épinglage/désépinglage chiffré et synchronisé avec Linux, classement prioritaire des notes épinglées, icônes accessibles. Numéros Android/Linux alignés sur 3.6 ; versionCode 22. Contrôles de sécurité renouvelés. Voir RELEASE-NOTES-3.6.md.
+
 # 2.0 — 24 septembre 2026
 
 - Sauvegarde automatique, unique et chiffrée de la version précédente lors de la publication d’une modification ; conservation locale et sur les relais qui l’acceptent.

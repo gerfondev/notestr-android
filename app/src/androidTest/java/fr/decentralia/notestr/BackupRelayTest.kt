@@ -54,6 +54,22 @@ class BackupRelayTest {
                 RustNostrRepository(key.toCharArray(), listOf(relays.last()), cache).use { refusing ->
                     assertTrue(refusing.publish("refused update", restored).isFailure)
                 }
+                val pinned = fresh.setPinned(restored, true).getOrThrow().note
+                assertTrue(pinned.pinned)
+                assertEquals(restored.createdAt, pinned.createdAt)
+                assertEquals(restored.eventJson, pinned.eventJson)
+                cache.clear()
+                RustNostrRepository(key.toCharArray(), relays, cache).use { restarted ->
+                    val downloaded = restarted.refresh().getOrThrow().single()
+                    assertTrue(downloaded.pinned)
+                    assertEquals(current.markdown, restarted.previous(downloaded).getOrThrow())
+                    RustNostrRepository(key.toCharArray(), listOf(relays.last()), cache).use { refusing ->
+                        delay(1100)
+                        assertTrue(refusing.setPinned(downloaded, false).isFailure)
+                    }
+                    assertTrue(restarted.refresh().getOrThrow().single().pinned)
+                    assertFalse(restarted.setPinned(downloaded, false).getOrThrow().note.pinned)
+                }
                 fresh.delete(restored).getOrThrow()
                 assertTrue(fresh.refresh().getOrThrow().isEmpty())
                 assertNull(fresh.previous(restored).getOrThrow())

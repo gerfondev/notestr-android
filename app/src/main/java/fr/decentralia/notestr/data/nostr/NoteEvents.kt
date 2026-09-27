@@ -13,6 +13,9 @@ internal object NoteEvents {
     val NOTE: UShort = 33457u
     val BACKUP: UShort = 30078u
     val DELETE: UShort = 5u
+    const val PIN_PREFIX = "notestr/pin/"
+    fun pinAddress(identifier: String): String = PIN_PREFIX + backupAddress(identifier).removePrefix(PREFIX)
+
     const val PREFIX = "notestr/previous/"
 
     fun backupAddress(identifier: String): String = PREFIX + MessageDigest.getInstance("SHA-256")
@@ -33,7 +36,7 @@ internal object NoteEvents {
     fun compact(events: List<Event>): List<Event> {
         val unique = events.distinctBy { it.id().toHex() }
         return unique.filter { it.kind().asU16() != BACKUP } + unique
-            .filter { it.kind().asU16() == BACKUP && identifier(it)?.startsWith(PREFIX) == true }
+            .filter { it.kind().asU16() == BACKUP && identifier(it)?.let { d -> d.startsWith(PREFIX) || d.startsWith(PIN_PREFIX) } == true }
             .groupBy { identifier(it) }.values.map { it.minWith(newest) }
     }
 

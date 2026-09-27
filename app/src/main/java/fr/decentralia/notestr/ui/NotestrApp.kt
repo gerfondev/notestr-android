@@ -200,10 +200,18 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item { Spacer(Modifier.height(4.dp)) }
             items(state.notes, key = Note::identifier) { note ->
-                Card(Modifier.fillMaxWidth().clickable { vm.edit(note) }) { Column(Modifier.padding(16.dp)) {
-                    Text(note.title, style = MaterialTheme.typography.titleMedium)
-                    Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
-                } }
+                Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy) { vm.edit(note) }) {
+                    Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(note.title, style = MaterialTheme.typography.titleMedium)
+                            if (note.pinned) Text("Épinglée", style = MaterialTheme.typography.labelSmall)
+                            Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
+                        }
+                        ActionIcon(if (note.pinned) "Désépingler" else "Épingler",
+                            if (note.pinned) R.drawable.ic_action_unpin else R.drawable.ic_action_pin,
+                            { vm.togglePinned(note) }, enabled = !state.busy)
+                    }
+                }
             }
             item { Spacer(Modifier.height(80.dp)) }
         }
