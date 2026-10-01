@@ -4,6 +4,7 @@ import fr.decentralia.notestr.domain.model.Note
 
 interface NostrRepository {
     fun publicKeyHex(): String
+    suspend fun cached(): Result<List<Note>> = Result.success(emptyList())
     suspend fun refresh(): Result<List<Note>>
     suspend fun publish(markdown: String, previous: Note? = null): Result<Publication>
     suspend fun previous(note: Note): Result<String?>

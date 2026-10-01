@@ -22,6 +22,10 @@ class PinCompatibilityTest {
         val cache = EventCache(context)
         cache.save(events)
         RustNostrRepository(key.toCharArray(), emptyList(), cache).use { repo ->
+            val start = android.os.SystemClock.elapsedRealtime()
+            val cached = repo.cached().getOrThrow()
+            assertEquals(listOf("legacy-été", "recent"), cached.map { it.identifier })
+            assertTrue("Cache must be usable without a relay round trip", android.os.SystemClock.elapsedRealtime() - start < 3000)
             val notes = repo.refresh().getOrThrow()
             assertEquals(listOf("legacy-été", "recent"), notes.map { it.identifier })
             assertTrue(notes.first().pinned)

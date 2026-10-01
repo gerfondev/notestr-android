@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.content.Context
 import android.content.Intent
 import fr.decentralia.notestr.data.keys.AmberAccount
@@ -22,7 +24,7 @@ class AmberNostrRepository(
     override suspend fun sign(builder: EventBuilder): Event {
         val unsigned = builder.finalizeUnsigned(publicKey).ensureId()
         val event = Event.fromJson(signer.signEvent(unsigned.asJson()))
-        check(event.verify() && event.author() == publicKey && event.id() == unsigned.id()) { "Signature Amber invalide." }
+        check(event.verify() && event.author() == publicKey && event.id() == unsigned.id()) { tr("Signature Amber invalide.") }
         return event
     }
     override suspend fun encrypt(markdown: String): String = signer.nip44Encrypt(markdown)

@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.ui
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -40,6 +42,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.PlainTooltip
@@ -97,7 +100,7 @@ fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -
             Screen.Settings -> SettingsScreen(state, vm) { requestBiometric(true) }
         }
         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter))
-        if (state.busy) Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+        if (state.busy && (!state.refreshing || state.notes.isEmpty())) Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
     }
 }
 
@@ -118,34 +121,34 @@ private fun SetupScreen(
         if (response.resultCode == Activity.RESULT_OK) {
             val publicKey = response.data?.getStringExtra("result").orEmpty()
             val packageName = response.data?.getStringExtra("package").orEmpty()
-            if (publicKey.isBlank() || packageName.isBlank()) reportError("Réponse Amber incomplète.")
+            if (publicKey.isBlank() || packageName.isBlank()) reportError(tr("Réponse Amber incomplète."))
             else submitAmber(password, confirmation, publicKey, packageName, relays)
-        } else reportError("Connexion à Amber annulée.")
+        } else reportError(tr("Connexion à Amber annulée."))
     }
-    FormPage("Configurer Notestr") {
+    FormPage(tr("Configurer Notestr")) {
         ConnectionLogo()
-        Text("Choisissez où votre clé privée est conservée.")
+        Text(tr("Choisissez où votre clé privée est conservée."))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton({ amberMode = false }, enabled = amberMode, modifier = Modifier.weight(1f)) { Text("Clé locale") }
+            OutlinedButton({ amberMode = false }, enabled = amberMode, modifier = Modifier.weight(1f)) { Text(tr("Clé locale")) }
             OutlinedButton({ amberMode = true }, enabled = !amberMode, modifier = Modifier.weight(1f)) { Text("Amber") }
         }
         if (!amberMode) {
-            Text("La clé est chiffrée par votre mot de passe et par Android Keystore. Elle ne quitte pas l’appareil.")
-            SecretField("Clé privée nsec", nsec) { nsec = it }
+            Text(tr("La clé est chiffrée par votre mot de passe et par Android Keystore. Elle ne quitte pas l’appareil."))
+            SecretField(tr("Clé privée nsec"), nsec) { nsec = it }
         } else {
-            Text("Amber conserve la clé privée et réalise le chiffrement et les signatures. Notestr ne reçoit jamais votre nsec.")
+            Text(tr("Amber conserve la clé privée et réalise le chiffrement et les signatures. Notestr ne reçoit jamais votre nsec."))
         }
-        SecretField("Mot de passe (8 caractères minimum)", password) { password = it }
-        SecretField("Confirmer le mot de passe", confirmation) { confirmation = it }
-        OutlinedTextField(relays, { relays = it }, label = { Text("Relais, un par ligne") }, modifier = Modifier.fillMaxWidth(), minLines = 2)
+        SecretField(tr("Mot de passe (8 caractères minimum)"), password) { password = it }
+        SecretField(tr("Confirmer le mot de passe"), confirmation) { confirmation = it }
+        OutlinedTextField(relays, { relays = it }, label = { Text(tr("Relais, un par ligne")) }, modifier = Modifier.fillMaxWidth(), minLines = 2)
         if (!amberMode) {
-            Button({ submitLocal(password, confirmation, nsec, relays) }, Modifier.fillMaxWidth()) { Text("Créer le coffre") }
+            Button({ submitLocal(password, confirmation, nsec, relays) }, Modifier.fillMaxWidth()) { Text(tr("Créer le coffre")) }
         } else {
             Button({
                 if (password.length < 8) {
-                    reportError("Le mot de passe doit contenir au moins 8 caractères.")
+                    reportError(tr("Le mot de passe doit contenir au moins 8 caractères."))
                 } else if (password != confirmation) {
-                    reportError("Les mots de passe ne correspondent pas.")
+                    reportError(tr("Les mots de passe ne correspondent pas."))
                 } else {
                     val permissions = """[{"type":"sign_event","kind":33457},{"type":"sign_event","kind":5},{"type":"nip44_encrypt"},{"type":"nip44_decrypt"}]"""
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("nostrsigner:")).apply {
@@ -157,10 +160,10 @@ private fun SetupScreen(
                     try { amberLauncher.launch(intent) }
                     catch (_: ActivityNotFoundException) {
                         finishAmberAuthorization()
-                        reportError("Amber n’est pas installé sur cet appareil.")
+                        reportError(tr("Amber n’est pas installé sur cet appareil."))
                     }
                 }
-            }, Modifier.fillMaxWidth()) { Text("Se connecter avec Amber") }
+            }, Modifier.fillMaxWidth()) { Text(tr("Se connecter avec Amber")) }
         }
     }
 }
@@ -168,11 +171,11 @@ private fun SetupScreen(
 @Composable
 private fun LockedScreen(unlock: (String) -> Unit, biometricEnabled: Boolean, unlockBiometric: () -> Unit) {
     var password by remember { mutableStateOf("") }
-    FormPage("Notestr est verrouillé") {
+    FormPage(tr("Notestr est verrouillé")) {
         ConnectionLogo()
-        if (biometricEnabled) Button(unlockBiometric, Modifier.fillMaxWidth()) { Text("Déverrouiller par biométrie") }
-        SecretField("Mot de passe", password) { password = it }
-        Button({ unlock(password) }, Modifier.fillMaxWidth()) { Text("Déverrouiller") }
+        if (biometricEnabled) Button(unlockBiometric, Modifier.fillMaxWidth()) { Text(tr("Déverrouiller par biométrie")) }
+        SecretField(tr("Mot de passe"), password) { password = it }
+        Button({ unlock(password) }, Modifier.fillMaxWidth()) { Text(tr("Déverrouiller")) }
     }
 }
 
@@ -180,7 +183,7 @@ private fun LockedScreen(unlock: (String) -> Unit, biometricEnabled: Boolean, un
 private fun ColumnScope.ConnectionLogo() {
     Image(
         painter = painterResource(R.drawable.notestr_logo),
-        contentDescription = "Logo Notestr",
+        contentDescription = tr("Logo Notestr"),
         modifier = Modifier.size(128.dp).align(Alignment.CenterHorizontally)
     )
 }
@@ -190,24 +193,25 @@ private fun ColumnScope.ConnectionLogo() {
 private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Notestr") }, actions = {
-            ActionIcon("Actualiser", R.drawable.ic_action_refresh, vm::refresh)
-            ActionIcon("Réglages", R.drawable.ic_action_settings, vm::settings)
-            ActionIcon("Verrouiller", R.drawable.ic_action_lock, vm::lock)
+            ActionIcon(tr("Actualiser"), R.drawable.ic_action_refresh, vm::refresh, enabled = !state.busy)
+            ActionIcon(tr("Réglages"), R.drawable.ic_action_settings, vm::settings)
+            ActionIcon(tr("Verrouiller"), R.drawable.ic_action_lock, vm::lock)
         }) },
-        floatingActionButton = { FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = "Nouvelle note") } }
+        floatingActionButton = { FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = tr("Nouvelle note")) } }
     ) { padding ->
-        if (state.notes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text("Vos notes privées apparaîtront ici.") }
+        if (state.notes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr("Vos notes privées apparaîtront ici.")) }
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item { Spacer(Modifier.height(4.dp)) }
+            if (state.refreshing) item { Text(tr("Synchronisation des relais en cours…")) }
             items(state.notes, key = Note::identifier) { note ->
-                Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy) { vm.edit(note) }) {
+                Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy || state.refreshing) { vm.edit(note) }) {
                     Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             Text(note.title, style = MaterialTheme.typography.titleMedium)
-                            if (note.pinned) Text("Épinglée", style = MaterialTheme.typography.labelSmall)
+                            if (note.pinned) Text(tr("Épinglée"), style = MaterialTheme.typography.labelSmall)
                             Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
                         }
-                        ActionIcon(if (note.pinned) "Désépingler" else "Épingler",
+                        ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"),
                             if (note.pinned) R.drawable.ic_action_unpin else R.drawable.ic_action_pin,
                             { vm.togglePinned(note) }, enabled = !state.busy)
                     }
@@ -223,40 +227,51 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
 private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
     var markdown by remember { mutableStateOf(note?.markdown.orEmpty()) }; var confirmDelete by remember { mutableStateOf(false) }
     var confirmRestore by remember { mutableStateOf(false) }
+    var pendingLink by remember { mutableStateOf<String?>(null) }
+    val browserContext = androidx.compose.ui.platform.LocalContext.current
     var editorRevision by remember { mutableStateOf(0) }
     val busy = vm.state.busy
     Scaffold(topBar = { TopAppBar(
-        title = { Text(if (note == null) "Nouvelle note" else note.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        navigationIcon = { ActionIcon("Retour", R.drawable.ic_action_back, vm::backToNotes, enabled = !busy) },
+        title = { Text(if (note == null) tr("Nouvelle note") else note.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        navigationIcon = { ActionIcon(tr("Retour"), R.drawable.ic_action_back, vm::backToNotes, enabled = !busy || vm.state.refreshing) },
         actions = {
             if (note != null) {
-                ActionIcon("Version précédente", R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
-                ActionIcon("Supprimer", R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
+                ActionIcon(tr("Version précédente"), R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
+                ActionIcon(tr("Supprimer"), R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
             }
-            ActionIcon("Publier", R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
+            ActionIcon(tr("Publier"), R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) {
             key(editorRevision) {
-                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f))
+                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), onOpenLink = { url ->
+                    if (markdown != note?.markdown.orEmpty()) pendingLink = url
+                    else openBrowser(browserContext, url)
+                })
             }
         }
     }
+    pendingLink?.let { url -> AlertDialog(
+        onDismissRequest = { pendingLink = null }, title = { Text(tr("Ouvrir le navigateur ?")) },
+        text = { Text(tr("Notestr se verrouille en quittant l’application. Les modifications non publiées seront perdues. Annulez pour les publier d’abord.")) },
+        confirmButton = { Button({ pendingLink = null; openBrowser(browserContext, url) }) { Text(tr("Ouvrir")) } },
+        dismissButton = { TextButton({ pendingLink = null }) { Text(tr("Annuler")) } }
+    ) }
     if (confirmRestore) AlertDialog(
-        onDismissRequest = { confirmRestore = false }, title = { Text("Charger la version précédente ?") },
-        text = { Text("Le texte dans l’éditeur sera remplacé par la sauvegarde. Vérifiez-le puis appuyez sur Publier pour confirmer la restauration.") },
+        onDismissRequest = { confirmRestore = false }, title = { Text(tr("Charger la version précédente ?")) },
+        text = { Text(tr("Le texte dans l’éditeur sera remplacé par la sauvegarde. Vérifiez-le puis appuyez sur Publier pour confirmer la restauration.")) },
         confirmButton = { Button({
             confirmRestore = false
             note?.let { vm.restorePrevious(it) { restored -> markdown = restored; editorRevision++ } }
-        }, enabled = !busy) { Text("Charger") } },
-        dismissButton = { OutlinedButton({ confirmRestore = false }) { Text("Annuler") } }
+        }, enabled = !busy) { Text(tr("Charger")) } },
+        dismissButton = { OutlinedButton({ confirmRestore = false }) { Text(tr("Annuler")) } }
     )
     if (confirmDelete) AlertDialog(
-        onDismissRequest = { confirmDelete = false }, title = { Text("Supprimer cette note ?") },
-        text = { Text("Une demande de suppression de la note et de sa sauvegarde sera publiée sur les relais.") },
-        confirmButton = { Button({ confirmDelete = false; note?.let(vm::delete) }) { Text("Supprimer") } },
-        dismissButton = { OutlinedButton({ confirmDelete = false }) { Text("Annuler") } }
+        onDismissRequest = { confirmDelete = false }, title = { Text(tr("Supprimer cette note ?")) },
+        text = { Text(tr("Une demande de suppression de la note et de sa sauvegarde sera publiée sur les relais.")) },
+        confirmButton = { Button({ confirmDelete = false; note?.let(vm::delete) }) { Text(tr("Supprimer")) } },
+        dismissButton = { OutlinedButton({ confirmDelete = false }) { Text(tr("Annuler")) } }
     )
 }
 
@@ -265,30 +280,37 @@ private fun SettingsScreen(state: UiState, vm: NotestrViewModel, enableBiometric
     var relays by remember { mutableStateOf(state.relays.joinToString("\n")) }
     var old by remember { mutableStateOf("") }; var new by remember { mutableStateOf("") }; var confirmation by remember { mutableStateOf("") }
     var confirmReset by remember { mutableStateOf(false) }
-    FormPage("Réglages", back = vm::backToNotes) {
-        Text("Clé publique : ${state.publicKey.take(16)}…", style = MaterialTheme.typography.bodySmall)
-        OutlinedTextField(relays, { relays = it }, label = { Text("Relais, un par ligne") }, modifier = Modifier.fillMaxWidth(), minLines = 3)
-        Button({ vm.saveSettings(relays) }, Modifier.fillMaxWidth()) { Text("Enregistrer les relais") }
-        HorizontalDivider(); Text("Déverrouillage biométrique", style = MaterialTheme.typography.titleMedium)
-        Text("Utilisez une empreinte ou un visage compatible pour ouvrir Notestr. Votre mot de passe reste disponible en secours.")
-        if (state.biometricEnabled) {
-            Text("Biométrie activée")
-            OutlinedButton(vm::disableBiometric, Modifier.fillMaxWidth()) { Text("Désactiver la biométrie") }
-        } else {
-            Button(enableBiometric, Modifier.fillMaxWidth()) { Text("Activer la biométrie") }
+    FormPage(tr("Réglages"), back = vm::backToNotes) {
+        Text(tr("Version de l’application") + " : " + fr.decentralia.notestr.BuildConfig.VERSION_NAME)
+        Text(tr("Langue"), style = MaterialTheme.typography.titleMedium)
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            OutlinedButton({ vm.selectLanguage("fr") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "fr") { Text("Français") }
+            OutlinedButton({ vm.selectLanguage("en") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "en") { Text("English") }
         }
-        HorizontalDivider(); Text("Changer le mot de passe", style = MaterialTheme.typography.titleMedium)
-        SecretField("Mot de passe actuel", old) { old = it }; SecretField("Nouveau mot de passe", new) { new = it }; SecretField("Confirmer", confirmation) { confirmation = it }
-        Button({ vm.changePassword(old, new, confirmation) }, Modifier.fillMaxWidth()) { Text("Changer le mot de passe") }
-        HorizontalDivider(); Text("Connexion Nostr", style = MaterialTheme.typography.titleMedium)
-        OutlinedButton({ confirmReset = true }, Modifier.fillMaxWidth()) { Text("Changer de compte ou utiliser Amber") }
+        HorizontalDivider()
+        Text(tr("Clé publique : ") + state.publicKey.take(16) + "…", style = MaterialTheme.typography.bodySmall)
+        OutlinedTextField(relays, { relays = it }, label = { Text(tr("Relais, un par ligne")) }, modifier = Modifier.fillMaxWidth(), minLines = 3)
+        Button({ vm.saveSettings(relays) }, Modifier.fillMaxWidth()) { Text(tr("Enregistrer les relais")) }
+        HorizontalDivider(); Text(tr("Déverrouillage biométrique"), style = MaterialTheme.typography.titleMedium)
+        Text(tr("Utilisez une empreinte ou un visage compatible pour ouvrir Notestr. Votre mot de passe reste disponible en secours."))
+        if (state.biometricEnabled) {
+            Text(tr("Biométrie activée"))
+            OutlinedButton(vm::disableBiometric, Modifier.fillMaxWidth()) { Text(tr("Désactiver la biométrie")) }
+        } else {
+            Button(enableBiometric, Modifier.fillMaxWidth()) { Text(tr("Activer la biométrie")) }
+        }
+        HorizontalDivider(); Text(tr("Changer le mot de passe"), style = MaterialTheme.typography.titleMedium)
+        SecretField(tr("Mot de passe actuel"), old) { old = it }; SecretField(tr("Nouveau mot de passe"), new) { new = it }; SecretField(tr("Confirmer"), confirmation) { confirmation = it }
+        Button({ vm.changePassword(old, new, confirmation) }, Modifier.fillMaxWidth()) { Text(tr("Changer le mot de passe")) }
+        HorizontalDivider(); Text(tr("Connexion Nostr"), style = MaterialTheme.typography.titleMedium)
+        OutlinedButton({ confirmReset = true }, Modifier.fillMaxWidth()) { Text(tr("Changer de compte ou utiliser Amber")) }
     }
     if (confirmReset) AlertDialog(
         onDismissRequest = { confirmReset = false },
-        title = { Text("Reconfigurer la connexion ?") },
-        text = { Text("Le coffre et le cache locaux seront effacés. Les notes publiées sur les relais ne seront pas supprimées.") },
-        confirmButton = { Button({ confirmReset = false; vm.resetConnection() }) { Text("Reconfigurer") } },
-        dismissButton = { OutlinedButton({ confirmReset = false }) { Text("Annuler") } }
+        title = { Text(tr("Reconfigurer la connexion ?")) },
+        text = { Text(tr("Le coffre et le cache locaux seront effacés. Les notes publiées sur les relais ne seront pas supprimées.")) },
+        confirmButton = { Button({ confirmReset = false; vm.resetConnection() }) { Text(tr("Reconfigurer")) } },
+        dismissButton = { OutlinedButton({ confirmReset = false }) { Text(tr("Annuler")) } }
     )
 }
 
@@ -303,7 +325,7 @@ private fun FormPage(title: String, back: (() -> Unit)? = null, content: @Compos
     // Insets belong outside the scrollable content so scrolling cannot remove them.
     Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()
         .verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
-        if (back != null) ActionIcon("Retour", R.drawable.ic_action_back, back)
+        if (back != null) ActionIcon(tr("Retour"), R.drawable.ic_action_back, back)
         Text(title, style = MaterialTheme.typography.headlineSmall)
         content()
     }

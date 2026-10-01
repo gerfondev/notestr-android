@@ -1,12 +1,11 @@
 package fr.decentralia.notestr
 
-import android.graphics.Bitmap
 import androidx.test.platform.app.InstrumentationRegistry
-import java.io.File
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
-import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.test.hasClickAction
@@ -24,7 +23,27 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 class MarkdownEditorTest {
-    @get:Rule val compose = createAndroidComposeRule<ComponentActivity>()
+    @get:Rule val compose = createAndroidComposeRule<MainActivity>()
+
+    @Test fun englishEditorPreservesFrenchNoteTextAndTranslatesCopyButton() {
+        val source = "# Réglages\n\n```\nCopier ce texte inchangé\n```\n"
+        compose.runOnIdle { fr.decentralia.notestr.i18n.Strings.select("en") }
+        try {
+            render { MaterialTheme { MarkdownEditor(source, {}) } }
+            assertVisual("Copier ce texte inchangé")
+            compose.waitUntil(20000) {
+                javascript("document.documentElement.lang === 'en' && document.querySelector('.notes-copy-code')?.textContent === 'Copy'") == "true"
+            }
+            assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
+            assertTrue(javascript("document.querySelector('button.bold').getAttribute('aria-label').includes('Bold')") == "true")
+        } finally {
+            compose.runOnIdle { fr.decentralia.notestr.i18n.Strings.select("fr") }
+        }
+    }
+
+    private fun render(content: @Composable () -> Unit) {
+        compose.runOnIdle { compose.activity.setContent(content = content) }
+    }
 
     private fun findWebView(view: View): WebView? {
         if (view is WebView) return view
@@ -84,9 +103,35 @@ class MarkdownEditorTest {
         }
     }
 
+    @Test fun trustedLinkTapOpensBrowserCallbackAndSyntheticClicksAreIgnored() {
+        val source = mutableStateOf("[**Lien navigateur**](https://example.org/path?q=test)")
+        val opened = java.util.concurrent.CopyOnWriteArrayList<String>()
+        render { MaterialTheme {
+            MarkdownEditor(source.value, { source.value = it }, onOpenLink = { opened.add(it) })
+        } }
+        assertVisual("Lien navigateur")
+        assertTrue(javascript("getComputedStyle(document.querySelector('.toastui-editor-ww-container a')).cursor") == JSONObject.quote("pointer"))
+        assertTrue(javascript("Array.from(document.querySelectorAll('.toastui-editor-ww-container a *')).every(e => getComputedStyle(e).cursor === 'pointer')") == "true")
+        javascript("document.querySelector('.toastui-editor-ww-container a').click()")
+        compose.waitForIdle()
+        assertTrue(opened.isEmpty())
+        tapHtml(".toastui-editor-ww-container a")
+        compose.waitUntil(5000) { opened.size == 1 }
+        org.junit.Assert.assertEquals("https://example.org/path?q=test", opened.single())
+        org.junit.Assert.assertEquals("file:///android_asset/editor/index.html", JSONObject("{\"v\":" + javascript("location.href") + "}").getString("v"))
+    }
+
+    @Test fun browserIntentOnlyAllowsWebLinks() {
+        for (url in listOf("file:///etc/passwd", "javascript:alert(1)", "data:text/html,test", "https:", "//example.org", "https://exa\nmple.org"))
+            org.junit.Assert.assertNull(fr.decentralia.notestr.ui.browserIntent(url))
+        val intent = fr.decentralia.notestr.ui.browserIntent("https://example.org")!!
+        org.junit.Assert.assertEquals(android.content.Intent.ACTION_VIEW, intent.action)
+        assertTrue(intent.hasCategory(android.content.Intent.CATEGORY_BROWSABLE))
+    }
+
     @Test fun currentSanitizerProtectsCustomAndDefaultEditorPaths() {
         val source = mutableStateOf("Test sécurité")
-        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("Test sécurité")
         org.junit.Assert.assertEquals(JSONObject.quote("3.4.16"), javascript("DOMPurify.version"))
         val result = javascript("""
@@ -112,7 +157,7 @@ class MarkdownEditorTest {
 
     @Test fun firstLineSelectionStillAllowsBoldAndItalic() {
         val source = mutableStateOf("Première")
-        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("Première")
         tapHtml(".toastui-editor-ww-container p", longPressText = true)
         compose.waitUntil(5000) { javascript("window.getSelection().toString()") == JSONObject.quote("Première") }
@@ -127,7 +172,7 @@ class MarkdownEditorTest {
         val code = "val text = \"<tag> & é\"\n\n  println(text)"
         val markdown = "```kotlin\n$code\n```"
         val source = mutableStateOf(markdown)
-        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("println(text)")
         compose.waitUntil(5000) { javascript("!!document.querySelector('.notes-copy-code:not([hidden])')") == "true" }
         tapHtml(".notes-copy-code")
@@ -142,7 +187,7 @@ class MarkdownEditorTest {
 
     @Test fun headingMenuIsVisibleAndTouchSelectsH2() {
         val source = mutableStateOf("Titre Android")
-        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("Titre Android")
         compose.waitForIdle()
         tapHtml(".toastui-editor-ww-container p")
@@ -157,7 +202,7 @@ class MarkdownEditorTest {
 
     @Test fun rendersSourceAfterRepeatedModeSwitches() {
         val source = mutableStateOf("# Première note\n\n**Bonjour Android**")
-        compose.setContent { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }) } }
         assertVisual("Bonjour Android")
         repeat(3) { index ->
             compose.onNode(hasText("Markdown") and hasClickAction()).performClick()
@@ -171,13 +216,8 @@ class MarkdownEditorTest {
         compose.waitUntil(5000) { source.value.contains("Modification visuelle") }
         assertVisual("Modification visuelle")
         compose.waitForIdle()
-        Thread.sleep(350) // Allow the WebView compositor to present the verified DOM before capturing.
-        val instrumentation = InstrumentationRegistry.getInstrumentation()
-        val screenshot = instrumentation.uiAutomation.takeScreenshot()
-        File(instrumentation.targetContext.filesDir, "visual-test.png").outputStream().use {
-            screenshot.compress(Bitmap.CompressFormat.PNG, 100, it)
-        }
-        screenshot.recycle()
+        // The release activity intentionally uses FLAG_SECURE; verify the DOM
+        // and Markdown without disabling its screenshot protection.
         compose.onNode(hasText("Markdown") and hasClickAction()).performClick()
         assertTrue(source.value.contains("Modification visuelle"))
     }

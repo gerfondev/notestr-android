@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.data.keys
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.content.Context
 import android.content.Intent
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +17,7 @@ data class AmberAccount(val publicKey: String, val packageName: String) {
         private val PACKAGE_PATTERN = Regex("^[A-Za-z0-9_.]+$")
 
         fun create(publicKey: String, packageName: String): AmberAccount {
-            require(PACKAGE_PATTERN.matches(packageName)) { "Réponse Amber invalide." }
+            require(PACKAGE_PATTERN.matches(packageName)) { tr("Réponse Amber invalide.") }
             val normalized = PublicKey.parse(publicKey).use { it.toHex() }
             return AmberAccount(normalized, packageName)
         }
@@ -24,7 +26,7 @@ data class AmberAccount(val publicKey: String, val packageName: String) {
             val text = value.concatToString()
             if (!text.startsWith(PREFIX)) return null
             val parts = text.removePrefix(PREFIX).split('|', limit = 2)
-            require(parts.size == 2) { "Configuration Amber invalide." }
+            require(parts.size == 2) { tr("Configuration Amber invalide.") }
             return create(parts[0], parts[1])
         }
     }
@@ -52,11 +54,11 @@ class AmberSigner(
             val uri = Uri.parse("content://${account.packageName}.$operation")
             resolver.query(uri, arguments, null, null, null)?.use {
                 // A remembered refusal must never be bypassed by opening the signer.
-                check(it.getColumnIndex("rejected") < 0) { "Opération refusée dans Amber. Vous pouvez modifier cette autorisation dans Amber." }
-                check(it.moveToFirst()) { "Réponse vide d’Amber." }
+                check(it.getColumnIndex("rejected") < 0) { tr("Opération refusée dans Amber. Vous pouvez modifier cette autorisation dans Amber.") }
+                check(it.moveToFirst()) { tr("Réponse vide d’Amber.") }
                 val index = it.getColumnIndex(resultColumn)
-                check(index >= 0) { "Réponse Amber incomplète." }
-                it.getString(index) ?: error("Réponse Amber vide.")
+                check(index >= 0) { tr("Réponse Amber incomplète.") }
+                it.getString(index) ?: error(tr("Réponse Amber vide."))
             }
         }
         if (cached != null) return cached

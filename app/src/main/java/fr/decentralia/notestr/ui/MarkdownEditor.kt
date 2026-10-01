@@ -1,8 +1,13 @@
 package fr.decentralia.notestr.ui
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
 import android.content.Context
 import android.graphics.Rect
 import android.view.ActionMode
@@ -65,12 +70,14 @@ internal class EditorWebView(context: Context) : WebView(context) {
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modifier = Modifier) {
+fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modifier = Modifier,
+                   onOpenLink: ((String) -> Unit)? = null) {
     var visual by remember { mutableStateOf(true) }
     var webView by remember { mutableStateOf<WebView?>(null) }
     var revision by remember { mutableStateOf(0) }
     var loadedRevision by remember { mutableStateOf(-1) }
     var error by remember { mutableStateOf<String?>(null) }
+    val currentOnOpenLink by rememberUpdatedState(onOpenLink)
     val currentMarkdown by rememberUpdatedState(markdown)
     val currentOnChange by rememberUpdatedState(onChange)
 
@@ -80,7 +87,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                 loadedRevision = -1
                 error = null
                 visual = true
-            }, enabled = !visual) { Text("Visuel") }
+            }, enabled = !visual) { Text(tr("Visuel")) }
             TextButton(onClick = {
                 val active = webView
                 // Never replace the source with an empty/uninitialized editor snapshot.
@@ -121,6 +128,15 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         currentOnChange(message.getString("markdown"))
                                     }
                                     if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "openLink" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        val url = message.optString("url")
+                                        if (browserIntent(url) != null) {
+                                            currentOnChange(message.getString("markdown"))
+                                            currentOnOpenLink?.invoke(url) ?: openBrowser(context, url)
+                                        }
+                                    }
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
                                         message.optString("type") == "copyCode" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
                                         val id = message.optInt("id", -1)
@@ -137,7 +153,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                     request.url.toString() != EDITOR_URL
 
                                 override fun onReceivedError(view: WebView, request: WebResourceRequest, failure: WebResourceError) {
-                                    if (request.isForMainFrame && webView === owner) error = "La page de l’éditeur n’a pas pu être chargée."
+                                    if (request.isForMainFrame && webView === owner) error = tr("La page de l’éditeur n’a pas pu être chargée.")
                                 }
 
                                 override fun onPageFinished(view: WebView, url: String) {
@@ -147,11 +163,12 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                     loadedRevision = -1
                                     // Page completion drives initialization; no one-shot JS 'ready' message is required.
                                     val source = JSONObject.quote(currentMarkdown)
+                                    val editorLanguage = JSONObject.quote(fr.decentralia.notestr.i18n.Strings.language)
                                     view.evaluateJavascript("""
                                         (function() {
                                             try {
                                                 if (!window.notesEditor) throw new Error(window.notesEditorFailure || 'Le moteur visuel ne s’est pas initialisé');
-                                                window.notesEditor.setDocument($source, $expected);
+                                                window.notesEditor.setDocument($source, $expected, $editorLanguage);
                                                 return {ok:true};
                                             } catch (e) { return {ok:false,error:String(e.message || e)}; }
                                         })()
@@ -161,7 +178,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                             if (status?.optBoolean("ok") == true) {
                                                 loadedRevision = expected
                                                 error = null
-                                            } else error = status?.optString("error") ?: "Le moteur visuel n’a pas répondu."
+                                            } else error = status?.optString("error") ?: tr("Le moteur visuel n’a pas répondu.")
                                         }
                                     }
                                 }
@@ -181,21 +198,21 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                 if (loadedRevision < 0 && error == null) CircularProgressIndicator(Modifier.align(Alignment.Center))
                 error?.let { detail ->
                     Column(Modifier.align(Alignment.Center)) {
-                        Text("Impossible d’afficher le mode Visuel. Votre Markdown est conservé.")
+                        Text(tr("Impossible d’afficher le mode Visuel. Votre Markdown est conservé."))
                         Text(detail)
                         Text("WebView : ${WebView.getCurrentWebViewPackage()?.versionName ?: "inconnue"}")
                         TextButton(onClick = {
                             error = null
                             loadedRevision = -1
                             webView?.reload()
-                        }) { Text("Réessayer") }
+                        }) { Text(tr("Réessayer")) }
                     }
                 }
             }
             LaunchedEffect(webView, visual, error) {
                 if (webView != null && visual && error == null) {
                     delay(15000)
-                    if (loadedRevision < 0) error = "Le chargement de l’éditeur a dépassé 15 secondes."
+                    if (loadedRevision < 0) error = tr("Le chargement de l’éditeur a dépassé 15 secondes.")
                 }
             }
         } else {
@@ -205,3 +222,18 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
 }
 
 private const val EDITOR_URL = "file:///android_asset/editor/index.html"
+
+internal fun browserIntent(url: String): Intent? {
+    if (url.any { it.isWhitespace() || it.code < 32 } || '\\' in url) return null
+    val uri = Uri.parse(url)
+    if (uri.scheme?.lowercase() !in setOf("http", "https") || uri.host.isNullOrBlank()) return null
+    return Intent(Intent.ACTION_VIEW, uri).addCategory(Intent.CATEGORY_BROWSABLE)
+}
+
+internal fun openBrowser(context: Context, url: String) {
+    val intent = browserIntent(url) ?: return
+    try { context.startActivity(intent) }
+    catch (_: android.content.ActivityNotFoundException) {
+        Toast.makeText(context, tr("Aucun navigateur disponible pour ouvrir ce lien."), Toast.LENGTH_LONG).show()
+    }
+}

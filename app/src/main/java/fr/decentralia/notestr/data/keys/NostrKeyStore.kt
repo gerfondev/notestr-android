@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.data.keys
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -23,28 +25,28 @@ class NostrKeyStore(private val context: Context) {
     fun isConfigured(): Boolean = prefs.contains(KEY_PAYLOAD)
 
     fun create(password: CharArray, credential: CharArray) {
-        require(password.size >= 8) { "Le mot de passe doit contenir au moins 8 caractères." }
-        require(credential.isNotEmpty()) { "L’identifiant de connexion est obligatoire." }
+        require(password.size >= 8) { tr("Le mot de passe doit contenir au moins 8 caractères.") }
+        require(credential.isNotEmpty()) { tr("L’identifiant de connexion est obligatoire.") }
         val salt = ByteArray(16).also(random::nextBytes)
         val passwordKey = derive(password, salt)
         try {
             val inner = encrypt(passwordKey, credential.concatToString().toByteArray(Charsets.UTF_8))
             val outer = encrypt(androidKey(), inner)
-            check(prefs.edit().putString(KEY_SALT, salt.b64()).putString(KEY_PAYLOAD, outer.b64()).commit()) { "Enregistrement du coffre impossible." }
+            check(prefs.edit().putString(KEY_SALT, salt.b64()).putString(KEY_PAYLOAD, outer.b64()).commit()) { tr("Enregistrement du coffre impossible.") }
             BiometricVault(context).disable()
         } finally { passwordKey.fill(0) }
     }
 
     fun unlock(password: CharArray): CharArray {
-        val salt = prefs.getString(KEY_SALT, null)?.b64Bytes() ?: error("Coffre non configuré")
-        val payload = prefs.getString(KEY_PAYLOAD, null)?.b64Bytes() ?: error("Coffre non configuré")
+        val salt = prefs.getString(KEY_SALT, null)?.b64Bytes() ?: error(tr("Coffre non configuré"))
+        val payload = prefs.getString(KEY_PAYLOAD, null)?.b64Bytes() ?: error(tr("Coffre non configuré"))
         val passwordKey = derive(password, salt)
         return try {
             val inner = decrypt(androidKey(), payload)
             val clear = decrypt(passwordKey, inner)
             clear.toString(Charsets.UTF_8).toCharArray().also { clear.fill(0) }
         } catch (_: Exception) {
-            throw IllegalArgumentException("Mot de passe incorrect")
+            throw IllegalArgumentException(tr("Mot de passe incorrect"))
         } finally { passwordKey.fill(0) }
     }
 
@@ -80,7 +82,7 @@ class NostrKeyStore(private val context: Context) {
         // Le fournisseur génère ici un IV aléatoire, que nous préfixons au ciphertext.
         cipher.init(Cipher.ENCRYPT_MODE, key)
         val encrypted = cipher.doFinal(clear)
-        val iv = cipher.iv ?: error("Android Keystore n'a pas généré d'IV")
+        val iv = cipher.iv ?: error(tr("Android Keystore n'a pas généré d'IV"))
         return ByteBuffer.allocate(1 + iv.size + encrypted.size)
             .put(iv.size.toByte()).put(iv).put(encrypted).array()
     }

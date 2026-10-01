@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.ui
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.app.Application
 import android.app.Activity
 import android.content.Intent
@@ -37,6 +39,7 @@ data class UiState(
     val screen: Screen,
     val notes: List<Note> = emptyList(),
     val busy: Boolean = false,
+    val refreshing: Boolean = false,
     val message: String? = null,
     val relays: List<String> = listOf(AppPreferences.DEFAULT_RELAY),
     val publicKey: String = "",
@@ -51,6 +54,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     private var session = 0L
     private var task: Job? = null
     private val prefs = AppPreferences(application)
+    init { fr.decentralia.notestr.i18n.Strings.select(prefs.language) }
     private val cache = EventCache(application)
     private var credential: CharArray? = null
     private var repository: NostrRepository? = null
@@ -61,7 +65,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         private set
 
     internal suspend fun authorizeAmber(intent: Intent, column: String): String {
-        check(amberRequest == null) { "Une demande Amber est déjà en cours." }
+        check(amberRequest == null) { tr("Une demande Amber est déjà en cours.") }
         val request = AmberRequest(intent, column, CompletableDeferred())
         amberRequest = request
         beginAmberAuthorization()
@@ -77,23 +81,23 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     fun completeAmber(resultCode: Int, data: Intent?) {
         val request = amberRequest ?: return
         val result = runCatching {
-            check(resultCode == Activity.RESULT_OK) { "Opération Amber annulée ou interrompue. Votre note reste dans l’éditeur." }
-            check(data?.getBooleanExtra("rejected", false) != true) { "Opération refusée dans Amber." }
+            check(resultCode == Activity.RESULT_OK) { tr("Opération Amber annulée ou interrompue. Votre note reste dans l’éditeur.") }
+            check(data?.getBooleanExtra("rejected", false) != true) { tr("Opération refusée dans Amber.") }
             data?.getStringExtra(request.column)?.takeIf { it.isNotEmpty() }
-                ?: error("Réponse Amber incomplète.")
+                ?: error(tr("Réponse Amber incomplète."))
         }
         result.fold(request.result::complete, request.result::completeExceptionally)
     }
 
     fun failAmberLaunch() {
-        amberRequest?.result?.completeExceptionally(IllegalStateException("Impossible d’ouvrir Amber. Vérifiez que l’application est installée."))
+        amberRequest?.result?.completeExceptionally(IllegalStateException(tr("Impossible d’ouvrir Amber. Vérifiez que l’application est installée.")))
     }
 
     var state by mutableStateOf(UiState(if (vault.isConfigured()) Screen.Locked else Screen.Setup, relays = prefs.relays, biometricEnabled = biometric.isEnabled()))
         private set
 
     fun setup(password: String, confirmation: String, privateKey: String, relayText: String) {
-        if (password != confirmation) return fail("Les mots de passe ne correspondent pas.")
+        if (password != confirmation) return fail(tr("Les mots de passe ne correspondent pas."))
         runCatching {
             val relays = parseRelays(relayText)
             val key = privateKey.trim().toCharArray()
@@ -102,11 +106,11 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
             prefs.relays = relays
             openSession(key.copyOf(), relays)
             key.fill('\u0000')
-        }.onFailure { fail(it.message ?: "Configuration impossible.") }
+        }.onFailure { fail(it.message ?: tr("Configuration impossible.")) }
     }
 
     fun setupAmber(password: String, confirmation: String, publicKey: String, packageName: String, relayText: String) {
-        if (password != confirmation) return fail("Les mots de passe ne correspondent pas.")
+        if (password != confirmation) return fail(tr("Les mots de passe ne correspondent pas."))
         runCatching {
             val relays = parseRelays(relayText)
             val account = AmberAccount.create(publicKey, packageName)
@@ -115,14 +119,14 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
             prefs.relays = relays
             openSession(stored.copyOf(), relays)
             stored.fill('\u0000')
-        }.onFailure { fail(it.message ?: "Connexion à Amber impossible.") }
+        }.onFailure { fail(it.message ?: tr("Connexion à Amber impossible.")) }
     }
 
     fun unlock(password: String) {
         runCatching {
             val key = vault.unlock(password.toCharArray())
             openSession(key, prefs.relays)
-        }.onFailure { fail(it.message ?: "Déverrouillage impossible.") }
+        }.onFailure { fail(it.message ?: tr("Déverrouillage impossible.")) }
     }
 
     private fun openSession(key: CharArray, relays: List<String>) {
@@ -134,7 +138,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         } else {
             RustNostrRepository(key.copyOf(), relays, cache)
         }
-        state = state.copy(screen = Screen.Notes, busy = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
+        state = state.copy(screen = Screen.Notes, notes = emptyList(), busy = false, refreshing = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
         refresh()
     }
 
@@ -150,69 +154,84 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
 
     fun refresh() = runTask {
         val expected = session
-        val notes = repository?.refresh()?.getOrThrow() ?: error("Application verrouillée")
-        if (expected != session) return@runTask
-        state = state.copy(notes = notes, message = if (notes.isEmpty()) "Aucune note trouvée." else null)
+        val active = repository ?: error(tr("Application verrouillée"))
+        state = state.copy(refreshing = true)
+        try {
+            val cached = active.cached().getOrThrow()
+            if (expected != session) return@runTask
+            if (cached.isNotEmpty()) state = state.copy(notes = cached)
+            val notes = active.refresh().getOrThrow()
+            if (expected != session) return@runTask
+            state = state.copy(notes = notes, message = if (notes.isEmpty()) tr("Aucune note trouvée.") else null)
+        } finally {
+            if (expected == session) state = state.copy(refreshing = false)
+        }
     }
 
     fun edit(note: Note? = null) { state = state.copy(screen = Screen.Editor(note), message = null) }
+    fun selectLanguage(language: String) {
+        prefs.language = language
+        fr.decentralia.notestr.i18n.Strings.select(prefs.language)
+        state = state.copy(message = null)
+    }
+
     fun settings() { state = state.copy(screen = Screen.Settings, message = null) }
     fun backToNotes() { state = state.copy(screen = Screen.Notes, message = null) }
 
     fun save(markdown: String, note: Note?) = runTask {
         val expected = session
-        val publication = repository?.publish(markdown, note)?.getOrThrow() ?: error("Application verrouillée")
+        val publication = repository?.publish(markdown, note)?.getOrThrow() ?: error(tr("Application verrouillée"))
         val saved = publication.note
         if (expected != session) return@runTask
         state = state.copy(
             screen = Screen.Notes,
             notes = (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedWith(noteOrder),
-            message = publication.warning ?: "Note publiée."
+            message = publication.warning ?: tr("Note publiée.")
         )
     }
 
     fun restorePrevious(note: Note, loaded: (String) -> Unit) = runTask {
         val expected = session
         val result = repository?.previous(note)?.getOrThrow() ?: run {
-            if (expected == session) fail("Aucune version précédente disponible pour cette note.")
+            if (expected == session) fail(tr("Aucune version précédente disponible pour cette note."))
             return@runTask
         }
         if (expected != session || state.screen != Screen.Editor(note)) return@runTask
         loaded(result)
-        state = state.copy(message = "Version précédente chargée. Vérifiez puis appuyez sur Publier pour la restaurer.")
+        state = state.copy(message = tr("Version précédente chargée. Vérifiez puis appuyez sur Publier pour la restaurer."))
     }
 
     fun togglePinned(note: Note) = runTask {
         val expected = session
-        val result = repository?.setPinned(note, !note.pinned)?.getOrThrow() ?: error("Application verrouillée")
+        val result = repository?.setPinned(note, !note.pinned)?.getOrThrow() ?: error(tr("Application verrouillée"))
         if (expected != session) return@runTask
         state = state.copy(
             notes = state.notes.map { if (it.identifier == note.identifier) result.note else it }.sortedWith(noteOrder),
-            message = result.warning ?: if (result.note.pinned) "Note épinglée." else "Note désépinglée."
+            message = result.warning ?: if (result.note.pinned) tr("Note épinglée.") else tr("Note désépinglée.")
         )
     }
 
     fun delete(note: Note) = runTask {
         val expected = session
-        repository?.delete(note)?.getOrThrow() ?: error("Application verrouillée")
+        repository?.delete(note)?.getOrThrow() ?: error(tr("Application verrouillée"))
         if (expected != session) return@runTask
-        state = state.copy(screen = Screen.Notes, notes = state.notes.filterNot { it.identifier == note.identifier }, message = "Suppression publiée.")
+        state = state.copy(screen = Screen.Notes, notes = state.notes.filterNot { it.identifier == note.identifier }, message = tr("Suppression publiée."))
     }
 
     fun saveSettings(relayText: String) {
         runCatching {
             val relays = parseRelays(relayText)
             prefs.relays = relays
-            val key = credential?.copyOf() ?: error("Application verrouillée")
+            val key = credential?.copyOf() ?: error(tr("Application verrouillée"))
             openSession(key, relays)
-        }.onFailure { fail(it.message ?: "Relais invalides.") }
+        }.onFailure { fail(it.message ?: tr("Relais invalides.")) }
     }
 
     fun changePassword(old: String, new: String, confirmation: String) {
-        if (new != confirmation) return fail("Les nouveaux mots de passe ne correspondent pas.")
+        if (new != confirmation) return fail(tr("Les nouveaux mots de passe ne correspondent pas."))
         runCatching { vault.changePassword(old.toCharArray(), new.toCharArray()) }
-            .onSuccess { state = state.copy(message = "Mot de passe modifié. Vous pouvez réactiver la biométrie dans les réglages.", biometricEnabled = false) }
-            .onFailure { fail(it.message ?: "Modification impossible.") }
+            .onSuccess { state = state.copy(message = tr("Mot de passe modifié. Vous pouvez réactiver la biométrie dans les réglages."), biometricEnabled = false) }
+            .onFailure { fail(it.message ?: tr("Modification impossible.")) }
     }
 
     fun resetConnection() {
@@ -227,8 +246,8 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
 
     private fun parseRelays(text: String): List<String> {
         val values = text.lineSequence().map(String::trim).filter(String::isNotEmpty).distinct().toList()
-        require(values.isNotEmpty()) { "Ajoutez au moins un relais." }
-        require(values.all { it.startsWith("wss://") }) { "Chaque relais doit commencer par wss://" }
+        require(values.isNotEmpty()) { tr("Ajoutez au moins un relais.") }
+        require(values.all { it.startsWith("wss://") }) { tr("Chaque relais doit commencer par wss://") }
         return values
     }
 
@@ -239,7 +258,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         task = viewModelScope.launch {
             try { block() }
             catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) { if (session == expectedSession) fail(error.message ?: "Une erreur est survenue.") }
+            catch (error: Exception) { if (session == expectedSession) fail(error.message ?: tr("Une erreur est survenue.")) }
             finally { if (session == expectedSession) state = state.copy(busy = false) }
         }
     }
@@ -247,8 +266,8 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     fun prepareBiometric(enroll: Boolean): Cipher? {
         if (biometricRequest != null) return null
         return runCatching {
-        if (enroll) check(state.screen == Screen.Settings && credential != null) { "Déverrouillez d’abord Notestr avec votre mot de passe." }
-        else check(state.screen == Screen.Locked) { "Notestr est déjà déverrouillé." }
+        if (enroll) check(state.screen == Screen.Settings && credential != null) { tr("Déverrouillez d’abord Notestr avec votre mot de passe.") }
+        else check(state.screen == Screen.Locked) { tr("Notestr est déjà déverrouillé.") }
         val cipher = if (enroll) biometric.prepareEnrollment() else biometric.prepareUnlock()
         biometricRequest = BiometricRequest(enroll, cipher, session)
         cipher
@@ -258,7 +277,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
             biometric.disable()
             state = state.copy(biometricEnabled = false)
         }
-        fail("${it.message ?: "Biométrie indisponible."} Utilisez le mot de passe ; vous pourrez réactiver la biométrie dans les réglages.")
+        fail((it.message ?: tr("Biométrie indisponible.")) + tr(" Utilisez le mot de passe ; vous pourrez réactiver la biométrie dans les réglages."))
         null
         }
     }
@@ -270,13 +289,13 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         runCatching {
             if (request.enroll) {
                 check(state.screen == Screen.Settings)
-                biometric.enable(request.cipher, credential ?: error("Application verrouillée"))
-                state = state.copy(biometricEnabled = true, message = "Déverrouillage biométrique activé.")
+                biometric.enable(request.cipher, credential ?: error(tr("Application verrouillée")))
+                state = state.copy(biometricEnabled = true, message = tr("Déverrouillage biométrique activé."))
             } else {
                 check(state.screen == Screen.Locked)
                 openSession(biometric.unlock(request.cipher), prefs.relays)
             }
-        }.onFailure { fail("Authentification biométrique impossible. Utilisez votre mot de passe.") }
+        }.onFailure { fail(tr("Authentification biométrique impossible. Utilisez votre mot de passe.")) }
     }
 
     fun cancelBiometric(message: String? = null) {
@@ -287,7 +306,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     fun disableBiometric() {
         biometricRequest = null
         biometric.disable()
-        state = state.copy(biometricEnabled = false, message = "Déverrouillage biométrique désactivé.")
+        state = state.copy(biometricEnabled = false, message = tr("Déverrouillage biométrique désactivé."))
     }
 
     private fun fail(message: String) { state = state.copy(message = message, busy = false) }

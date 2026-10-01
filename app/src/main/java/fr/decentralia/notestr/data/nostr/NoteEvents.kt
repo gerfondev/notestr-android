@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
+import fr.decentralia.notestr.i18n.tr
+
 import java.security.MessageDigest
 import org.nostrdevkit.sdk.Event
 import org.nostrdevkit.sdk.EventBuilder
@@ -62,7 +64,7 @@ internal object NoteEvents {
 
     fun updateTime(previous: Event?, backup: Event?, now: Timestamp = Timestamp.now()): Timestamp {
         require(listOfNotNull(previous, backup).all { it.createdAt().asSecs() < now.asSecs() }) {
-            "Attendre la seconde suivante avant de republier cette note ; vérifier l’horloge si nécessaire."
+            tr("Attendre la seconde suivante avant de republier cette note ; vérifier l’horloge si nécessaire.")
         }
         return now
     }

@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-01T20:18:50.494059+00:00",
+  "versionName": "3.7",
+  "versionCode": 26,
+  "sha256": "df7f1d512b46e4bfbc44977ac47901c877f21c511d8986ad7149f088d8ecca1d",
+  "signatureV2": true,
+  "certificateUnchanged": true,
+  "debuggable": false,
+  "alignment16KiB": true,
+  "nativeLibrariesMatchReviewedAars": true,
+  "jvmTests": 14,
+  "instrumentedTests": 28,
+  "decompressedEntriesScanned": 490,
+  "targetedPrivacyFindings": [],
+  "privacyScope": "Targeted owner paths, tokens and private PEM keys; not exhaustive."
+}

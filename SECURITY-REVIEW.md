@@ -1,3 +1,15 @@
+# Version 3.7 — contrôle du 1er octobre 2026
+
+Publication Android 3.7 explicitement autorisée par l’utilisateur, versionCode 26. Cache avant synchronisation, liens externes corrigés, version et choix français/anglais dans les paramètres.
+
+699 coordonnées OSV et métadonnées officielles Maven/Cargo/npm/PyPI recontrôlées sans alerte retournée ni erreur finale de récupération. Les dépendances restent identiques au candidat local validé ; le SDK Rust corrigé, JNA nettoyé et DOMPurify 3.4.16 sont conservés. Exceptions de compatibilité précédemment documentées maintenues ; TOAST UI archivé. Aucun nouveau binaire Rust compilé. Le WebView Android est fourni et mis à jour par le système.
+
+14 tests JVM et 28 tests instrumentés sur l’APK final réussis. APK non débogable, signature v2 et certificat inchangés, alignement 16 Ko ; bibliothèques natives identiques aux AAR contrôlés. 490 entrées APK inspectées, sans marqueur personnel ciblé détecté. Sources, ressources, images et blobs Git contrôlés ; deux anciens commits Android contiennent des métadonnées d’auteur personnelles déjà publiques. Historique conservé, nouveaux commits et tags avec identité neutre du projet. Aucun compte personnel ou journal brut distribué. Les contrôles sont ciblés et ne garantissent pas l’absence de données inconnues ou encodées.
+
+Voir `security/release-3.7-android.json`, `security/release-3.7-dependencies-2026-10-01.json` et `security/release-3.7-source-history-privacy.json` pour les versions, dates, empreintes et limites. La mise à jour Linux est contrôlée séparément : la réserve WebKit WSA-2026-0006 ne concerne pas le moteur système Android.
+
+---
+
 # Version 3.6 — contrôle du 27 septembre 2026
 
 Publication GitHub des versions Android et Linux 3.6 explicitement autorisée par l’utilisateur. Android versionCode 22. Numéros publics alignés, historiques conservés.

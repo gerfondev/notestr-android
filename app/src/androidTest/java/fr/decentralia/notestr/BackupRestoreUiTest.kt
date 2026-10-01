@@ -27,6 +27,34 @@ class BackupRestoreUiTest {
         override suspend fun setPinned(note: Note, pinned: Boolean) = Result.success(Publication(note.copy(pinned = pinned)))
         override suspend fun delete(note: Note) = Result.success(Unit)
     }
+    @Test fun cachedNoteCanBeOpenedBeforeNetworkFinishesAndDraftSurvivesRefresh() {
+        val network = kotlinx.coroutines.CompletableDeferred<Unit>()
+        val repo = object : NostrRepository by FakeRepository() {
+            override suspend fun cached() = Result.success(listOf(note))
+            override suspend fun refresh(): Result<List<Note>> {
+                network.await()
+                return Result.success(listOf(note.copy(markdown = "Version distante")))
+            }
+        }
+        lateinit var vm: NotestrViewModel
+        compose.runOnIdle {
+            vm = ViewModelProvider(compose.activity)[NotestrViewModel::class.java]
+            NotestrViewModel::class.java.getDeclaredField("repository").apply { isAccessible = true }.set(vm, repo)
+            vm.backToNotes()
+            vm.refresh()
+        }
+        compose.onNodeWithText("Version actuelle").performClick()
+        compose.onNodeWithText("Markdown", substring = false).performClick()
+        compose.onNode(hasSetTextAction()).performTextReplacement("Brouillon conservé")
+        compose.runOnIdle {
+            assertTrue(vm.state.refreshing)
+            network.complete(Unit)
+        }
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.onNode(hasSetTextAction()).assertTextContains("Brouillon conservé")
+        compose.runOnIdle { assertEquals("Version distante", vm.state.notes.single().markdown) }
+    }
+
     @Test fun restoreRequiresConfirmationAndExplicitPublishAndPreservesOriginalIdentity() {
         val repo = FakeRepository()
         compose.runOnIdle {

@@ -1,5 +1,7 @@
 package fr.decentralia.notestr
 
+import fr.decentralia.notestr.i18n.tr
+
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.FragmentActivity
@@ -25,7 +27,7 @@ class MainActivity : FragmentActivity() {
             }
             override fun onAuthenticationError(code: Int, message: CharSequence) {
                 val cancelled = code == BiometricPrompt.ERROR_NEGATIVE_BUTTON || code == BiometricPrompt.ERROR_USER_CANCELED || code == BiometricPrompt.ERROR_CANCELED
-                viewModel.cancelBiometric(if (cancelled) null else "$message Vous pouvez utiliser votre mot de passe.")
+                viewModel.cancelBiometric(if (cancelled) null else message.toString() + tr(" Vous pouvez utiliser votre mot de passe."))
             }
         })
         setContent {
@@ -38,18 +40,18 @@ class MainActivity : FragmentActivity() {
     private fun authenticateBiometric(enroll: Boolean) {
         val available = BiometricManager.from(this).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
         if (available != BiometricManager.BIOMETRIC_SUCCESS) {
-            viewModel.reportError("Aucune biométrie forte disponible. Configurez une empreinte ou un visage compatible dans les réglages du téléphone, ou utilisez votre mot de passe.")
+            viewModel.reportError(tr("Aucune biométrie forte disponible. Configurez une empreinte ou un visage compatible dans les réglages du téléphone, ou utilisez votre mot de passe."))
             return
         }
         val cipher = viewModel.prepareBiometric(enroll) ?: return
         val info = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(if (enroll) "Activer la biométrie" else "Déverrouiller Notestr")
-            .setSubtitle(if (enroll) "Protéger l’accès à votre coffre" else "Accéder à vos notes privées")
+            .setTitle(if (enroll) tr("Activer la biométrie") else tr("Déverrouiller Notestr"))
+            .setSubtitle(if (enroll) tr("Protéger l’accès à votre coffre") else tr("Accéder à vos notes privées"))
             .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setNegativeButtonText(if (enroll) "Annuler" else "Utiliser le mot de passe")
+            .setNegativeButtonText(if (enroll) tr("Annuler") else tr("Utiliser le mot de passe"))
             .build()
         runCatching { biometricPrompt.authenticate(info, BiometricPrompt.CryptoObject(cipher)) }
-            .onFailure { viewModel.cancelBiometric("Impossible de démarrer la biométrie. Utilisez votre mot de passe.") }
+            .onFailure { viewModel.cancelBiometric(tr("Impossible de démarrer la biométrie. Utilisez votre mot de passe.")) }
     }
 
     override fun onStop() {

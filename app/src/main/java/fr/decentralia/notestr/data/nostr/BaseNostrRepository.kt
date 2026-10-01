@@ -1,5 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
+import fr.decentralia.notestr.i18n.tr
+
 import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.explicitLineBreaks
 import fr.decentralia.notestr.domain.publicationTitle
@@ -30,6 +32,13 @@ abstract class BaseNostrRepository(
     private val client = Client()
     private var connected = false
     private var events: List<Event> = emptyList()
+    private var cacheLoaded = false
+    // Session-only plaintext: cleared on lock, never written to disk.
+    private val decrypted = mutableMapOf<String, String>()
+    private suspend fun plaintext(event: Event): String {
+        val id = event.id().toHex()
+        return decrypted[id] ?: decrypt(event.content()).also { decrypted[id] = it }
+    }
 
     protected abstract suspend fun sign(builder: EventBuilder): Event
     protected abstract suspend fun encrypt(markdown: String): String
@@ -42,12 +51,24 @@ abstract class BaseNostrRepository(
     }, publicKey)
 
     private fun merge(incoming: List<Event>) {
-        events = NoteEvents.compact(NoteEvents.verified(events + loadCache() + incoming, publicKey))
+        if (!cacheLoaded) {
+            events = NoteEvents.compact(events + loadCache())
+            cacheLoaded = true
+        }
+        events = NoteEvents.compact(events + NoteEvents.verified(incoming, publicKey))
+        val retained = events.map { it.id().toHex() }.toSet()
+        decrypted.keys.retainAll(retained)
     }
 
     private fun persist() = cache.save(events.map(Event::asJson))
 
+    override suspend fun cached(): Result<List<Note>> = operation {
+        merge(emptyList())
+        notes()
+    }
+
     override suspend fun refresh(): Result<List<Note>> = operation {
+        cacheLoaded = false
         merge(emptyList())
         // Fetch separately so backups cannot displace notes/deletions in a shared limit.
         for (kind in listOf(NoteEvents.NOTE, NoteEvents.DELETE, NoteEvents.BACKUP)) {
@@ -60,8 +81,18 @@ abstract class BaseNostrRepository(
             catch (_: Exception) { /* Keep encrypted local data on a relay failure. */ }
         }
         persist()
-        NoteEvents.latest(events, NoteEvents.NOTE, publicKey).mapNotNull { event ->
-            try { event.toNote(decrypt(event.content())).copy(pinned = pinned(NoteEvents.identifier(event)!!)) }
+        notes()
+    }
+
+    private suspend fun notes(): List<Note> {
+        val pins = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .associateBy { NoteEvents.identifier(it) }
+        return NoteEvents.latest(events, NoteEvents.NOTE, publicKey).mapNotNull { event ->
+            try {
+                val pin = pins[NoteEvents.pinAddress(NoteEvents.identifier(event)!!)]
+                val pinned = pin?.let { pinValue(it) } ?: false
+                event.toNote(plaintext(event)).copy(pinned = pinned)
+            }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
                 if (requiresInteractiveDecryption) throw error
@@ -80,17 +111,17 @@ abstract class BaseNostrRepository(
     }
 
     override suspend fun publish(markdown: String, previous: Note?): Result<Publication> = operation {
-        require(markdown.isNotBlank()) { "La note est vide." }
+        require(markdown.isNotBlank()) { tr("La note est vide.") }
         merge(emptyList())
         val old = previous?.let { note ->
             val event = Event.fromJson(note.eventJson)
             require(NoteEvents.verified(listOf(event), publicKey).size == 1 &&
                 event.kind().asU16() == NoteEvents.NOTE && NoteEvents.identifier(event) == note.identifier &&
-                event.id().toHex() == note.eventId) { "La version précédente est invalide." }
+                event.id().toHex() == note.eventId) { tr("La version précédente est invalide.") }
             val latest = NoteEvents.latest(events, NoteEvents.NOTE, publicKey)
                 .firstOrNull { NoteEvents.identifier(it) == note.identifier }
             require(latest == null || latest.id() == event.id()) {
-                "La note a changé. Actualisez et ouvrez sa dernière version."
+                tr("La note a changé. Actualisez et ouvrez sa dernière version.")
             }
             event
         }
@@ -100,7 +131,7 @@ abstract class BaseNostrRepository(
         val timestamp = NoteEvents.updateTime(old, existingBackup)
         val normalized = explicitLineBreaks(publicationTitle(markdown))
         require(normalized.toByteArray(Charsets.UTF_8).size in 1..65535) {
-            "Le Markdown doit contenir entre 1 et 65 535 octets UTF-8 (NIP-44 v2)."
+            tr("Le Markdown doit contenir entre 1 et 65 535 octets UTF-8 (NIP-44 v2).")
         }
         val update = sign(EventBuilder(Kind(NoteEvents.NOTE), encrypt(normalized))
             .tags(listOf(Tag.identifier(identifier))).customCreatedAt(timestamp))
@@ -111,15 +142,13 @@ abstract class BaseNostrRepository(
             saveBackup = { event -> merge(listOf(event)); persist() })
         merge(listOf(update))
         val warning = try { persist(); null } catch (_: Exception) {
-            "Note publiée, mais écriture du cache local impossible. Actualisez avant de fermer l’application."
+            tr("Note publiée, mais écriture du cache local impossible. Actualisez avant de fermer l’application.")
         }
         Publication(update.toNote(normalized).copy(pinned = previous?.pinned ?: false), warning)
     }
 
-    private suspend fun pinned(identifier: String): Boolean {
-        val event = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
-            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.pinAddress(identifier) } ?: return false
-        val value = try { decrypt(event.content()) }
+    private suspend fun pinValue(event: Event): Boolean {
+        val value = try { plaintext(event) }
         catch (cancelled: CancellationException) { throw cancelled }
         catch (error: Exception) { if (requiresInteractiveDecryption) throw error else return false }
         return value == "true"
@@ -135,11 +164,11 @@ abstract class BaseNostrRepository(
             .tags(listOf(Tag.identifier(address))).customCreatedAt(timestamp))
         connect()
         check(client.sendEvent(event, ackPolicy = AckPolicy.all()).success.isNotEmpty()) {
-            "Aucun relais n’a accepté l’épinglage. Réessayez après reconnexion."
+            tr("Aucun relais n’a accepté l’épinglage. Réessayez après reconnexion.")
         }
         merge(listOf(event))
         val warning = try { persist(); null } catch (_: Exception) {
-            "Épinglage synchronisé, mais écriture du cache local impossible. Actualisez avant de fermer."
+            tr("Épinglage synchronisé, mais écriture du cache local impossible. Actualisez avant de fermer.")
         }
         Publication(note.copy(pinned = pinned), warning)
     }
@@ -158,7 +187,7 @@ abstract class BaseNostrRepository(
                 Tag.parse(listOf("k", NoteEvents.BACKUP.toString()))
             )).customCreatedAt(Timestamp.fromSecs(timestamp)))
         connect()
-        check(client.sendEvent(deletion, ackPolicy = AckPolicy.all()).success.isNotEmpty()) { "Aucun relais n’a accepté la suppression." }
+        check(client.sendEvent(deletion, ackPolicy = AckPolicy.all()).success.isNotEmpty()) { tr("Aucun relais n’a accepté la suppression.") }
         merge(listOf(deletion))
         persist()
     }
@@ -184,7 +213,7 @@ abstract class BaseNostrRepository(
         catch (cancelled: CancellationException) { throw cancelled }
         catch (error: Exception) { Result.failure(error) }
 
-    override fun close() { events = emptyList(); client.close(); publicKey.close() }
+    override fun close() { decrypted.clear(); cacheLoaded = false; events = emptyList(); client.close(); publicKey.close() }
 }
 
 /** Only send the update to relays that acknowledged the backup, as on Linux. */
@@ -194,9 +223,9 @@ internal suspend fun <E, R> publishInOrder(
 ) {
     val targets = if (backup == null) relays else {
         val accepted = send(backup, relays)
-        check(accepted.isNotEmpty()) { "Aucun relais n’a accepté la sauvegarde. La note n’a pas été modifiée." }
+        check(accepted.isNotEmpty()) { tr("Aucun relais n’a accepté la sauvegarde. La note n’a pas été modifiée.") }
         saveBackup(backup)
         accepted
     }
-    check(send(update, targets).isNotEmpty()) { "Aucun relais n’a accepté la note. Votre texte reste dans l’éditeur." }
+    check(send(update, targets).isNotEmpty()) { tr("Aucun relais n’a accepté la note. Votre texte reste dans l’éditeur.") }
 }

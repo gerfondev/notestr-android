@@ -4,6 +4,9 @@ import android.content.Context
 
 class AppPreferences(context: Context) {
     private val prefs = context.getSharedPreferences("notestr_settings", Context.MODE_PRIVATE)
+    var language: String
+        get() = if (prefs.getString("language", "fr") == "en") "en" else "fr"
+        set(value) { require(value in listOf("fr", "en")); prefs.edit().putString("language", value).apply() }
     var relays: List<String>
         get() = prefs.getString(KEY_RELAYS, DEFAULT_RELAY).orEmpty().lineSequence()
             .map(String::trim).filter(String::isNotEmpty).distinct().toList().ifEmpty { listOf(DEFAULT_RELAY) }
