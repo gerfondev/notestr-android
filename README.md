@@ -1,6 +1,6 @@
 # Notestr Android
 
-Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Interface en français, sauvegarde de la version précédente et actions à icônes.
+Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
