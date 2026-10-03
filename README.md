@@ -6,7 +6,7 @@ Application Android native de notes privées chiffrées sur Nostr, compatible av
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.7**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.7.1**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
@@ -14,7 +14,11 @@ Pour mettre à jour une installation existante, installer cet APK par-dessus san
 
 SHA-256 : `59a54df1a6e04b749824b414a067cc727d4aef99fe661e1f47d3be6940d6308a`.
 
-## Modifications récentes — 3.7
+## Correction — 3.7.1
+
+Le copier-coller dans les champs URL et Texte du lien fonctionne sans modifier le corps de la note. [Notes de version 3.7.1](RELEASE-NOTES-3.7.1.md). VersionCode 28.
+
+## Modifications — 3.7
 
 - Notes en cache affichées avant la synchronisation, puis actualisées depuis les relais.
 - Liens HTTP/HTTPS ouverts dans le navigateur et curseur main avec une souris.
@@ -69,6 +73,7 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
+| **3.7.1** | `v3.7.1` | Correction du copier-coller des liens web. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7.1/Notestr-Android.apk) |
 | **3.7** | `v3.7` | Cache, liens corrigés, version et langues dans les paramètres. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7/Notestr-Android.apk) |
 | **3.6** | `v3.6` | Épinglage chiffré synchronisé avec Linux ; numérotation commune. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.6/Notestr-Android.apk) |
 | 1.2.4 | `v1.2.4` | Logo au lancement et corrections des barres de sélection et de mise en forme. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.4/Notestr-Android.apk) |

@@ -1,3 +1,7 @@
+# 3.7.1 — 3 octobre 2026
+
+Correction du copier-coller des liens web : les champs URL et Texte du lien conservent le collage natif sans insertion intempestive dans la note. Contrôles de sécurité et de confidentialité renouvelés. Voir RELEASE-NOTES-3.7.1.md.
+
 # 3.7
 
 Cache des notes, correction des liens, version dans les paramètres et choix français/anglais. Voir RELEASE-NOTES-3.7.md.

@@ -41,6 +41,31 @@ class MarkdownEditorTest {
         }
     }
 
+    @Test fun nativePasteIntoLinkDialogDoesNotChangeNote() {
+        val source = "# Note fictive\n\nTexte **important**.\n\n- Premier élément\n- Second élément\n"
+        val url = "https://example.org/notes?lang=fr&test=1"
+        render { MaterialTheme { MarkdownEditor(source, {}) } }
+        assertVisual("Note fictive")
+        javascript("document.querySelector('button.link').click(); true")
+        compose.runOnIdle {
+            findWebView(compose.activity.window.decorView)!!.requestFocus()
+            val clipboard = compose.activity.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            clipboard.setPrimaryClip(android.content.ClipData.newPlainText("Synthetic test URL", url))
+        }
+        tapHtml("#toastuiLinkUrlInput")
+        compose.runOnIdle {
+            val web = findWebView(compose.activity.window.decorView)!!
+            val connection = web.onCreateInputConnection(android.view.inputmethod.EditorInfo())
+            assertTrue("Native paste action", connection!!.performContextMenuAction(android.R.id.paste))
+        }
+        compose.waitUntil(10000) {
+            org.json.JSONTokener(javascript("document.querySelector('#toastuiLinkUrlInput').value")).nextValue() == url
+        }
+        org.junit.Assert.assertEquals(JSONObject.quote(source), javascript("window.notesEditor.snapshot()"))
+        javascript("document.querySelector('.toastui-editor-popup .toastui-editor-close-button').click(); true")
+        org.junit.Assert.assertEquals(JSONObject.quote(source), javascript("window.notesEditor.snapshot()"))
+    }
+
     private fun render(content: @Composable () -> Unit) {
         compose.runOnIdle { compose.activity.setContent(content = content) }
     }
