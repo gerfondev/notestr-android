@@ -10,6 +10,11 @@ import fr.decentralia.notestr.domain.model.noteOrder
 import java.security.SecureRandom
 import java.time.Duration
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 import org.nostrdevkit.sdk.AckPolicy
 import org.nostrdevkit.sdk.ReqTarget
 import org.nostrdevkit.sdk.SendEventTarget
@@ -30,6 +35,7 @@ abstract class BaseNostrRepository(
     private val cache: EventCache
 ) : NostrRepository, AutoCloseable {
     private val client = Client()
+    private val operationMutex = Mutex()
     private var connected = false
     private var events: List<Event> = emptyList()
     private var cacheLoaded = false
@@ -39,6 +45,8 @@ abstract class BaseNostrRepository(
         val id = event.id().toHex()
         return decrypted[id] ?: decrypt(event.content()).also { decrypted[id] = it }
     }
+
+    protected open val operationContext: CoroutineContext = EmptyCoroutineContext
 
     protected abstract suspend fun sign(builder: EventBuilder): Event
     protected abstract suspend fun encrypt(markdown: String): String
@@ -64,7 +72,7 @@ abstract class BaseNostrRepository(
 
     override suspend fun cached(): Result<List<Note>> = operation {
         merge(emptyList())
-        notes()
+        withPending(notes())
     }
 
     override suspend fun refresh(): Result<List<Note>> = operation {
@@ -81,7 +89,103 @@ abstract class BaseNostrRepository(
             catch (_: Exception) { /* Keep encrypted local data on a relay failure. */ }
         }
         persist()
-        notes()
+        withPending(notes())
+    }
+
+    private fun pendingEdits(): List<PendingEdit> = cache.pending(publicKeyHex()).map { PendingEdit.parse(it, publicKey) }.also {
+        require(it.map { edit -> edit.identifier }.distinct().size == it.size) { tr("Fichier de modifications locales invalide.") }
+    }
+    private fun savePending(edits: List<PendingEdit>) = cache.savePending(publicKeyHex(), edits.map { it.json() })
+
+    private fun conflict(edit: PendingEdit, current: Note?): Boolean {
+        if (NoteEvents.permanentlyDeleted(events, publicKey, edit.identifier)) return true
+        if (current?.trashed == true) return true
+        if (current?.eventId == edit.update.id().toHex()) return false // acknowledgement lost before local commit
+        return current?.eventId != edit.base?.id()?.toHex()
+    }
+
+    private suspend fun withPending(remote: List<Note>): List<Note> {
+        val result = remote.toMutableList()
+        val stored = pendingEdits()
+        val retained = stored.filterNot { it.sent && NoteEvents.permanentlyDeleted(events, publicKey, it.identifier) }
+        if (retained.size != stored.size) savePending(retained)
+        for (edit in retained) {
+            val current = remote.firstOrNull { it.identifier == edit.identifier }
+            val conflicted = conflict(edit, current)
+            // Keep the last acknowledged local edit for simultaneous-device races.
+            // A remote child based on our event is intentional; a sibling is a conflict.
+            if (edit.sent) {
+                if (!conflicted || current == null || current.trashed) continue
+                val remoteBase = NoteEvents.tags(Event.fromJson(current.eventJson), "notestr-base").firstOrNull()
+                if (remoteBase != null && remoteBase != edit.base?.id()?.toHex().orEmpty()) continue
+            }
+            if (!conflicted) result.removeAll { it.identifier == edit.identifier }
+            result += edit.update.toNote(plaintext(edit.update)).copy(
+                pinned = current?.pinned ?: false, pending = true, conflicted = conflicted)
+        }
+        return result.sortedWith(noteOrder)
+    }
+
+    override suspend fun saveLocal(markdown: String, previous: Note?, asCopy: Boolean): Result<Publication> = operation {
+        require(markdown.isNotBlank()) { tr("La note est vide.") }
+        require(previous?.trashed != true) { tr("Restaurez la note depuis la corbeille avant de la modifier.") }
+        merge(emptyList())
+        val edits = pendingEdits().toMutableList()
+        val existing = previous?.let { n -> edits.firstOrNull { it.identifier == n.identifier } }
+        if (existing != null && !existing.sent) require(previous!!.pending && existing.update.id().toHex() == previous.eventId) {
+            tr("La note a changé. Actualisez et ouvrez sa dernière version.")
+        }
+        // A locally created pending note has no remote base.
+        val actualBase = if (asCopy) null else if (existing != null && previous?.pending == true) existing.base else previous?.let { Event.fromJson(it.eventJson) }
+        actualBase?.let { require(NoteEvents.verified(listOf(it), publicKey).size == 1) }
+        val identifier = if (asCopy) randomIdentifier() else previous?.identifier ?: randomIdentifier()
+        val normalized = explicitLineBreaks(publicationTitle(markdown))
+        require(normalized.toByteArray(Charsets.UTF_8).size in 1..65535) { tr("Le Markdown doit contenir entre 1 et 65 535 octets UTF-8 (NIP-44 v2).") }
+        val created = maxOf(Timestamp.now().asSecs(), (actualBase?.createdAt()?.asSecs() ?: 0uL) + 1uL)
+        val update = sign(EventBuilder(Kind(NoteEvents.NOTE), encrypt(normalized))
+            .tags(listOf(Tag.identifier(identifier), Tag.parse(listOf("notestr-base", actualBase?.id()?.toHex().orEmpty()))))
+            .customCreatedAt(Timestamp.fromSecs(created)))
+        val backup = actualBase?.let { sign(NoteEvents.backupBuilder(it, update)) }
+        val edit = PendingEdit(update, actualBase, backup)
+        if (previous != null) edits.removeAll { it.identifier == previous.identifier }
+        edits += edit
+        savePending(edits) // durable save before any network request or success message
+        val current = notes().firstOrNull { it.identifier == identifier }
+        Publication(update.toNote(normalized).copy(pinned = current?.pinned ?: false, pending = true,
+            conflicted = conflict(edit, current)), tr("Modifications enregistrées sur cet appareil, en attente de synchronisation."))
+    }
+
+    override suspend fun discardPending(note: Note): Result<List<Note>> = operation {
+        val edits = pendingEdits()
+        require(edits.any { it.identifier == note.identifier && it.update.id().toHex() == note.eventId }) {
+            tr("La note a changé. Actualisez et ouvrez sa dernière version.")
+        }
+        savePending(edits.filterNot { it.identifier == note.identifier })
+        withPending(notes())
+    }
+
+    override suspend fun syncPending(): Result<List<Note>> = operation {
+        merge(emptyList())
+        val edits = pendingEdits().toMutableList()
+        if (edits.none { !it.sent }) return@operation withPending(notes())
+        connect()
+        // Every configured relay must finish its snapshot before automatic publication.
+        merge(completeSnapshot(client, relayStrings, publicKey))
+        persist()
+        for (edit in edits.filterNot { it.sent }) {
+            val current = notes().firstOrNull { it.identifier == edit.identifier }
+            if (conflict(edit, current)) continue
+            if (current?.eventId != edit.update.id().toHex()) {
+                publishInOrder(edit.update, edit.backup, relayStrings.map(RelayUrl::parse),
+                    send = { e, targets -> client.sendEvent(e, target = SendEventTarget.to(targets), ackPolicy = AckPolicy.all()).success },
+                    saveBackup = { e -> merge(listOf(e)); persist() })
+                merge(listOf(edit.update))
+                persist() // retain pending entry if local commit fails after relay acceptance
+            }
+            edits[edits.indexOf(edit)] = edit.copy(sent = true)
+            savePending(edits)
+        }
+        withPending(notes())
     }
 
     private suspend fun notes(): List<Note> {
@@ -91,7 +195,10 @@ abstract class BaseNostrRepository(
             try {
                 val pin = pins[NoteEvents.pinAddress(NoteEvents.identifier(event)!!)]
                 val pinned = pin?.let { pinValue(it) } ?: false
-                event.toNote(plaintext(event)).copy(pinned = pinned)
+                val trash = pins[NoteEvents.trashAddress(NoteEvents.identifier(event)!!)]
+                val value = trash?.let { plaintext(it) } ?: "false"
+                require(value == "true" || value == "false") { tr("État de corbeille invalide.") }
+                event.toNote(plaintext(event)).copy(pinned = pinned, trashed = value == "true")
             }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
@@ -114,6 +221,7 @@ abstract class BaseNostrRepository(
         require(markdown.isNotBlank()) { tr("La note est vide.") }
         merge(emptyList())
         val old = previous?.let { note ->
+            require(!note.trashed && !isTrashed(note) && !NoteEvents.permanentlyDeleted(events, publicKey, note.identifier)) { tr("Restaurez la note depuis la corbeille avant de la modifier.") }
             val event = Event.fromJson(note.eventJson)
             require(NoteEvents.verified(listOf(event), publicKey).size == 1 &&
                 event.kind().asU16() == NoteEvents.NOTE && NoteEvents.identifier(event) == note.identifier &&
@@ -173,8 +281,39 @@ abstract class BaseNostrRepository(
         Publication(note.copy(pinned = pinned), warning)
     }
 
+    private suspend fun isTrashed(note: Note): Boolean {
+        val event = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.trashAddress(note.identifier) }
+        return event?.let { plaintext(it) != "false" } ?: false
+    }
+
+    override suspend fun setTrashed(note: Note, trashed: Boolean): Result<Publication> = operation {
+        merge(emptyList())
+        require(!NoteEvents.permanentlyDeleted(events, publicKey, note.identifier)) { tr("Cette note a été supprimée définitivement.") }
+        val current = NoteEvents.latest(events, NoteEvents.NOTE, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == note.identifier }
+        require(current?.id()?.toHex() == note.eventId && isTrashed(note) == note.trashed) {
+            tr("La note a changé. Actualisez et ouvrez sa dernière version.")
+        }
+        val address = NoteEvents.trashAddress(note.identifier)
+        val previous = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == address }
+        val event = sign(EventBuilder(Kind(NoteEvents.BACKUP), encrypt(trashed.toString()))
+            .tags(listOf(Tag.identifier(address))).customCreatedAt(NoteEvents.updateTime(previous, null)))
+        connect()
+        check(client.sendEvent(event, ackPolicy = AckPolicy.all()).success.isNotEmpty()) {
+            tr("Aucun relais n’a accepté la modification de la corbeille. Réessayez après reconnexion.")
+        }
+        merge(listOf(event))
+        val warning = try { persist(); null } catch (_: Exception) {
+            tr("Corbeille synchronisée, mais écriture du cache local impossible. Actualisez avant de fermer.")
+        }
+        Publication(note.copy(trashed = trashed), warning)
+    }
+
     override suspend fun delete(note: Note): Result<Unit> = operation {
         merge(emptyList())
+        require(note.trashed && isTrashed(note)) { tr("Déplacez d’abord la note dans la corbeille.") }
         val backup = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
             .firstOrNull { NoteEvents.identifier(it) == NoteEvents.backupAddress(note.identifier) }
         val timestamp = maxOf(Timestamp.now().asSecs(), note.createdAt.toULong(), backup?.createdAt()?.asSecs() ?: 0uL)
@@ -184,12 +323,15 @@ abstract class BaseNostrRepository(
                 Tag.parse(listOf("a", "${NoteEvents.NOTE}:${publicKey.toHex()}:${note.identifier}")),
                 Tag.parse(listOf("k", NoteEvents.NOTE.toString())),
                 Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.backupAddress(note.identifier)}")),
+                Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.pinAddress(note.identifier)}")),
+                Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.trashAddress(note.identifier)}")),
                 Tag.parse(listOf("k", NoteEvents.BACKUP.toString()))
             )).customCreatedAt(Timestamp.fromSecs(timestamp)))
         connect()
         check(client.sendEvent(deletion, ackPolicy = AckPolicy.all()).success.isNotEmpty()) { tr("Aucun relais n’a accepté la suppression.") }
         merge(listOf(deletion))
         persist()
+        savePending(pendingEdits().filterNot { it.sent && it.identifier == note.identifier })
     }
 
     private suspend fun connect() {
@@ -209,7 +351,7 @@ abstract class BaseNostrRepository(
         return buildString(6) { repeat(6) { append(alphabet[random.nextInt(alphabet.length)]) } }
     }
 
-    private suspend fun <T> operation(block: suspend () -> T): Result<T> = try { Result.success(block()) }
+    private suspend fun <T> operation(block: suspend () -> T): Result<T> = try { Result.success(withContext(operationContext) { operationMutex.withLock { block() } }) }
         catch (cancelled: CancellationException) { throw cancelled }
         catch (error: Exception) { Result.failure(error) }
 

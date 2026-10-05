@@ -32,3 +32,7 @@ html{height:100vh}body,#editor{height:100%}
 .toastui-editor-contents a[href^="https://" i],
 .toastui-editor-contents a[href^="http://" i] *,
 .toastui-editor-contents a[href^="https://" i] * { cursor: pointer; }
+
+/* Trash uses the sanitized viewer without editable controls. */
+body.notes-readonly{overflow:auto}
+.notes-readonly #editor{height:auto;min-height:100%}

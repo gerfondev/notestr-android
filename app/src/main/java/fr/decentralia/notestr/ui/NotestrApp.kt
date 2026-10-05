@@ -8,6 +8,8 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -96,7 +98,7 @@ fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -
             )
             Screen.Locked -> LockedScreen(vm::unlock, state.biometricEnabled) { requestBiometric(false) }
             Screen.Notes -> NotesScreen(state, vm)
-            is Screen.Editor -> key(screen.note?.identifier ?: "new") { EditorScreen(screen.note, vm) }
+            is Screen.Editor -> key(screen.note?.listKey ?: "new") { EditorScreen(screen.note, vm) }
             Screen.Settings -> SettingsScreen(state, vm) { requestBiometric(true) }
         }
         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter))
@@ -191,27 +193,34 @@ private fun ColumnScope.ConnectionLogo() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
+    val visibleNotes = state.notes.filter { it.trashed == state.showingTrash }
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Notestr") }, actions = {
+        topBar = { TopAppBar(title = { Text(if (state.showingTrash) tr("Corbeille") else "Notestr") }, actions = {
+            TextButton(onClick = vm::toggleTrashView, enabled = !state.busy,
+                modifier = Modifier.semantics { contentDescription = tr(if (state.showingTrash) "Notes" else "Corbeille") }) {
+                Text(tr(if (state.showingTrash) "Notes" else "Corbeille"))
+            }
             ActionIcon(tr("Actualiser"), R.drawable.ic_action_refresh, vm::refresh, enabled = !state.busy)
             ActionIcon(tr("Réglages"), R.drawable.ic_action_settings, vm::settings)
             ActionIcon(tr("Verrouiller"), R.drawable.ic_action_lock, vm::lock)
         }) },
-        floatingActionButton = { FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = tr("Nouvelle note")) } }
+        floatingActionButton = { if (!state.showingTrash) FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = tr("Nouvelle note")) } }
     ) { padding ->
-        if (state.notes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr("Vos notes privées apparaîtront ici.")) }
+        if (visibleNotes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr(if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici.")) }
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item { Spacer(Modifier.height(4.dp)) }
+            if (state.syncing) item { Text(tr("Synchronisation des modifications en attente…")) }
             if (state.refreshing) item { Text(tr("Synchronisation des relais en cours…")) }
-            items(state.notes, key = Note::identifier) { note ->
+            items(visibleNotes, key = Note::listKey) { note ->
                 Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy || state.refreshing) { vm.edit(note) }) {
                     Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
+                            if (note.pending) Text(tr(if (note.conflicted) "Conflit — version locale" else "En attente de synchronisation"), style = MaterialTheme.typography.labelSmall)
                             Text(note.title, style = MaterialTheme.typography.titleMedium)
                             if (note.pinned) Text(tr("Épinglée"), style = MaterialTheme.typography.labelSmall)
                             Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
                         }
-                        ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"),
+                        if (!note.trashed && !note.pending) ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"),
                             if (note.pinned) R.drawable.ic_action_unpin else R.drawable.ic_action_pin,
                             { vm.togglePinned(note) }, enabled = !state.busy)
                     }
@@ -226,35 +235,49 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
 @Composable
 private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
     var markdown by remember { mutableStateOf(note?.markdown.orEmpty()) }; var confirmDelete by remember { mutableStateOf(false) }
+    var confirmDiscard by remember { mutableStateOf(false) }
     var confirmRestore by remember { mutableStateOf(false) }
     var pendingLink by remember { mutableStateOf<String?>(null) }
     val browserContext = androidx.compose.ui.platform.LocalContext.current
     var editorRevision by remember { mutableStateOf(0) }
-    val busy = vm.state.busy
+    val busy = vm.state.busy && !vm.state.refreshing
     Scaffold(topBar = { TopAppBar(
         title = { Text(if (note == null) tr("Nouvelle note") else note.title, maxLines = 1, overflow = TextOverflow.Ellipsis) },
         navigationIcon = { ActionIcon(tr("Retour"), R.drawable.ic_action_back, vm::backToNotes, enabled = !busy || vm.state.refreshing) },
         actions = {
-            if (note != null) {
-                ActionIcon(tr("Version précédente"), R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
-                ActionIcon(tr("Supprimer"), R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
+            if (note != null && !note.pending) {
+                if (note.trashed) ActionIcon(tr("Restaurer la note"), R.drawable.ic_action_history, { vm.setTrashed(note, false) }, enabled = !busy)
+                else ActionIcon(tr("Version précédente"), R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
+                ActionIcon(tr(if (note.trashed) "Supprimer définitivement" else "Supprimer"), R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
             }
-            ActionIcon(tr("Publier"), R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
+            if (note?.trashed != true) ActionIcon(tr("Publier"), R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding).imePadding()) {
+            if (note?.pending == true) {
+                Text(tr(if (note.conflicted) "Conflit — la version distante est conservée dans la liste." else "Modifications enregistrées localement, en attente de synchronisation."), Modifier.padding(8.dp))
+                Row {
+                    if (note.conflicted) TextButton({ vm.save(markdown, note, asCopy = true) }, enabled = !busy) { Text(tr("Publier comme nouvelle note")) }
+                    TextButton({ confirmDiscard = true }, enabled = !busy) { Text(tr("Abandonner les modifications locales")) }
+                }
+            }
             key(editorRevision) {
-                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), onOpenLink = { url ->
+                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), readOnly = note?.trashed == true, onOpenLink = { url ->
                     if (markdown != note?.markdown.orEmpty()) pendingLink = url
                     else openBrowser(browserContext, url)
                 })
             }
         }
     }
+    if (confirmDiscard && note != null) AlertDialog(onDismissRequest = { confirmDiscard = false },
+        title = { Text(tr("Abandonner les modifications locales ?")) },
+        text = { Text(tr("La version des relais sera conservée. Le texte local en attente sera supprimé de cet appareil.")) },
+        confirmButton = { TextButton({ confirmDiscard = false; vm.discardPending(note) }) { Text(tr("Abandonner")) } },
+        dismissButton = { TextButton({ confirmDiscard = false }) { Text(tr("Annuler")) } })
     pendingLink?.let { url -> AlertDialog(
         onDismissRequest = { pendingLink = null }, title = { Text(tr("Ouvrir le navigateur ?")) },
-        text = { Text(tr("Notestr se verrouille en quittant l’application. Les modifications non publiées seront perdues. Annulez pour les publier d’abord.")) },
+        text = { Text(tr("Notestr se verrouille après 3 minutes en arrière-plan. Les modifications non enregistrées seront alors perdues. Annulez pour les enregistrer d’abord.")) },
         confirmButton = { Button({ pendingLink = null; openBrowser(browserContext, url) }) { Text(tr("Ouvrir")) } },
         dismissButton = { TextButton({ pendingLink = null }) { Text(tr("Annuler")) } }
     ) }
@@ -268,9 +291,9 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
         dismissButton = { OutlinedButton({ confirmRestore = false }) { Text(tr("Annuler")) } }
     )
     if (confirmDelete) AlertDialog(
-        onDismissRequest = { confirmDelete = false }, title = { Text(tr("Supprimer cette note ?")) },
-        text = { Text(tr("Une demande de suppression de la note et de sa sauvegarde sera publiée sur les relais.")) },
-        confirmButton = { Button({ confirmDelete = false; note?.let(vm::delete) }) { Text(tr("Supprimer")) } },
+        onDismissRequest = { confirmDelete = false }, title = { Text(tr(if (note?.trashed == true) "Supprimer définitivement cette note ?" else "Déplacer cette note dans la corbeille ?")) },
+        text = { Text(tr(if (note?.trashed == true) "Une demande de suppression définitive sera envoyée aux relais. L’effacement de toutes les copies n’est pas garanti." else "La note publiée sera conservée dans la corbeille commune. Les modifications non publiées seront abandonnées.")) },
+        confirmButton = { Button({ confirmDelete = false; note?.let { if (it.trashed) vm.delete(it) else vm.setTrashed(it, true) } }) { Text(tr(if (note?.trashed == true) "Supprimer définitivement" else "Déplacer")) } },
         dismissButton = { OutlinedButton({ confirmDelete = false }) { Text(tr("Annuler")) } }
     )
 }

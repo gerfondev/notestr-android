@@ -25,6 +25,25 @@ import java.util.concurrent.TimeUnit
 class MarkdownEditorTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
+    @Test fun trashViewerRendersFormattingWithoutEditingAndOpensLinks() {
+        val source = "# Corbeille fictive\n\nTexte **important**.\n\n- [ ] Tâche\n\n[Site](https://example.org/)\n"
+        val changes = java.util.concurrent.CopyOnWriteArrayList<String>()
+        val opened = java.util.concurrent.CopyOnWriteArrayList<String>()
+        render { MaterialTheme { MarkdownEditor(source, { changes.add(it) }, readOnly = true, onOpenLink = { opened.add(it) }) } }
+        compose.waitUntil(20000) {
+            javascript("document.querySelector('.toastui-editor-contents h1')?.textContent === 'Corbeille fictive'") == "true"
+        }
+        assertTrue(javascript("document.querySelector('strong')?.textContent === 'important' && !document.querySelector('[contenteditable=true], .toastui-editor-toolbar')") == "true")
+        tapHtml(".task-list-item")
+        javascript("document.body.dispatchEvent(new ClipboardEvent('paste', {bubbles:true,cancelable:true})); true")
+        assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
+        assertTrue(javascript("!document.querySelector('.task-list-item.checked')") == "true")
+        tapHtml("a")
+        compose.waitUntil(5000) { opened.size == 1 }
+        org.junit.Assert.assertEquals("https://example.org/", opened.single())
+        assertTrue(changes.isEmpty())
+    }
+
     @Test fun englishEditorPreservesFrenchNoteTextAndTranslatesCopyButton() {
         val source = "# Réglages\n\n```\nCopier ce texte inchangé\n```\n"
         compose.runOnIdle { fr.decentralia.notestr.i18n.Strings.select("en") }

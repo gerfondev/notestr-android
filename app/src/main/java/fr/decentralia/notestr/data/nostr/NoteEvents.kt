@@ -15,6 +15,12 @@ internal object NoteEvents {
     val NOTE: UShort = 33457u
     val BACKUP: UShort = 30078u
     val DELETE: UShort = 5u
+    const val TRASH_PREFIX = "notestr/trash/"
+    fun trashAddress(identifier: String): String = TRASH_PREFIX + backupAddress(identifier).removePrefix(PREFIX)
+
+    fun permanentlyDeleted(events: List<Event>, author: PublicKey, identifier: String): Boolean =
+        events.any { it.kind().asU16() == DELETE && "$NOTE:${author.toHex()}:$identifier" in tags(it, "a") }
+
     const val PIN_PREFIX = "notestr/pin/"
     fun pinAddress(identifier: String): String = PIN_PREFIX + backupAddress(identifier).removePrefix(PREFIX)
 
@@ -36,9 +42,21 @@ internal object NoteEvents {
     }
 
     fun compact(events: List<Event>): List<Event> {
-        val unique = events.distinctBy { it.id().toHex() }
+        // Index each verified deletion once. A nested scan creates millions of
+        // native SDK wrappers for a real account's accumulated history.
+        val deletedAddresses = mutableSetOf<String>()
+        events.filter { it.kind().asU16() == DELETE && it.verify() }.forEach { deletion ->
+            val author = deletion.author().use { it.toHex() }
+            tags(deletion, "a").filterTo(deletedAddresses) { address ->
+                address.split(':', limit = 3).getOrNull(1) == author
+            }
+        }
+        val unique = events.distinctBy { it.id().use { id -> id.toHex() } }.filter { event ->
+            val kind = event.kind().asU16()
+            kind == DELETE || "$kind:${event.author().use { it.toHex() }}:${identifier(event)}" !in deletedAddresses
+        }
         return unique.filter { it.kind().asU16() != BACKUP } + unique
-            .filter { it.kind().asU16() == BACKUP && identifier(it)?.let { d -> d.startsWith(PREFIX) || d.startsWith(PIN_PREFIX) } == true }
+            .filter { it.kind().asU16() == BACKUP && identifier(it)?.let { d -> d.startsWith(PREFIX) || d.startsWith(PIN_PREFIX) || d.startsWith(TRASH_PREFIX) } == true }
             .groupBy { identifier(it) }.values.map { it.minWith(newest) }
     }
 

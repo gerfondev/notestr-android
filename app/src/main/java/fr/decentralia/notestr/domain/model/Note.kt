@@ -8,8 +8,12 @@ data class Note(
     val eventId: String,
     val createdAt: Long,
     val eventJson: String,
-    val pinned: Boolean = false
+    val pinned: Boolean = false,
+    val trashed: Boolean = false,
+    val pending: Boolean = false,
+    val conflicted: Boolean = false
 ) {
+    val listKey: String get() = (if (pending) "pending:" else "note:") + identifier
     val title: String
         get() = noteTitle(markdown)
 }

@@ -70,7 +70,21 @@ class BackupRelayTest {
                     assertTrue(restarted.refresh().getOrThrow().single().pinned)
                     assertFalse(restarted.setPinned(downloaded, false).getOrThrow().note.pinned)
                 }
-                fresh.delete(restored).getOrThrow()
+                val trashed = fresh.setTrashed(restored, true).getOrThrow().note
+                cache.clear()
+                RustNostrRepository(key.toCharArray(), relays, cache).use { restarted ->
+                    val downloaded = restarted.refresh().getOrThrow().single()
+                    assertTrue(downloaded.trashed)
+                    assertEquals(restored.markdown, downloaded.markdown)
+                    delay(1100)
+                    restarted.setTrashed(downloaded, false).getOrThrow()
+                }
+                val back = fresh.refresh().getOrThrow().single()
+                assertFalse(back.trashed)
+                delay(1100)
+                val discarded = fresh.setTrashed(back, true).getOrThrow().note
+                fresh.delete(discarded).getOrThrow()
+                assertTrue(cache.load().map(Event::fromJson).all { it.kind().asU16() == NoteEvents.DELETE })
                 assertTrue(fresh.refresh().getOrThrow().isEmpty())
                 assertNull(fresh.previous(restored).getOrThrow())
             }

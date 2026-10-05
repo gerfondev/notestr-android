@@ -71,18 +71,19 @@ internal class EditorWebView(context: Context) : WebView(context) {
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modifier = Modifier,
-                   onOpenLink: ((String) -> Unit)? = null) {
+                   onOpenLink: ((String) -> Unit)? = null, readOnly: Boolean = false) {
     var visual by remember { mutableStateOf(true) }
     var webView by remember { mutableStateOf<WebView?>(null) }
     var revision by remember { mutableStateOf(0) }
     var loadedRevision by remember { mutableStateOf(-1) }
     var error by remember { mutableStateOf<String?>(null) }
     val currentOnOpenLink by rememberUpdatedState(onOpenLink)
+    val currentReadOnly by rememberUpdatedState(readOnly)
     val currentMarkdown by rememberUpdatedState(markdown)
     val currentOnChange by rememberUpdatedState(onChange)
 
     Column(modifier) {
-        Row(Modifier.fillMaxWidth()) {
+        if (!readOnly) Row(Modifier.fillMaxWidth()) {
             TextButton(onClick = {
                 loadedRevision = -1
                 error = null
@@ -123,7 +124,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                 val message = runCatching { JSONObject(json) }.getOrNull()
                                 if (message != null) owner.post {
                                     if (webView === owner && visual && loadedRevision >= 0 &&
-                                        message.optString("type") == "change" &&
+                                        !currentReadOnly && message.optString("type") == "change" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
                                         currentOnChange(message.getString("markdown"))
                                     }
@@ -132,7 +133,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         message.optInt("epoch", -1) == loadedRevision) {
                                         val url = message.optString("url")
                                         if (browserIntent(url) != null) {
-                                            currentOnChange(message.getString("markdown"))
+                                            if (!currentReadOnly) currentOnChange(message.getString("markdown"))
                                             currentOnOpenLink?.invoke(url) ?: openBrowser(context, url)
                                         }
                                     }
@@ -168,7 +169,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         (function() {
                                             try {
                                                 if (!window.notesEditor) throw new Error(window.notesEditorFailure || 'Le moteur visuel ne s’est pas initialisé');
-                                                window.notesEditor.setDocument($source, $expected, $editorLanguage);
+                                                window.notesEditor.setDocument($source, $expected, $editorLanguage, $currentReadOnly);
                                                 return {ok:true};
                                             } catch (e) { return {ok:false,error:String(e.message || e)}; }
                                         })()

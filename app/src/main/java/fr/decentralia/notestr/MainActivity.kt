@@ -54,6 +54,11 @@ class MainActivity : FragmentActivity() {
             .onFailure { viewModel.cancelBiometric(tr("Impossible de démarrer la biométrie. Utilisez votre mot de passe.")) }
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.onAppStarted()
+    }
+
     override fun onStop() {
         super.onStop()
         if (!isChangingConfigurations) {

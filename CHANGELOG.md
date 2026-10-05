@@ -1,3 +1,7 @@
+# 3.8
+
+Corbeille commune Android/Linux, délai de verrouillage Android de 3 minutes, modifications chiffrées hors connexion, correction des lenteurs et améliorations visuelles. Voir [les notes de version](RELEASE-NOTES-3.8.md).
+
 # 3.7.1 — 3 octobre 2026
 
 Correction du copier-coller des liens web : les champs URL et Texte du lien conservent le collage natif sans insertion intempestive dans la note. Contrôles de sécurité et de confidentialité renouvelés. Voir RELEASE-NOTES-3.7.1.md.

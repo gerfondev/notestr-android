@@ -24,9 +24,48 @@ class BackupRestoreUiTest {
             published = markdown; previousAtPublish = previous
             return Result.success(Publication(requireNotNull(previous).copy(markdown = markdown)))
         }
+        override suspend fun setTrashed(note: Note, trashed: Boolean) = Result.success(Publication(note.copy(trashed = trashed)))
         override suspend fun setPinned(note: Note, pinned: Boolean) = Result.success(Publication(note.copy(pinned = pinned)))
         override suspend fun delete(note: Note) = Result.success(Unit)
     }
+    @Test fun trashMoveRestoreAndPermanentDeleteAreManual() {
+        var permanent = 0
+        val repo = object : NostrRepository by FakeRepository() {
+            override suspend fun refresh() = Result.success(listOf(note))
+            override suspend fun delete(note: Note): Result<Unit> { permanent++; return Result.success(Unit) }
+        }
+        lateinit var vm: NotestrViewModel
+        compose.runOnIdle {
+            vm = ViewModelProvider(compose.activity)[NotestrViewModel::class.java]
+            NotestrViewModel::class.java.getDeclaredField("repository").apply { isAccessible = true }.set(vm, repo)
+            vm.backToNotes(); vm.refresh()
+        }
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.onNodeWithText("Version actuelle").performClick()
+        compose.onNodeWithContentDescription("Supprimer").performClick()
+        compose.onNodeWithText("Annuler").performClick()
+        compose.runOnIdle { assertFalse(vm.state.notes.single().trashed); assertEquals(0, permanent) }
+        compose.onNodeWithContentDescription("Supprimer").performClick()
+        compose.onNodeWithText("Déplacer", substring = false).performClick()
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.onNodeWithText("Version actuelle").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Corbeille").performClick()
+        compose.onNodeWithText("Version actuelle").performClick()
+        compose.onNodeWithContentDescription("Publier").assertDoesNotExist()
+        compose.onNodeWithContentDescription("Restaurer la note").performClick()
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.runOnIdle { assertFalse(vm.state.notes.single().trashed); assertEquals(0, permanent); vm.setTrashed(vm.state.notes.single(), true) }
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.onNodeWithText("Version actuelle").performClick()
+        compose.onNodeWithContentDescription("Supprimer définitivement").performClick()
+        compose.onNodeWithText("Annuler").performClick()
+        compose.runOnIdle { assertEquals(0, permanent) }
+        compose.onNodeWithContentDescription("Supprimer définitivement").performClick()
+        compose.onNodeWithText("Supprimer définitivement", substring = false).performClick()
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.runOnIdle { assertEquals(1, permanent); assertTrue(vm.state.notes.isEmpty()) }
+    }
+
     @Test fun cachedNoteCanBeOpenedBeforeNetworkFinishesAndDraftSurvivesRefresh() {
         val network = kotlinx.coroutines.CompletableDeferred<Unit>()
         val repo = object : NostrRepository by FakeRepository() {

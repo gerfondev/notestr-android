@@ -6,13 +6,17 @@ Application Android native de notes privées chiffrées sur Nostr, compatible av
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.7.1**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.8**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `59a54df1a6e04b749824b414a067cc727d4aef99fe661e1f47d3be6940d6308a`.
+SHA-256 : `2667b638b9d55251cfedcd2be1f784733ee4691d3658c915dfa39cca8d16e691`.
+
+## Nouveautés — 3.8
+
+Corbeille commune avec Linux, verrouillage Android après trois minutes en arrière-plan, enregistrement chiffré hors connexion et correction des lenteurs de chargement. Corbeille affichée en mode visuel, bouton d’accès explicite. [Notes de version 3.8](RELEASE-NOTES-3.8.md). VersionCode 35. Mettre à jour les deux applications pour la corbeille commune.
 
 ## Correction — 3.7.1
 
@@ -108,7 +112,7 @@ Les corrections des titres et du menu de mise en forme H1–H6 sont également i
 - clé privée protégée par le mot de passe puis par Android Keystore ;
 - connexion à Amber selon NIP-55 : la clé privée reste dans le signer ;
 - cache local limité aux événements Nostr signés : le contenu des notes y reste chiffré NIP-44 ;
-- verrouillage automatique lorsque l’application passe en arrière-plan et captures d’écran bloquées.
+- verrouillage automatique après trois minutes en arrière-plan et captures d’écran bloquées.
 
 Les images Markdown `![description](https://…)` sont affichées dans le mode Visuel et adaptées à la largeur de l’écran. Le chargement se fait directement depuis leur serveur HTTPS. Les URL HTTP et les fichiers locaux ne sont pas chargés. Une URL seule reste un lien : utiliser la syntaxe Markdown image. L’envoi de pièces jointes n’est pas pris en charge.
 
@@ -188,3 +192,7 @@ Avant toute publication du code, vérifier malgré tout les fichiers suivis et n
 - TOAST UI Editor et DOMPurify, chargés uniquement depuis les ressources locales. Leurs licences sont fournies dans `app/src/main/assets/editor/`.
 
 Le SDK Nostr fournit une implémentation du chiffrement NIP-44 v2. Son interface Kotlin est encore annoncée comme alpha par le projet, même si le cœur cryptographique Rust est partagé avec les autres liaisons officielles.
+
+## Modifications hors connexion
+
+Le bouton Publier enregistre une modification chiffrée sur cet appareil avant de tenter sa synchronisation. Les modifications en attente persistent au redémarrage. La reprise nécessite une application ouverte et déverrouillée ; les conflits conservent les deux versions. Voir [OFFLINE.md](OFFLINE.md) pour le fonctionnement, les limites et le protocole de test.

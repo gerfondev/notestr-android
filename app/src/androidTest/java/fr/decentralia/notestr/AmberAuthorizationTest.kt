@@ -25,7 +25,10 @@ class AmberAuthorizationTest {
             vm.completeAmber(Activity.RESULT_OK, Intent().putExtra("result", "ciphertext"))
             assertEquals("ciphertext", pending.await())
             assertNull(vm.amberRequest)
-            vm.onAppStopped()
+            vm.onAppStarted()
+            val now = android.os.SystemClock.elapsedRealtime()
+            vm.onAppStopped(now)
+            vm.onAppStarted(now + 180_000L)
             assertFalse(vm.state.screen is Screen.Editor)
         }
     }

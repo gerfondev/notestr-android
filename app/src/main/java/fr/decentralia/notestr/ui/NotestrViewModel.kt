@@ -25,6 +25,14 @@ import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.model.Note
 import fr.decentralia.notestr.domain.model.noteOrder
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import org.nostrdevkit.sdk.SecretKey
 
 sealed interface Screen {
@@ -40,6 +48,8 @@ data class UiState(
     val notes: List<Note> = emptyList(),
     val busy: Boolean = false,
     val refreshing: Boolean = false,
+    val syncing: Boolean = false,
+    val showingTrash: Boolean = false,
     val message: String? = null,
     val relays: List<String> = listOf(AppPreferences.DEFAULT_RELAY),
     val publicKey: String = "",
@@ -52,7 +62,25 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     private data class BiometricRequest(val enroll: Boolean, val cipher: Cipher, val session: Long)
     private var biometricRequest: BiometricRequest? = null
     private var session = 0L
+    private var backgroundSince: Long? = null
+    private var backgroundLockTask: Job? = null
     private var task: Job? = null
+    private var syncTask: Job? = null
+    private val sessionJobs = mutableListOf<Job>()
+    private val network = application.getSystemService(ConnectivityManager::class.java)
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onCapabilitiesChanged(n: Network, caps: NetworkCapabilities) {
+            if (caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) viewModelScope.launch { synchronizePending() }
+        }
+    }
+    private fun tracked(job: Job): Job {
+        sessionJobs.removeAll { it.isCompleted }
+        sessionJobs += job
+        return job
+    }
+    private fun online(): Boolean = network.getNetworkCapabilities(network.activeNetwork)
+        ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
     private val prefs = AppPreferences(application)
     init { fr.decentralia.notestr.i18n.Strings.select(prefs.language) }
     private val cache = EventCache(application)
@@ -96,6 +124,32 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     var state by mutableStateOf(UiState(if (vault.isConfigured()) Screen.Locked else Screen.Setup, relays = prefs.relays, biometricEnabled = biometric.isEnabled()))
         private set
 
+    init {
+        network.registerDefaultNetworkCallback(networkCallback)
+        viewModelScope.launch {
+            while (isActive) { delay(30_000); synchronizePending() }
+        }
+    }
+
+    private fun synchronizePending() {
+        if (state.busy || state.syncing || !online() || state.notes.none { it.pending && !it.conflicted }) return
+        val active = repository ?: return
+        val expected = session
+        state = state.copy(syncing = true)
+        syncTask = tracked(viewModelScope.launch {
+            try {
+                val result = active.syncPending()
+                if (expected != session) return@launch
+                val notes = result.getOrNull() ?: active.cached().getOrThrow()
+                if (expected == session) state = state.copy(notes = notes,
+                    message = if (notes.any { it.conflicted }) tr("Conflit : les deux versions sont conservées. Ouvrez la modification locale pour choisir.")
+                    else if (result.isSuccess && notes.none { it.pending }) tr("Modifications synchronisées.") else null)
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (_: Exception) { /* Durable pending edits remain visible and will be retried. */ }
+            finally { if (expected == session) state = state.copy(syncing = false) }
+        })
+    }
+
     fun setup(password: String, confirmation: String, privateKey: String, relayText: String) {
         if (password != confirmation) return fail(tr("Les mots de passe ne correspondent pas."))
         runCatching {
@@ -138,11 +192,13 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         } else {
             RustNostrRepository(key.copyOf(), relays, cache)
         }
-        state = state.copy(screen = Screen.Notes, notes = emptyList(), busy = false, refreshing = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
+        state = state.copy(screen = Screen.Notes, notes = emptyList(), busy = false, refreshing = false, syncing = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
         refresh()
     }
 
     fun lock() {
+        backgroundLockTask?.cancel(); backgroundLockTask = null
+        backgroundSince = null
         amberAuthorizationActive = false
         closeSession()
         state = UiState(if (vault.isConfigured()) Screen.Locked else Screen.Setup, relays = prefs.relays, biometricEnabled = biometric.isEnabled())
@@ -150,7 +206,24 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
 
     fun beginAmberAuthorization() { amberAuthorizationActive = true }
     fun finishAmberAuthorization() { amberAuthorizationActive = false }
-    fun onAppStopped() { if (!amberAuthorizationActive) lock() }
+    fun onAppStopped(now: Long = android.os.SystemClock.elapsedRealtime()) {
+        if (backgroundSince != null) return
+        backgroundSince = now
+        backgroundLockTask = viewModelScope.launch {
+            val remaining = (180_000L - (android.os.SystemClock.elapsedRealtime() - now)).coerceAtLeast(0)
+            delay(remaining)
+            if (backgroundSince == now) lock()
+        }
+    }
+
+    fun onAppStarted(now: Long = android.os.SystemClock.elapsedRealtime()) {
+        val stopped = backgroundSince
+        // Recheck before displaying notes: Android can suspend the process and its timer.
+        if (stopped != null && now - stopped >= 180_000L) lock()
+        backgroundLockTask?.cancel()
+        backgroundLockTask = null
+        backgroundSince = null
+    }
 
     fun refresh() = runTask {
         val expected = session
@@ -178,16 +251,21 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     fun settings() { state = state.copy(screen = Screen.Settings, message = null) }
     fun backToNotes() { state = state.copy(screen = Screen.Notes, message = null) }
 
-    fun save(markdown: String, note: Note?) = runTask {
+    fun save(markdown: String, note: Note?, asCopy: Boolean = false) = runTask {
         val expected = session
-        val publication = repository?.publish(markdown, note)?.getOrThrow() ?: error(tr("Application verrouillée"))
+        val publication = repository?.saveLocal(markdown, note, asCopy)?.getOrThrow() ?: error(tr("Application verrouillée"))
         val saved = publication.note
         if (expected != session) return@runTask
         state = state.copy(
             screen = Screen.Notes,
-            notes = (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedWith(noteOrder),
+            notes = if (saved.pending) repository!!.cached().getOrThrow() else (state.notes.filterNot { it.identifier == saved.identifier } + saved).sortedWith(noteOrder),
             message = publication.warning ?: tr("Note publiée.")
         )
+    }
+
+    fun discardPending(note: Note) = runTask {
+        val notes = repository?.discardPending(note)?.getOrThrow() ?: return@runTask
+        state = state.copy(screen = Screen.Notes, notes = notes, message = tr("Modifications locales abandonnées."))
     }
 
     fun restorePrevious(note: Note, loaded: (String) -> Unit) = runTask {
@@ -209,6 +287,17 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
             notes = state.notes.map { if (it.identifier == note.identifier) result.note else it }.sortedWith(noteOrder),
             message = result.warning ?: if (result.note.pinned) tr("Note épinglée.") else tr("Note désépinglée.")
         )
+    }
+
+    fun toggleTrashView() { state = state.copy(screen = Screen.Notes, showingTrash = !state.showingTrash, message = null) }
+
+    fun setTrashed(note: Note, trashed: Boolean) = runTask {
+        val expected = session
+        val result = repository?.setTrashed(note, trashed)?.getOrThrow() ?: error(tr("Application verrouillée"))
+        if (expected != session) return@runTask
+        state = state.copy(screen = Screen.Notes,
+            notes = state.notes.map { if (it.identifier == note.identifier) result.note else it },
+            message = result.warning ?: tr(if (trashed) "Note déplacée dans la corbeille." else "Note restaurée."))
     }
 
     fun delete(note: Note) = runTask {
@@ -252,15 +341,22 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun runTask(block: suspend () -> Unit) {
-        if (state.busy) return
+        if (state.busy && !state.refreshing) return
+        val interrupted = listOfNotNull(syncTask, task.takeIf { state.refreshing })
+        interrupted.forEach { it.cancel() }
         val expectedSession = session
-        state = state.copy(busy = true, message = null)
-        task = viewModelScope.launch {
-            try { block() }
+        state = state.copy(busy = true, refreshing = false, message = null)
+        task = tracked(viewModelScope.launch {
+            try { interrupted.joinAll(); block() }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) { if (session == expectedSession) fail(error.message ?: tr("Une erreur est survenue.")) }
-            finally { if (session == expectedSession) state = state.copy(busy = false) }
-        }
+            finally {
+                if (session == expectedSession) {
+                    state = state.copy(busy = false)
+                    synchronizePending()
+                }
+            }
+        })
     }
 
     fun prepareBiometric(enroll: Boolean): Cipher? {
@@ -313,13 +409,18 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
 
     private fun closeSession() {
         session++
-        task?.cancel(); task = null
+        val closingJobs = sessionJobs.toList()
+        sessionJobs.clear()
+        val closingRepository = repository as? AutoCloseable
+        task = null; syncTask = null; repository = null
+        closingJobs.forEach { it.cancel() }
+        // Local saves can cancel a sync. Wait for every session job before freeing native keys.
+        CoroutineScope(Dispatchers.IO).launch { closingJobs.joinAll(); closingRepository?.close() }
         amberRequest?.result?.cancel(); amberRequest = null
         amberAuthorizationActive = false
         biometricRequest = null
-        (repository as? AutoCloseable)?.close(); repository = null
         credential?.fill('\u0000'); credential = null
     }
 
-    override fun onCleared() { closeSession(); super.onCleared() }
+    override fun onCleared() { backgroundLockTask?.cancel(); network.unregisterNetworkCallback(networkCallback); closeSession(); super.onCleared() }
 }

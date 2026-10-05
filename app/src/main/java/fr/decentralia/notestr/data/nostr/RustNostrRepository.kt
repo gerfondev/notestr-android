@@ -1,6 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
 import fr.decentralia.notestr.data.storage.EventCache
+import kotlinx.coroutines.Dispatchers
 import org.nostrdevkit.sdk.Event
 import org.nostrdevkit.sdk.EventBuilder
 import org.nostrdevkit.sdk.Keys
@@ -16,6 +17,9 @@ class RustNostrRepository private constructor(
 ) : BaseNostrRepository(keys.publicKey(), relayStrings, cache) {
     constructor(privateKey: CharArray, relayStrings: List<String>, cache: EventCache) :
         this(parseKeys(privateKey), relayStrings, cache)
+
+    // Disk access, signature verification and decryption must not block the UI.
+    override val operationContext = Dispatchers.IO
 
     override suspend fun sign(builder: EventBuilder): Event = builder.finalize(keys)
     override suspend fun encrypt(markdown: String): String = keys.secretKey().use {

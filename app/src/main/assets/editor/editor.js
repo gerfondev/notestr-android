@@ -1,13 +1,14 @@
 'use strict';(() => {
   let uiLanguage='fr';
   const label=(fr,en)=>uiLanguage==='en'?en:fr;
+  let readOnly=false;
   let muted=false, loaded=false, epoch=0, original='', baseline='';
   const send=(m)=>{if(window.AndroidNotes) window.AndroidNotes.postMessage(JSON.stringify(m));};
   // Keep image URLs, but never allow local files or active content.
   DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
     if (data.attrName === 'src' && (node.nodeName !== 'IMG' || !/^https:\/\//i.test(data.attrValue))) data.keepAttr = false;
   });
-  const make=()=>{const e=new toastui.Editor({el:document.getElementById('editor'),height:'100%',initialEditType:'wysiwyg',initialValue:'',hideModeSwitch:true,autofocus:false,language:uiLanguage==='en'?'en-US':'fr-FR',usageStatistics:false,customHTMLSanitizer:(html)=>DOMPurify.sanitize(html,{USE_PROFILES:{html:true},FORBID_TAGS:['iframe','audio','video','style','form'],FORBID_ATTR:['style','srcset']}),toolbarItems:[['heading','bold','italic','strike'],['hr','quote'],['ul','ol','task'],['table','link'],['code','codeblock']],hooks:{addImageBlobHook:()=>false}});e.on('change',()=>{if(!muted&&loaded)send({type:'change',epoch,markdown:value()});});return e;};
+  const make=()=>{const e=toastui.Editor.factory({viewer:readOnly,el:document.getElementById('editor'),height:'100%',initialEditType:'wysiwyg',initialValue:'',hideModeSwitch:true,autofocus:false,language:uiLanguage==='en'?'en-US':'fr-FR',usageStatistics:false,customHTMLSanitizer:(html)=>DOMPurify.sanitize(html,{USE_PROFILES:{html:true},FORBID_TAGS:['iframe','audio','video','style','form'],FORBID_ATTR:['style','srcset']}),toolbarItems:[['heading','bold','italic','strike'],['hr','quote'],['ul','ol','task'],['table','link'],['code','codeblock']],hooks:{addImageBlobHook:()=>false}});e.on('change',()=>{if(!readOnly&&!muted&&loaded)send({type:'change',epoch,markdown:value()});});return e;};
   let editor=make();
   // Controls live outside ProseMirror so they cannot become part of the note.
   const copyLayer=document.createElement('div');
@@ -47,7 +48,7 @@
   new MutationObserver(scheduleCopyButtons).observe(document.getElementById('editor'),{subtree:true,childList:true,characterData:true});
   new ResizeObserver(scheduleCopyButtons).observe(document.getElementById('editor'));
   document.addEventListener('scroll',scheduleCopyButtons,true);window.addEventListener('resize',scheduleCopyButtons);
-  const value=()=>{const v=editor.getMarkdown();return v===baseline?original:v;};
+  const value=()=>{if(readOnly)return original;const v=editor.getMarkdown();return v===baseline?original:v;};
   document.addEventListener('click',e=>{
     const link=e.target.closest('a');if(!link)return;
     e.preventDefault();
@@ -57,7 +58,8 @@
   },true);
   document.addEventListener('drop',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
   document.addEventListener('dragover',e=>e.preventDefault(),true);
-  document.addEventListener('paste',e=>{if(e.target instanceof Element && e.target.closest('input, textarea'))return;e.preventDefault();e.stopImmediatePropagation();const t=e.clipboardData?.getData('text/plain');if(t)editor.insertText(t);},true);
-  window.notesEditor=Object.freeze({copyResult:finishCopy,setDocument(markdown,revision,language='fr'){uiLanguage=language==='en'?'en':'fr';document.documentElement.lang=uiLanguage;muted=true;loaded=false;editor.destroy();document.getElementById('editor').textContent='';editor=make();epoch=revision;original=markdown;editor.setMarkdown(markdown,false);baseline=editor.getMarkdown();loaded=true;muted=false;send({type:'loaded',epoch});return value();},snapshot(){return value();}});
+  document.addEventListener('mousedown',e=>{if(readOnly)e.stopImmediatePropagation();},true);
+  document.addEventListener('paste',e=>{if(readOnly){e.preventDefault();e.stopImmediatePropagation();return;}if(e.target instanceof Element && e.target.closest('input, textarea'))return;e.preventDefault();e.stopImmediatePropagation();const t=e.clipboardData?.getData('text/plain');if(t)editor.insertText(t);},true);
+  window.notesEditor=Object.freeze({copyResult:finishCopy,setDocument(markdown,revision,language='fr',readonly=false){readOnly=readonly===true;document.body.classList.toggle('notes-readonly',readOnly);uiLanguage=language==='en'?'en':'fr';document.documentElement.lang=uiLanguage;muted=true;loaded=false;editor.destroy();document.getElementById('editor').textContent='';editor=make();epoch=revision;original=markdown;editor.setMarkdown(markdown,false);baseline=readOnly?markdown:editor.getMarkdown();loaded=true;muted=false;send({type:'loaded',epoch});return value();},snapshot(){return value();}});
   send({type:'ready'});
 })();
