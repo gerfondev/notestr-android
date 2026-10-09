@@ -8,9 +8,13 @@ import fr.decentralia.notestr.domain.publicationTitle
 import fr.decentralia.notestr.domain.model.Note
 import fr.decentralia.notestr.domain.model.noteOrder
 import java.security.SecureRandom
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.Base64
 import java.time.Duration
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.CoroutineContext
@@ -27,6 +31,7 @@ import org.nostrdevkit.sdk.PublicKey
 import org.nostrdevkit.sdk.RelayUrl
 import org.nostrdevkit.sdk.Tag
 import org.nostrdevkit.sdk.Timestamp
+import org.json.JSONObject
 
 /** Shared protocol for local keys and Amber: identical backup and deletion semantics. */
 abstract class BaseNostrRepository(
@@ -309,6 +314,120 @@ abstract class BaseNostrRepository(
             tr("Corbeille synchronisée, mais écriture du cache local impossible. Actualisez avant de fermer.")
         }
         Publication(note.copy(trashed = trashed), warning)
+    }
+
+    override suspend fun uploadImage(bytes: ByteArray): Result<String> = operation {
+        val prepared = withContext(Dispatchers.IO) { ImagePreparation.toSanitizedJpeg(bytes) }
+        val image = withContext(Dispatchers.IO) { EncryptedImage.fromJpeg(prepared) }
+        connect()
+        val profile = client.fetchEvents(
+            ReqTarget.auto(listOf(Filter().author(publicKey).kind(Kind(10063u)).limit(20uL))),
+            timeout = Duration.ofSeconds(10), maxEvents = 20u
+        ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
+            .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
+        val servers = BlossomServers.fromProfile(profile)
+        var failure: Exception? = null
+        for (server in servers.distinct()) {
+            try {
+                val uploadEvent = sign(EventBuilder(Kind(24242u), "Upload encrypted Notestr image")
+                    .tags(listOf(
+                        Tag.parse(listOf("t", "upload")),
+                        Tag.parse(listOf("expiration", (System.currentTimeMillis() / 1000 + 300).toString())),
+                        Tag.parse(listOf("server", URL(server).host.lowercase())),
+                        Tag.parse(listOf("x", image.hash)),
+                    )))
+                val token = Base64.getUrlEncoder().withoutPadding().encodeToString(uploadEvent.asJson().toByteArray(Charsets.UTF_8))
+                uploadEncryptedBlob(server, image, token)
+                withContext(Dispatchers.IO) { cache.saveImage(image.hash, image.ciphertext) }
+                return@operation image.markdownReference(server)
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (error: Exception) { failure = error }
+        }
+        throw failure ?: IllegalStateException(tr("Aucun serveur d’images n’est configuré."))
+    }
+
+    private suspend fun uploadEncryptedBlob(server: String, image: EncryptedImage, token: String) = withContext(Dispatchers.IO) {
+        val connection = (URL("$server/upload").openConnection() as HttpURLConnection).apply {
+            requestMethod = "PUT"
+            instanceFollowRedirects = false
+            connectTimeout = 15_000
+            readTimeout = 30_000
+            doOutput = true
+            setFixedLengthStreamingMode(image.ciphertext.size)
+            setRequestProperty("Content-Type", "application/octet-stream")
+            setRequestProperty("X-SHA-256", image.hash)
+            setRequestProperty("Authorization", "Nostr $token")
+        }
+        try {
+            connection.outputStream.use { it.write(image.ciphertext) }
+            val status = connection.responseCode
+            if (status !in 200..299) throw IllegalStateException("Le serveur Blossom a refusé l’image (HTTP $status).")
+            val descriptor = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
+            check(descriptor.optString("sha256").equals(image.hash, ignoreCase = true)) { "Empreinte Blossom incorrecte." }
+        } finally { connection.disconnect() }
+    }
+
+    override suspend fun loadImage(reference: String): Result<ByteArray> = operation {
+        val uri = android.net.Uri.parse(reference)
+        require(uri.scheme == "notestr-image" && uri.host?.matches(Regex("[0-9a-f]{64}")) == true) { tr("Référence d’image invalide.") }
+        require(uri.getQueryParameter("mime") == "image/jpeg") { tr("Type d’image invalide.") }
+        val server = BlossomServers.normalize(uri.getQueryParameter("server") ?: "") ?: error(tr("Serveur Blossom invalide."))
+        val key = Base64.getUrlDecoder().decode(uri.getQueryParameter("key") ?: "")
+        val nonce = Base64.getUrlDecoder().decode(uri.getQueryParameter("nonce") ?: "")
+        require(key.size == 32 && nonce.size == 12) { tr("Clé d’image invalide.") }
+        val digest = uri.host!!
+        var encrypted = withContext(Dispatchers.IO) { cache.loadImage(digest) }
+        val validCached = encrypted?.let { java.security.MessageDigest.getInstance("SHA-256").digest(it).joinToString("") { b -> "%02x".format(b) } == digest } == true
+        if (!validCached) {
+            if (encrypted != null) withContext(Dispatchers.IO) { cache.deleteImage(digest) }
+            connect()
+            val profile = client.fetchEvents(
+                ReqTarget.auto(listOf(Filter().author(publicKey).kind(Kind(10063u)).limit(20uL))),
+                timeout = Duration.ofSeconds(10), maxEvents = 20u
+            ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
+                .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
+            val allowedServers = BlossomServers.fromProfile(profile)
+            val candidates = listOf(server).filter { it in allowedServers } + allowedServers.filter { it != server }
+            var lastError: Exception? = null
+            for (candidate in candidates) {
+                try {
+                    encrypted = withContext(Dispatchers.IO) {
+                        val connection = (URL("$candidate/$digest.jpg").openConnection() as HttpURLConnection).apply {
+                            requestMethod = "GET"
+                            instanceFollowRedirects = false
+                            connectTimeout = 12_000
+                            readTimeout = 20_000
+                        }
+                        try {
+                            check(connection.responseCode == 200) { tr("Image indisponible sur le serveur Blossom.") }
+                            val bytes = connection.inputStream.use { stream ->
+                                val output = java.io.ByteArrayOutputStream()
+                                val buffer = ByteArray(8192)
+                                while (true) {
+                                    val count = stream.read(buffer)
+                                    if (count < 0) break
+                                    require(output.size() + count <= 20 * 1024 * 1024 + 16) { tr("Fichier d’image trop volumineux.") }
+                                    output.write(buffer, 0, count)
+                                }
+                                output.toByteArray()
+                            }
+                            require(java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
+                                .joinToString("") { "%02x".format(it) } == digest) { tr("Empreinte Blossom incorrecte.") }
+                            cache.saveImage(digest, bytes)
+                            bytes
+                        } finally { connection.disconnect() }
+                    }
+                    break
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (error: Exception) { lastError = error }
+            }
+            check(encrypted != null) { lastError?.message ?: tr("Image indisponible sur les serveurs Blossom de ce compte.") }
+        }
+        val encryptedBytes = requireNotNull(encrypted)
+        require(java.security.MessageDigest.getInstance("SHA-256").digest(encryptedBytes).joinToString("") { "%02x".format(it) } == digest) {
+            tr("Empreinte Blossom incorrecte.")
+        }
+        EncryptedImage.decrypt(encryptedBytes, key, nonce)
     }
 
     override suspend fun delete(note: Note): Result<Unit> = operation {

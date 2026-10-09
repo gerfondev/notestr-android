@@ -25,6 +25,27 @@ import java.util.concurrent.TimeUnit
 class MarkdownEditorTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
+    @Test fun imageOpensFullscreenAndSystemBackClosesWithoutChangingNote() {
+        val source = "# Note test\n\nUne image déchiffrée.\n"
+        render { MaterialTheme { MarkdownEditor(source, {}) } }
+        assertVisual("Note test")
+        javascript("""(() => {
+            const host=document.createElement('div');host.className='toastui-editor-contents';
+            const image=document.createElement('img');image.alt='Image synthétique';
+            image.src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD';host.append(image);document.body.append(host);image.click();
+            return !!document.querySelector('.notes-image-lightbox img');
+        })()""")
+        compose.waitUntil(5000) { javascript("document.querySelector('.notes-image-lightbox img')?.alt === 'Image synthétique'") == "true" }
+        assertTrue(javascript("document.querySelector('.notes-image-lightbox')?.getAttribute('aria-modal') === 'true'") == "true")
+        javascript("document.querySelector('.notes-image-lightbox-zoom-in').click()")
+        compose.waitUntil(5000) { javascript("document.querySelector('.notes-image-lightbox-zoom-level')?.textContent === '150%'") == "true" }
+        javascript("document.querySelector('.notes-image-lightbox-zoom-reset').click()")
+        assertTrue(javascript("document.querySelector('.notes-image-lightbox-zoom-level')?.textContent === '100%'") == "true")
+        compose.runOnIdle { compose.activity.onBackPressedDispatcher.onBackPressed() }
+        compose.waitUntil(5000) { javascript("!document.querySelector('.notes-image-lightbox')") == "true" }
+        assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
+    }
+
     @Test fun trashViewerRendersFormattingWithoutEditingAndOpensLinks() {
         val source = "# Corbeille fictive\n\nTexte **important**.\n\n- [ ] Tâche\n\n[Site](https://example.org/)\n"
         val changes = java.util.concurrent.CopyOnWriteArrayList<String>()
@@ -38,7 +59,7 @@ class MarkdownEditorTest {
         javascript("document.body.dispatchEvent(new ClipboardEvent('paste', {bubbles:true,cancelable:true})); true")
         assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
         assertTrue(javascript("!document.querySelector('.task-list-item.checked')") == "true")
-        tapHtml("a")
+        tapHtml(".toastui-editor-contents a")
         compose.waitUntil(5000) { opened.size == 1 }
         org.junit.Assert.assertEquals("https://example.org/", opened.single())
         assertTrue(changes.isEmpty())

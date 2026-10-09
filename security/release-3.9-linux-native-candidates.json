@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-09T12:08:16.958774+00:00",
+  "source": "Ubuntu Noble main/restricted/universe/multiverse, updates, security and backports; apt indexes isolated under /tmp/notestr39-apt",
+  "packageCount": 191,
+  "updatesComparedToAppImage": [
+    {
+      "package": "gir1.2-soup-3.0",
+      "bundled": "3.4.4-5ubuntu0.8",
+      "ubuntuCandidate": "3.4.4-5ubuntu0.9"
+    },
+    {
+      "package": "libfreetype6",
+      "bundled": "2.13.2+dfsg-1ubuntu0.1",
+      "ubuntuCandidate": "2.13.2+dfsg-1ubuntu0.2"
+    },
+    {
+      "package": "libpng16-16t64",
+      "bundled": "1.6.43-5ubuntu0.6",
+      "ubuntuCandidate": "1.6.43-5ubuntu0.7"
+    },
+    {
+      "package": "librsvg2-2",
+      "bundled": "2.58.0+dfsg-1build1",
+      "ubuntuCandidate": "2.58.0+dfsg-1ubuntu0.1"
+    },
+    {
+      "package": "librsvg2-common",
+      "bundled": "2.58.0+dfsg-1build1",
+      "ubuntuCandidate": "2.58.0+dfsg-1ubuntu0.1"
+    },
+    {
+      "package": "libsoup-3.0-0",
+      "bundled": "3.4.4-5ubuntu0.8",
+      "ubuntuCandidate": "3.4.4-5ubuntu0.9"
+    },
+    {
+      "package": "libxml2",
+      "bundled": "2.9.14+dfsg-1.3ubuntu3.9",
+      "ubuntuCandidate": "2.9.14+dfsg-1.3ubuntu3.10"
+    }
+  ],
+  "unavailablePackages": [],
+  "limits": "Candidate-version comparison does not establish a security fix by itself; Ubuntu notices need review. Zorin-specific packages are omitted where no Ubuntu candidate exists."
+}

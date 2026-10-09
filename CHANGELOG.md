@@ -1,3 +1,7 @@
+# 3.9 — 9 octobre 2026
+
+Insertion d’images chiffrées avec aperçu visuel, visionneuse plein écran, zoom et déplacement sur Android et Linux. Correction Linux du bouton **Enregistrer les relais** dans les paramètres. Ajout de la licence GNU GPLv3 et de son texte complet dans les paramètres. Mise à jour des dépendances Android, Python, JavaScript et bibliothèques natives Linux ; réserves restantes documentées dans SECURITY-REVIEW.md.
+
 # 3.8
 
 Corbeille commune Android/Linux, délai de verrouillage Android de 3 minutes, modifications chiffrées hors connexion, correction des lenteurs et améliorations visuelles. Voir [les notes de version](RELEASE-NOTES-3.8.md).

@@ -1,22 +1,25 @@
 # Notestr Android
 
+> **Version 3.9** — Insertion d’images avec zoom et déplacement, correction du bouton d’enregistrement des relais sous Linux. Licence GPLv3 : voir [LICENSE](LICENSE) et [notes de version](RELEASE-NOTES-3.9.md).
+
+
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.8**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `2667b638b9d55251cfedcd2be1f784733ee4691d3658c915dfa39cca8d16e691`.
+SHA-256 : `91426d31d2cf2ab6984ee3156128ed6fee2e8fa6e09c56ea59a58e2bdd00bcf7`.
 
-## Nouveautés — 3.8
+## Nouveautés — 3.9
 
-Corbeille commune avec Linux, verrouillage Android après trois minutes en arrière-plan, enregistrement chiffré hors connexion et correction des lenteurs de chargement. Corbeille affichée en mode visuel, bouton d’accès explicite. [Notes de version 3.8](RELEASE-NOTES-3.8.md). VersionCode 35. Mettre à jour les deux applications pour la corbeille commune.
+Insertion d’images chiffrées avec affichage plein écran, zoom et déplacement ; correction Linux du bouton d’enregistrement des relais dans Paramètres. Licence GPLv3 consultable depuis les paramètres. [Notes de version 3.9](RELEASE-NOTES-3.9.md). VersionCode 41. Mettre à jour les deux applications pour bénéficier des mêmes nouveautés.
 
 ## Correction — 3.7.1
 
@@ -77,6 +80,7 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
+| **3.9** | `v3.9` | Insertion d’image avec zoom ; licence GPLv3. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9/Notestr-Android.apk) |
 | **3.7.1** | `v3.7.1` | Correction du copier-coller des liens web. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7.1/Notestr-Android.apk) |
 | **3.7** | `v3.7` | Cache, liens corrigés, version et langues dans les paramètres. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7/Notestr-Android.apk) |
 | **3.6** | `v3.6` | Épinglage chiffré synchronisé avec Linux ; numérotation commune. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.6/Notestr-Android.apk) |

@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-09T12:43:37Z",
+  "versionName": "3.9",
+  "versionCode": 41,
+  "apk": {
+    "name": "Notestr-Android.apk",
+    "sha256": "91426d31d2cf2ab6984ee3156128ed6fee2e8fa6e09c56ea59a58e2bdd00bcf7",
+    "signatureScheme": "v2",
+    "certificateSha256": "8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+    "certificateMatchesVersion38": true,
+    "debuggable": false
+  },
+  "dependencyReview": {
+    "osvQueries": 708,
+    "ecosystems": ["Maven", "crates.io", "npm", "PyPI"],
+    "prosemirrorView": "1.42.6",
+    "dompurify": "3.4.16",
+    "npmProductionAudit": "0 vulnerabilities",
+    "npmWorkspaceAudit": "178 development/test-tool alerts; not shipped, retained as a documented limitation"
+  },
+  "tests": {
+    "releaseUnitTests": "passed",
+    "releaseAssembly": "passed",
+    "android11ImageViewerZoomPanTest": "passed"
+  },
+  "privacyScan": {
+    "scope": "source and final package targeted scan; known owner path/name/email, complete nsec keys, private PEM keys, GitHub tokens",
+    "ownerPath": 0,
+    "ownerName": 0,
+    "ownerNamedEmail": 0,
+    "completeNsec": 0,
+    "privatePemMarker": 0,
+    "githubToken": 0,
+    "exhaustive": false
+  },
+  "limitations": ["Historical Git author identities are preserved.", "Archived upstream workspace development dependencies retain audit alerts; they are not included in the delivered runtime."]
+}

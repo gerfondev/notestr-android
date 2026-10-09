@@ -263,6 +263,21 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         )
     }
 
+    fun uploadImage(bytes: ByteArray, onComplete: (String) -> Unit) = runTask {
+        val reference = repository?.uploadImage(bytes)?.getOrThrow() ?: error(tr("Application verrouillée"))
+        onComplete(reference)
+        state = state.copy(message = tr("Image chiffrée et ajoutée à la note."))
+    }
+
+    fun loadImage(reference: String, onComplete: (ByteArray?) -> Unit) {
+        val active = repository ?: return
+        val expectedSession = session
+        viewModelScope.launch(Dispatchers.IO) {
+            val bytes = active.loadImage(reference).getOrNull()
+            if (session == expectedSession && repository === active) onComplete(bytes)
+        }
+    }
+
     fun discardPending(note: Note) = runTask {
         val notes = repository?.discardPending(note)?.getOrThrow() ?: return@runTask
         state = state.copy(screen = Screen.Notes, notes = notes, message = tr("Modifications locales abandonnées."))

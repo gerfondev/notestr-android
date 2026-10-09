@@ -1,6 +1,17 @@
 html,body,#editor{height:100%;margin:0;background:#fff}body{overflow:hidden}.toastui-editor-defaultUI{border:0;height:100%!important}.toastui-editor-main{font-size:17px}.toastui-editor-contents{font-size:17px;line-height:1.55;padding:18px}.toastui-editor-mode-switch{display:none!important}
 
 .toastui-editor-contents img{max-width:100%;height:auto}
+.toastui-editor-contents img{cursor:zoom-in}
+.notes-image-lightbox{position:fixed;inset:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;overflow:hidden;box-sizing:border-box;padding:24px;background:rgba(0,0,0,.94);cursor:zoom-out;overscroll-behavior:contain;touch-action:none}
+.notes-image-lightbox img{display:block;width:min(100%,1200px);max-width:100%;max-height:100%;height:auto;object-fit:contain;cursor:grab;user-select:none;-webkit-user-drag:none;touch-action:none;will-change:transform}
+.notes-image-lightbox img:active{cursor:grabbing}
+.notes-image-lightbox-controls{position:absolute;bottom:18px;left:50%;z-index:1;display:flex;align-items:center;gap:8px;transform:translateX(-50%);padding:6px;border:1px solid rgba(255,255,255,.4);border-radius:14px;background:rgba(0,0,0,.62);color:#fff}
+.notes-image-lightbox-controls button{width:48px;height:48px;border:0;border-radius:10px;background:rgba(255,255,255,.16);color:#fff;font:28px/1 sans-serif;cursor:pointer}
+.notes-image-lightbox-controls button:disabled{opacity:.45}
+.notes-image-lightbox-controls button:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.notes-image-lightbox-zoom-level{min-width:56px;text-align:center;font:15px sans-serif}
+.notes-image-lightbox-close{position:absolute;top:12px;right:12px;width:48px;height:48px;border:1px solid rgba(255,255,255,.75);border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font:32px/1 sans-serif;cursor:pointer}
+.notes-image-lightbox-close:focus-visible{outline:3px solid #fff;outline-offset:3px}
 
 /* Anchor the percentage-height chain to the Android viewport, not wrap-content measurement. */
 html{height:100vh}body,#editor{height:100%}

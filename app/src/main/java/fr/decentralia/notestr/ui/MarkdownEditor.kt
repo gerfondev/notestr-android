@@ -1,5 +1,6 @@
 package fr.decentralia.notestr.ui
 
+import fr.decentralia.notestr.R
 import fr.decentralia.notestr.i18n.tr
 
 import android.annotation.SuppressLint
@@ -28,15 +29,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
@@ -71,16 +78,29 @@ internal class EditorWebView(context: Context) : WebView(context) {
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modifier = Modifier,
-                   onOpenLink: ((String) -> Unit)? = null, readOnly: Boolean = false) {
+                   onOpenLink: ((String) -> Unit)? = null, onLoadImage: ((String, (ByteArray?) -> Unit) -> Unit)? = null,
+                   onPickImage: (((String) -> Unit) -> Unit)? = null,
+                   readOnly: Boolean = false) {
     var visual by remember { mutableStateOf(true) }
     var webView by remember { mutableStateOf<WebView?>(null) }
     var revision by remember { mutableStateOf(0) }
     var loadedRevision by remember { mutableStateOf(-1) }
     var error by remember { mutableStateOf<String?>(null) }
+    var imageFullscreen by remember { mutableStateOf(false) }
+    var sourceValue by remember { mutableStateOf(TextFieldValue(markdown)) }
     val currentOnOpenLink by rememberUpdatedState(onOpenLink)
     val currentReadOnly by rememberUpdatedState(readOnly)
     val currentMarkdown by rememberUpdatedState(markdown)
     val currentOnChange by rememberUpdatedState(onChange)
+    val currentOnLoadImage by rememberUpdatedState(onLoadImage)
+    val currentOnPickImage by rememberUpdatedState(onPickImage)
+    LaunchedEffect(markdown) {
+        if (sourceValue.text != markdown) sourceValue = TextFieldValue(markdown, TextRange(markdown.length))
+    }
+    BackHandler(enabled = imageFullscreen) {
+        webView?.evaluateJavascript("window.notesEditor.closeImageLightbox()", null)
+        imageFullscreen = false
+    }
 
     Column(modifier) {
         if (!readOnly) Row(Modifier.fillMaxWidth()) {
@@ -106,6 +126,43 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                     loadedRevision = -1
                 }
             }, enabled = visual) { Text("Markdown") }
+            if (onPickImage != null) IconButton(onClick = {
+                val active = webView
+                if (visual && active != null && loadedRevision >= 0) {
+                    val expectedRevision = loadedRevision
+                    active.evaluateJavascript("window.notesEditor.rememberInsertionPoint()") { captured ->
+                        if (captured == "true" && webView === active && loadedRevision == expectedRevision) {
+                            currentOnPickImage?.invoke { reference ->
+                                if (webView !== active || loadedRevision != expectedRevision) return@invoke
+                                active.evaluateJavascript("window.notesEditor.insertImageReference(${JSONObject.quote(reference)})") { inserted ->
+                                    if (inserted == "true" && webView === active && loadedRevision == expectedRevision) {
+                                        active.evaluateJavascript("window.notesEditor.snapshot()") { json ->
+                                            if (webView === active && loadedRevision == expectedRevision) {
+                                                runCatching { JSONObject("{\"v\":$json}") }
+                                                    .getOrNull()?.opt("v")?.let { if (it is String) currentOnChange(it) }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else if (!visual) {
+                    val captured = sourceValue
+                    currentOnPickImage?.invoke { reference ->
+                        val start = minOf(captured.selection.start, captured.selection.end).coerceIn(0, captured.text.length)
+                        val end = maxOf(captured.selection.start, captured.selection.end).coerceIn(start, captured.text.length)
+                        val prefix = if (start > 0 && captured.text[start - 1] != '\n') "\n\n" else ""
+                        val suffix = if (end < captured.text.length && captured.text[end] != '\n') "\n\n" else ""
+                        val insertion = prefix + reference + suffix
+                        val updated = captured.text.replaceRange(start, end, insertion)
+                        sourceValue = TextFieldValue(updated, TextRange(start + insertion.length))
+                        currentOnChange(updated)
+                    }
+                }
+            }, enabled = !readOnly) {
+                Icon(painterResource(R.drawable.ic_upload_image), contentDescription = tr("Insérer une image"))
+            }
         }
         if (visual) {
             Box(Modifier.fillMaxWidth().weight(1f)) {
@@ -123,6 +180,11 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                             addJavascriptInterface(MarkdownEditorBridge { json ->
                                 val message = runCatching { JSONObject(json) }.getOrNull()
                                 if (message != null) owner.post {
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "imageViewer" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        imageFullscreen = message.optBoolean("open")
+                                    }
                                     if (webView === owner && visual && loadedRevision >= 0 &&
                                         !currentReadOnly && message.optString("type") == "change" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
@@ -146,6 +208,17 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                             clipboard.setPrimaryClip(ClipData.newPlainText("Code", message.getString("text")))
                                         }.isSuccess
                                         owner.evaluateJavascript("window.notesEditor.copyResult($id, $copied)", null)
+                                    }
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "loadImage" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        val reference = message.optString("reference")
+                                        currentOnLoadImage?.invoke(reference) { bytes -> owner.post {
+                                            if (webView === owner && visual && loadedRevision >= 0 && bytes != null) {
+                                                val data = android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP)
+                                                owner.evaluateJavascript("window.notesEditor.imageResult(${JSONObject.quote(reference)},${JSONObject.quote(data)})", null)
+                                            }
+                                        } }
                                     }
                                 }
                             }, "AndroidNotes")
@@ -210,14 +283,15 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                     }
                 }
             }
-            LaunchedEffect(webView, visual, error) {
-                if (webView != null && visual && error == null) {
+            LaunchedEffect(webView, visual, error, loadedRevision) {
+                if (webView != null && visual && error == null && loadedRevision >= 0) {
+                    webView?.evaluateJavascript("window.notesEditor.resolveImages(true)", null)
                     delay(15000)
                     if (loadedRevision < 0) error = tr("Le chargement de l’éditeur a dépassé 15 secondes.")
                 }
             }
         } else {
-            OutlinedTextField(value = markdown, onValueChange = onChange, modifier = Modifier.fillMaxWidth().weight(1f), label = { Text("Markdown") })
+            OutlinedTextField(value = sourceValue, onValueChange = { sourceValue = it; onChange(it.text) }, modifier = Modifier.fillMaxWidth().weight(1f), label = { Text("Markdown") })
         }
     }
 }

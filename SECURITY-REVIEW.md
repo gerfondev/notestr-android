@@ -1,3 +1,71 @@
+# Contrôles de sécurité — Notestr Android 3.9 (9 octobre 2026)
+
+Android 3.9, versionCode 41. APK SHA-256 : `91426d31d2cf2ab6984ee3156128ed6fee2e8fa6e09c56ea59a58e2bdd00bcf7`. Signature APK v2 vérifiée ; le certificat est identique à celui de l’APK 3.8 (empreinte SHA-256 `8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8`). Le manifeste ne déclare pas l’application débogable.
+
+Les dépendances Maven, Rust, npm et Python ont fait l’objet de 708 requêtes OSV. L’avis ProseMirror GHSA-c8x8-7fp4-3x9w est corrigé dans le bundle reconstruit avec `prosemirror-view` 1.42.6 (version corrigée 1.42.3 ou ultérieure), ainsi que des versions récentes compatibles des autres paquets ProseMirror. DOMPurify 3.4.16 est chargé séparément. L’audit npm de production ne signale aucune vulnérabilité ; l’audit complet du monorepo historique contient 178 alertes de dépendances d’outils/tests, qui ne sont pas embarquées et restent une réserve documentée.
+
+La reconstruction conserve l’API TOAST UI 3.2.2 et ajoute le support des nœuds `linebreak` émis par ToastMark. `testReleaseUnitTest` et `assembleRelease` réussissent ; le test instrumenté d’ouverture, zoom, déplacement et fermeture de l’image réussit sur émulateur Android 11.
+
+Le contrôle ciblé des sources, de l’APK, du wheel et de l’archive source n’a trouvé aucun chemin personnel connu, nom du propriétaire, adresse e-mail qui lui soit attribuable, clé `nsec` complète, marqueur de clé privée PEM ou jeton GitHub. Il ne constitue pas un audit exhaustif. Les identités déjà présentes dans l’historique Git antérieur sont conservées ; aucun historique distant n’est réécrit.
+
+---
+
+# Zoom et déplacement des images — candidat local Android du 9 octobre 2026
+
+Android 3.8-test.40 (versionCode 40), APK SHA-256 `094d61314fda03b669b73ffb045f80e848975479b4156458bf0425949390534a`. La visionneuse d’image ajoute zoom +/−, réinitialisation, zoom focalisé au pincement et déplacement au doigt. Les limites gardent l’image dans le cadre, et la note reste inchangée.
+
+17 tests JVM, compilation release et compilation Kotlin du test instrumenté réussis ; l’essai instrumenté n’a pas été exécuté faute d’appareil ou d’émulateur. Signature APK v2 vérifiée, certificat de test Android local, paquet non débogable et alignement vérifié. Les fichiers JavaScript/CSS embarqués sont identiques aux sources. Scan ciblé des 491 entrées APK sans marqueurs personnels recherchés ; il n’est pas exhaustif.
+
+Aucune dépendance modifiée. Dernier audit large du 6 octobre, pas de nouvelle revue complète des registres le 9 octobre. La réserve GHSA-c8x8-7fp4-3x9w / CVE-2026-104847 dans ProseMirror embarqué via TOAST UI demeure ouverte ; les contrôles de collage locaux ne sont pas le correctif amont.
+
+Candidat local uniquement, aucune publication. Rapport : `livrables/test-zoom-images-40-46/security/zoom-pan-images-2026-10-09.json`.
+
+---
+
+# Visionneuse d’images — candidat local Android du 9 octobre 2026
+
+Android 3.8-test.39 (versionCode 39), APK local SHA-256 `2ec6ba663cc93a591827bc66fbb037d271762e84c806de89e77a97095ecca76f`. Un appui sur une image déjà déchiffrée ouvre une vue agrandie ; le bouton Retour Android, Échap ou le bouton de fermeture la referment. L’ouverture ne change pas le Markdown et ne déclenche pas de téléchargement.
+
+17 tests JVM réussis, assemblage release et compilation du test instrumenté réussis. Le test instrumenté n’a pas été exécuté : aucun appareil/émulateur n’était connecté. L’APK est signé v2 par le certificat Android Debug local, non débogable, alignement vérifié ; le JavaScript/CSS embarqué est identique aux sources. Scan ciblé de 491 entrées APK : aucun chemin/nom du propriétaire, clé `nsec` formée ou en-tête de clé privée détecté. Ce contrôle n’est pas exhaustif.
+
+Aucune dépendance modifiée. Dernier audit large du 6 octobre ; pas de nouvel audit complet de registres le 9 octobre. L’avis de gravité élevée GHSA-c8x8-7fp4-3x9w / CVE-2026-104847 dans ProseMirror empaqueté avec TOAST UI reste ouvert ; le filtrage local du collage n’est pas un correctif amont. Les autres limites 3.8 restent applicables. Le candidat est local, aucune publication.
+
+Rapport de vérification ciblée : `livrables/test-plein-ecran-images-39-45/security/plein-ecran-images-2026-10-09.json`.
+
+---
+
+# Insertion d’image à la position choisie — candidat Android local du 9 octobre 2026
+
+Android 3.8-test.38 (versionCode 38), APK SHA-256 `3021544b51a3ca03197ebdae951a1c1cf4988b4d61aa5cfdbb360d4d19b3e803`. 17 tests JVM et assemblage release réussis. Signature v2 valide, paquet non débogable, zipalign contrôlé ; le JavaScript embarqué est identique à la source. L’éditeur mémorise et restaure la sélection autour du sélecteur d’image, et accepte le Markdown complet renvoyé par le téléversement, en mode Visuel comme Markdown. Le bouton texte est remplacé par une icône accessible.
+
+Scan ciblé des 491 entrées décompressées : aucun chemin personnel du propriétaire, courriel ciblé, motif complet de clé `nsec` ou en-tête de clé privée PEM détecté. Ce contrôle n’est pas exhaustif. Aucun téléphone ni émulateur n’a été utilisé. Pas de nouvel audit complet des dépendances le 9 octobre ; l’avis TOAST UI/ProseMirror et les réserves natives déjà documentées restent ouverts. Aucune publication.
+
+Voir `security/image-position-candidate-2026-10-09.json` et `livrables/test-images-position-39/LIRE-MOI.md`.
+
+# Aperçu immédiat des images — candidat Android local du 9 octobre 2026
+
+Android 3.8-test.37 (versionCode 37), APK SHA-256 `d439a0da8e7426b2d63f218ee84ace19dc9d8b63ceb51ea825c7f43c5b510c47`. 17 tests JVM réussis, assemblage release, signature v2 vérifiée, non débogable et zipalign vérifié. Après un téléversement réussi, le blob chiffré est maintenant enregistré immédiatement dans le cache local, afin que le mode visuel puisse afficher l’image sans téléchargement Blossom supplémentaire. Aucun téléphone ni émulateur connecté ; validation physique à faire par l’utilisateur.
+
+Les dépendances restent inchangées. Dernier audit général des registres le 5 octobre, sans nouvel audit complet le 9 octobre. Les contrôles ciblés portent sur l’APK décompressé et les sources ; ils ne sont pas exhaustifs. La réserve GHSA-c8x8-7fp4-3x9w / CVE-2026-104847 de l’éditeur intégré et les réserves natives de 3.8 restent ouvertes. Voir `security/images-candidate-2026-10-09.json`.
+
+Paquet local uniquement ; aucune publication.
+
+# Candidat Android initial d’insertion d’images — 3.8-test.36
+
+Android 3.8-test.36 (versionCode 36), APK local signé v2, non débogable et aligné. SHA-256 `1558873d2edf8e37a861b5e7b6019bc5aa32813a268178620f1a348e7f437e8b`. 17 tests JVM réussis ; aucun téléphone ni émulateur connecté, le test physique est laissé à l’utilisateur. Les 15 bibliothèques natives de l’APK sont identiques à la version 3.8 déjà contrôlée. Les sources JavaScript embarquées ont été comparées aux sources.
+
+Le traitement chiffre les images en AES-256-GCM avant envoi, enlève leurs métadonnées par conversion JPEG, limite le blob chiffré à 20 Mio et conserve seulement le blob chiffré en cache. Les serveurs sont lus dans les tags `server` du kind 10063 vérifié ; nostr.build n’est utilisé qu’en l’absence de serveur valide. Les anciennes et nouvelles versions de l’application ne partagent pas encore l’affichage de ce format.
+
+Contrôle ciblé des 490 entrées APK décompressées : aucun marqueur de chemin du propriétaire, courriel, identifiant `nsec` ou clé privée connue. Les 11 images sources n’ont pas de métadonnée ; les images Android compilées ne contiennent que des champs de transparence (aucun EXIF). Dépendances inchangées ; dernier examen général le 5 octobre, pas de nouvel audit complet des registres le 9 octobre. Les réserves 3.8 restent ouvertes, notamment GHSA-c8x8-7fp4-3x9w / CVE-2026-104847 dans ProseMirror intégré à TOAST UI. Le collage de texte brut réduit le chemin décrit, sans remplacer le correctif amont ni prouver l’absence d’autres chemins. Voir `security/images-candidate-2026-10-09.json`.
+
+Paquet local uniquement, sans publication.
+
+# Publication 3.8 vérifiée — 5 octobre 2026
+
+Android 229a579 (code 35), Linux 6eeec99, tags v3.8. Huit fichiers publics téléchargés anonymement et comparés aux fichiers contrôlés ; signature et certificat de l’APK public vérifiés. Rapport security/release-3.8-publication.json. Anciens auteurs publics conservés et réserves documentées maintenues. Toute publication suivante nécessite son propre accord.
+
+---
+
 # Version 3.8 — contrôle du 5 octobre 2026
 
 Android 3.8 (code 35), Linux 3.8. Publication GitHub demandée explicitement pour les deux applications. Corbeille commune manuelle, modification chiffrée hors connexion, correction des blocages Android, corbeille visuelle et boutons clarifiés/alignés. Android : verrouillage après 180 000 ms en arrière-plan, horloge monotone et contrôle au retour, verrouillage manuel immédiat. Aucun vidage automatique de la corbeille. Sauvegardes préalables des sources effectuées.
@@ -17,6 +85,84 @@ WebKitGTK/JavaScriptCore 2.54.0 embarqué : les neuf avis Ubuntu récemment inde
 Contrôles ciblés des sources destinées à publication, ressources, métadonnées d’images, fichiers de revue et historiques. Comptes et notes synthétiques uniquement pour les tests, clés de test identifiées. Les anciens commits publics portant une identité d’auteur personnelle restent dans l’historique (3 Android, 2 Linux avant publication), sans réécriture. Les nouveaux commits utilisent une identité générique. Les contrôles ciblés ne garantissent pas l’absence de toute donnée inconnue ou encodée.
 
 Paquets : examens du contenu décompressé, signature/certificat et alignement de l’APK, comparaison des bibliothèques natives avec les AAR contrôlés, comparaison de l’AppImage extraite avec l’AppDir et anonymisation des propriétaires de l’archive Python. Rapports datés, empreintes et résultats finaux dans security/release-3.8-*.json. Les fichiers de travail locaux, caches de compte, keystores et journaux bruts ne font pas partie des livrables. Notes utilisateur dans RELEASE-NOTES-3.8.md.
+
+---
+
+# Verrouillage Android après trois minutes — candidat local du 5 octobre 2026
+
+Android 3.7.1-test.34 (code 34). Sauvegarde avant-verrouillage-2026-10-05. Le passage en arrière-plan déclenche un délai de 180 000 ms, annulé par un retour anticipé. Horloge monotone elapsedRealtime, incluant le sommeil ; vérification au retour avant reprise de l’interface pour couvrir un minuteur suspendu. Verrouillage manuel immédiat conservé, FLAG_SECURE inchangé, redémarrage du processus verrouillé. Une autorisation Amber reste possible pendant le délai ; à expiration la session et la demande en cours sont annulées. Le délai persiste lors du remplacement des ressources de session en arrière-plan. Le message avant ouverture d’un lien avec brouillon a été actualisé en français/anglais. Les brouillons non enregistrés restent perdus au verrouillage ; aucun nouvel enregistrement automatique ajouté. Linux inchangé.
+
+14 tests JVM et 22 instrumentés réussis sur émulateur Android 11 : cycle réel arrêt/retour de l’activité, seuil juste avant/à 3 minutes, minuteur expiré en arrière-plan, arrêts répétés, verrouillage manuel, Amber, éditeur, corbeille et mode hors connexion. Seuils temporels testés avec horodatages monotones injectés, sans attente réelle de trois minutes. Téléphone Android 17 physique non testé.
+
+699 coordonnées OSV et registres officiels, maintenance, outils et avis Rust reconsultés : aucune alerte retournée ni erreur ; métadonnées identiques au candidat 33, aucune dépendance modifiée. TOAST UI archivé et autres réserves de maintenance/exposition conservés ; WebView dépend des mises à jour système. Aucun paquet Linux recompilé. Contrôles ciblés de 1 598 entrées sources/archives et 490 entrées APK, images/métadonnées et historique : aucun marqueur personnel recherché non expliqué. Anciennes identités publiques conservées. APK non débogable, certificat/signature v2 historiques, alignement 16 Ko et correspondance des natifs avec les AAR contrôlés vérifiés. Contrôles non exhaustifs. Rapports et empreinte : security/background-lock-*.json. Aucun push, tag distant, release ni téléversement.
+
+---
+
+# Boutons de corbeille — candidats locaux du 5 octobre 2026
+
+Android 3.7.1-test.33 (code 33) : accès à la corbeille par bouton texte « Corbeille », retour « Notes », distinct de l’icône de suppression dans la note. Linux 3.7.1.dev33 : marges et hauteur de rangée communes aux boutons Corbeille / Visuel / Markdown ; messages d’attente placés sous la rangée. Sauvegardes avant-boutons-corbeille-2026-10-05. Aucun changement du protocole, cache ou synchronisation.
+
+Android : 15 des 16 tests instrumentés passent initialement ; assertion de position du clavier en échec, puis test isolé réussi sans modification du code. Émulateur Android 11 uniquement. Linux : contrôles GTK depuis l’AppImage finale extraite, alignement vertical et hauteur vérifiés avec/sans message d’attente ; corbeille, restauration et suppression manuelles validées. Cohérence de version vérifiée après correction du README de packaging. Pas de nouveau test JVM pour ce changement d’interface.
+
+699 coordonnées OSV, registres officiels et maintenance reconsultés, aucune alerte applicative ni erreur, métadonnées identiques au candidat précédent. Index Ubuntu rafraîchis : aucune nouvelle version candidate. Neuf nouveaux avis Ubuntu concernent les métadonnées WebKit 2.52.6 : tous renvoient à WSA-2026-0006, corrigé dans le moteur 2.54.0 réellement embarqué depuis 3.7. Voir trash-buttons-native-exposure.json et les avis détaillés. Les autres réserves natives et l’état archivé de TOAST UI restent documentés, sans affirmation d’absence de vulnérabilité.
+
+Sources/archives et paquets décompressés contrôlés par motifs ciblés, métadonnées d’images et anciens auteurs examinés : aucun marqueur personnel recherché non expliqué. Historiques publics conservés. APK non débogable, signature et certificat historiques, natifs comparés aux AAR et alignement vérifiés. AppImage extraite et comparée à l’AppDir. Contrôles non exhaustifs. Empreintes et résultats dans security/trash-buttons-*.json. Aucun push, tag distant, release ou téléversement ; copies de publication inchangées.
+
+---
+
+# Corbeille Android en mode visuel — candidat local du 5 octobre 2026
+
+Android 3.7.1-test.32 (code 32), sauvegarde avant-corbeille-visuelle-2026-10-05. Remplacement du texte brut de la corbeille par le lecteur TOAST UI, avec le même assainissement DOMPurify et les restrictions CSP. Aucun champ éditable ni barre de mise en forme ; cases de tâches non modifiables, collage bloqué, source conservée exactement. Liens HTTP/HTTPS ouverts par le pont natif. Linux 3.7.1.dev31 inchangé. Le fonctionnement hors connexion du candidat 31 est conservé.
+
+14 tests JVM et 16 tests instrumentés réussis sur émulateur Android 11, dont rendu visuel en lecture seule, clic réel sur lien, restauration/suppression manuelles et régressions éditeur/hors connexion. Test de routage du collage JavaScript réussi. Téléphone physique Android 17 non testé.
+
+699 coordonnées OSV, registres officiels, maintenance et outils reconsultés : aucune alerte retournée ni erreur ; métadonnées identiques au contrôle du candidat 31. Aucune dépendance modifiée. TOAST UI archivé : exception de maintenance conservée, rendu assaini et réseau restreint ; WebView dépend des mises à jour système. Bibliothèques Rust/JNA inchangées, binaires APK comparés aux AAR contrôlés. Réserves natives Linux précédentes inchangées, aucun nouveau paquet Linux livré.
+
+Contrôles ciblés de 1 597 entrées sources/archives et 490 entrées APK décompressées : aucun marqueur personnel recherché détecté ; métadonnées d’images examinées. Anciens auteurs publics conservés, sans réécriture. APK non débogable, signature v2/certificat historiques et alignement 16 Ko vérifiés. Ces contrôles ne sont pas exhaustifs et ne prouvent pas l’absence de vulnérabilité. Rapports et empreinte : security/trash-view-*.json. Aucun push, tag distant, téléversement ni publication ; copies de publication inchangées.
+
+---
+
+# Mode hors connexion — candidats locaux du 5 octobre 2026
+
+Android 3.7.1-test.31 (code 31), Linux 3.7.1.dev31. Sauvegardes avant-hors-ligne-2026-10-05. Le bouton Publier enregistre d’abord une modification locale chiffrée NIP-44 et signée, puis l’envoie lorsque les relais sont joignables et l’application ouverte/déverrouillée. État en attente, reprise au redémarrage, protection des brouillons de l’éditeur, détection des conflits et publication explicite d’une copie. Corbeille et épinglage restent manuels. Dernière copie locale acceptée conservée pour détecter les envois simultanés, puis retirée si sa suppression définitive manuelle est connue. Détails et limites dans OFFLINE.md.
+
+Validation : 14 tests JVM ; suite principale Android de 40 cas (le cas nécessitant un relais est activé séparément), 7 cas avec relais local et 2 biométriques, soit 43 cas distincts exercés. Émulateur Android 11/API 30 ; aucun test physique Android 17. 91 tests Python fonctionnels et 1 test de cohérence de version passent. Tests GTK de corbeille et de mode hors connexion, dont ce dernier sur l’AppImage extraite ; éditeur, langues, version et PDF du paquet contrôlés. Formats chiffrés vérifiés dans les deux sens entre Linux et Android. Les tests dédiés à la synchronisation utilisent des relais locaux ou simulés et des comptes fictifs identifiés. Le test graphique historique interceptait l’ancien envoi direct : il a été adapté à l’enregistrement local, avec reprises automatiques neutralisées pour isoler ce test.
+
+699 coordonnées OSV applicatives et registres/maintenance officiels réinterrogés, sans alerte retournée ni erreur de métadonnées. Composants et chaîne de compilation qualifiés inchangés, exceptions de compatibilité maintenues ; TOAST UI reste archivé. AAR Rust/JNA inchangés et contrôlés, WebView Android fourni par le système. Index Ubuntu rafraîchis pour les 191 composants de référence : aucune mise à jour candidate supplémentaire. Aucun nouvel identifiant d’avis natif depuis le contrôle du 4 octobre. Les 140 signalements bruts de 3.7.1 et les quatre avis ajoutés le 4 octobre restent analysés dans les rapports cités, sans affirmation qu’ils sont tous corrigés ou inexploitables. WebKitGTK 2.54.0 conservé ; anciennes métadonnées de distribution distinguées du moteur réellement inclus.
+
+Contrôles ciblés : 1 597 entrées de sources/archives, images/métadonnées, historiques et identités auteur ; 4 320 entrées de paquets décompressées. Aucun marqueur personnel recherché non expliqué. Cinq fixtures publiques GnuTLS reconnues par empreinte. Sources et paquets ne comprennent pas de compte utilisateur ni de notes personnelles utilisés pour les essais. Contrôles non exhaustifs. APK non débogable, signature v2/certificat conservés, alignement 16 Ko et natifs comparés aux AAR. AppImage extraite et comparée à l’AppDir. Empreintes et limites dans security/offline-*.json.
+
+Aucune publication, aucun push ou tag distant ; copies de publication 3.7.1 inchangées. Les anciens auteurs personnels présents dans les historiques publics sont conservés, sans réécriture.
+
+---
+
+# Correctif Android du chargement — candidat local du 5 octobre 2026
+
+Android 3.7.1-test.30 (code 30). Sauvegarde préalable avant-correctif-demarrage-2026-10-05. Blocage après biométrie ou mot de passe : la comparaison quadratique des événements et suppressions exécutée sur le fil de l’interface prend 39 756 ms sur 600 événements fictifs. Indexation des suppressions : 369 ms sur le même émulateur. Opérations du compte à clé locale déplacées sur IO ; ressources natives libérées après la fin de l’opération annulée lors du verrouillage. Format de corbeille conservé ; Linux 3.7.1.dev29 inchangé.
+
+14 tests JVM, 33 tests instrumentés de régression, 2 tests biométriques et 1 test sur relais local réussis (36 instrumentés au total). Relais fictif remis à zéro pour isoler les suppressions terminales des essais précédents. Ces derniers comprennent un historique de 300 notes et 300 suppressions, la biométrie réelle de l’émulateur et le verrouillage pendant chargement. Émulateur Android 11/API 30 ; aucun test physique sur Android 17. Le symptôme signalé correspond au chemin bloquant reproduit, sans prétendre disposer du journal du téléphone.
+
+699 coordonnées OSV et métadonnées officielles/maintenance reconsultées : aucune alerte retournée ni erreur de récupération. Versions stables inchangées depuis le contrôle précédent ; la variation du catalogue Gradle concerne les versions de développement. Chaîne qualifiée et exceptions de compatibilité conservées. AAR Rust/JNA inchangés et vérifiés ; TOAST UI archivé, WebView fourni par le système. Les réserves natives Linux antérieures demeurent documentées ; Linux n’est pas recompilé ici. Aucune affirmation d’absence de vulnérabilité.
+
+1 587 entrées sources/archives et 490 entrées APK décompressées contrôlées par motifs ciblés, images/métadonnées et historique examinés : aucun marqueur personnel recherché non expliqué. Anciennes identités auteur publiques conservées, sans réécriture. APK non débogable, signature v2 et certificat historiques, alignement 16 Ko vérifiés. Contrôles non exhaustifs. Empreinte et résultats : security/startup-*.json. Aucun push, tag distant, release ni téléversement ; copies de publication inchangées.
+
+---
+
+# Corbeille commune — candidats locaux du 4 octobre 2026
+
+Android 3.7.1-test.29 (code 29), Linux 3.7.1.dev29. Corbeille chiffrée commune, restauration et suppression définitive manuelles, aucune expiration ni vidage automatique. Sauvegardes avant-corbeille-2026-10-04. Aucun push, tag distant, release ou téléversement autorisé ; copies de publication 3.7.1 inchangées. Protocole et limites détaillés dans TRASH.md.
+
+14 tests JVM, 31 tests instrumentés Android et 1 test avec relais local, 79 Python ; test graphique de corbeille Linux et contrôles AppImage éditeur/langue/version/PDF réussis. Échanges NIP-44 signés validés Linux vers Android et Android vers Linux. Annulation, échec d’envoi, restauration, suppression terminale et retrait des contenus du cache testés. Comptes fictifs identifiés uniquement, aucun relais public. Aucun test effectué sur le téléphone physique de l’utilisateur.
+
+699 coordonnées OSV et registres officiels recontrôlés sans nouvelle alerte applicative ni erreur de récupération. Index Ubuntu rafraîchis et 191 composants de référence relus : aucune mise à jour candidate disponible. Bibliothèques natives inchangées depuis 3.7.1. Les réserves natives étendues de 3.7.1 restent ouvertes. Quatre avis supplémentaires : SoupServer non utilisé (CVE-2026-103399), serveur TLS SNI non utilisé (CVE-2026-19445), hostname TLS explicitement transmis par websockets 17.1 (CVE-2026-19553), polices CID malveillantes exclues du contenu des notes mais environnement de polices système à considérer (CVE-2026-95512). Ces analyses d’exposition ne constituent pas des correctifs du code natif. TOAST UI demeure archivé.
+
+Contrôles ciblés de 1 586 entrées de sources/archives et du contenu décompressé des paquets, métadonnées d’images et historique : aucun marqueur propriétaire recherché non expliqué détecté. Clés publiques d’autotest GnuTLS reconnues par empreinte. APK non débogable, signature v2 et certificat inchangés, alignement et AAR natifs vérifiés. AppImage extraite et comparée à l’AppDir. Anciennes identités auteur déjà publiques conservées ; aucun historique réécrit. Contrôles non exhaustifs. Rapports datés, versions et empreintes : security/trash-*.json.
+
+---
+
+# Clôture publication 3.7.1 — 3 octobre 2026
+
+Android 23b385e (code 28), Linux 77eaded, tags v3.7.1 publiés sur GitHub. Les huit fichiers publics ont été téléchargés anonymement et comparés aux fichiers contrôlés ; signature et certificat de l’APK public vérifiés. Rapport `security/release-3.7.1-publication.json`. Les réserves natives détaillées ci-dessous restent ouvertes ; publication ne signifie pas absence de vulnérabilité. Historiques et modifications README distantes conservés.
 
 ---
 
@@ -44,6 +190,28 @@ Des identités personnelles préexistantes restent dans les anciens commits publ
 
 ---
 
+# Candidats locaux — collage URL — 2 octobre 2026
+
+Android 3.7-test.27 (code 27) et Linux 3.7.dev27 corrigent le gestionnaire global de collage : les champs input/textarea utilisent désormais le collage natif, sans insertion dans le corps de la note. Sauvegardes avant-collage-url-2026-10-02. Aucune publication autorisée ou effectuée ; copies de publication 3.7 inchangées.
+
+Validation : 14 tests JVM, 29 tests Android instrumentés sur émulateur (collage natif URL et annulation sans modification du Markdown), régression JavaScript sur les deux plateformes. Test natif Linux WebKit 2.54.0 : collage/remplacement URL, annulation, collage du libellé, insertion du lien avec conservation de la structure titres/listes. Le paquet Linux décompressé correspond à l’AppDir ; seuls editor.js et le numéro de version diffèrent du paquet 3.7 contrôlé. Test sur téléphone physique restant à faire par l’utilisateur. L’APK conserve son certificat, est non débogable, signé v2 et aligné ; bibliothèques natives comparées aux AAR examinés.
+
+Nouvelle interrogation de 699 coordonnées OSV et des métadonnées officielles : aucune alerte retournée ni erreur de récupération ; cela ne démontre pas l’absence de vulnérabilité. Les versions des bibliothèques restent celles de 3.7. Les candidats APT de 181 composants de référence ont été relus dans les index locaux existants, sans rafraîchissement APT dans cette exécution. WebKit source 2.54.0 et mises à jour natives du paquet final 3.7 sont conservés octet pour octet. Les cinq exceptions de codecs, TOAST UI archivé et l’historique auteur personnel restent documentés ci-dessous.
+
+Contrôles ciblés : 1 567 entrées de sources/archives et 4 319 entrées de paquets ; aucun marqueur personnel ou secret recherché non expliqué. Les cinq clés publiques d’autotest GnuTLS sont reconnues par empreinte, pas ignorées globalement. Métadonnées d’images et historique examinés ; deux anciens commits Android et un Linux conservent leurs identités auteur. Aucun historique réécrit. La capture personnelle fournie n’est pas intégrée aux sources ou paquets. Rapports datés et empreintes dans security/paste-url-*.json. Ces contrôles ne sont pas exhaustifs.
+
+---
+
+# Clôture Linux 3.7 — 2 octobre 2026
+
+Linux 3.7 publié au commit f5060ab, Android 3.7 déjà publié au commit 4093c79. Les téléchargements publics des paquets Linux et de leurs SHA-256 correspondent aux fichiers contrôlés ; APK Android public et signature vérifiés précédemment. Voir `security/release-3.7-publication.json` et `security/release-3.7-packages.json`.
+
+WebKitGTK/JavaScriptCore 2.54.0 remplacent 2.52.6 et traitent WSA-2026-0006. Compilation isolée Ubuntu 24.04, archive officielle vérifiée, garde vidéo de compilation documentée. Tests graphiques du paquet final réussis : éditeur, langues/version, PDF ; vrai clic droit et curseur main testés avec interception du navigateur. 376 ELF sans dépendance manquante. 75 tests Python réussis. 4 442 entrées de paquets contrôlées avec motifs ciblés, aucune correspondance non expliquée. Ce n’est pas un audit exhaustif.
+
+Onze paquets natifs supplémentaires sont aux candidats Ubuntu disponibles. Cinq avis OSV sont conservés comme exceptions d’exposition documentées dans la source Linux `security/release-3.7-extra-native.json` : encodage non utilisé et problème propre à 32 bits, sur une AppImage x86_64. Ces avis ne sont pas annoncés corrigés. TOAST UI archivé et anciennes identités auteur Git restent des réserves documentées.
+
+---
+
 # Version 3.7 — contrôle du 1er octobre 2026
 
 Publication Android 3.7 explicitement autorisée par l’utilisateur, versionCode 26. Cache avant synchronisation, liens externes corrigés, version et choix français/anglais dans les paramètres.
@@ -53,6 +221,42 @@ Publication Android 3.7 explicitement autorisée par l’utilisateur, versionCod
 14 tests JVM et 28 tests instrumentés sur l’APK final réussis. APK non débogable, signature v2 et certificat inchangés, alignement 16 Ko ; bibliothèques natives identiques aux AAR contrôlés. 490 entrées APK inspectées, sans marqueur personnel ciblé détecté. Sources, ressources, images et blobs Git contrôlés ; deux anciens commits Android contiennent des métadonnées d’auteur personnelles déjà publiques. Historique conservé, nouveaux commits et tags avec identité neutre du projet. Aucun compte personnel ou journal brut distribué. Les contrôles sont ciblés et ne garantissent pas l’absence de données inconnues ou encodées.
 
 Voir `security/release-3.7-android.json`, `security/release-3.7-dependencies-2026-10-01.json` et `security/release-3.7-source-history-privacy.json` pour les versions, dates, empreintes et limites. La mise à jour Linux est contrôlée séparément : la réserve WebKit WSA-2026-0006 ne concerne pas le moteur système Android.
+
+---
+
+# Candidats locaux version/langue — 1er octobre 2026
+
+Android 3.6-test.25 (code 25) et Linux 3.6.dev25. Version dans les paramètres, français/anglais mémorisé. Interface Android immédiate ; Linux au prochain lancement. Catalogue limité aux messages de l’application, jamais appliqué au contenu des notes ou aux champs des protocoles. Voir `LANGUAGES.md` et `security/language-*.json`.
+
+14 tests JVM, 28 instrumentés Android, 70 Python et tests graphiques AppImage/PDF réussis. Persistance de la préférence, conservation du texte et numéro compilé vérifiés. Aucun compte personnel utilisé. 699 coordonnées OSV sans alerte retournée et métadonnées officielles reconsultées ; 181 paquets natifs comparés aux index actualisés, aucune mise à jour supplémentaire. Dépendances inchangées ; exceptions antérieures maintenues, notamment WSA-2026-0006 et maintenance TOAST UI.
+
+4 160 entrées des paquets inspectées : aucun marqueur personnel ciblé détecté, cinq fixtures publiques GnuTLS classifiées par empreinte. APK signé v2, certificat inchangé, non débogable et aligné 16 Ko. Bibliothèques natives Android comparées aux AAR contrôlés, contenu Linux comparé après extraction. Contrôles ciblés non exhaustifs ; images inchangées. Historiques et identités anciennes documentées inchangés ; GitHub et copies de publication intacts. Aucune publication autorisée pour ce candidat.
+
+---
+
+# Candidats locaux menu/liens — 1er octobre 2026
+
+Android 3.6-test.24, versionCode 24 ; Linux 3.6.dev24. Menu natif Linux dirigé vers le lanceur externe après synchronisation du brouillon, garde de révision conservée. Curseur main HTTP/HTTPS sur les deux plateformes. Aucune publication ni modification des copies de publication.
+
+68 tests Python, 14 JVM, 10 instrumentés Android et essais graphiques AppImage/PDF réussis. Vrai clic droit et activation du menu testés avec interception du lanceur ; association réelle au navigateur à tester localement. Rapports datés et empreintes : `security/menu-links-*.json`. 699 coordonnées OSV et métadonnées officielles recontrôlées ; 181 paquets natifs comparés, aucune mise à jour supplémentaire. Exceptions précédentes maintenues, notamment WSA-2026-0006 et maintenance TOAST UI.
+
+4 159 entrées des paquets inspectées, sans marqueur personnel ciblé détecté ; cinq fixtures publiques GnuTLS reconnues par empreinte. Signature v2, certificat, absence de mode debug et alignement APK vérifiés. Aucun compte personnel consulté. Contrôles ciblés non exhaustifs. Voir la notice `livrables/test-menu-liens-24/LIRE-AVANT-TEST.md` dans le dossier parent.
+
+---
+
+# Candidats locaux cache/liens — contrôles du 30 septembre au 1er octobre 2026
+
+Android 3.6-test.23, versionCode 23 ; Linux 3.6.dev23. Aucun push, tag ou téléversement ; copies de publication 3.6 inchangées. Sauvegardes des sources avant modification. Voir `CACHE-LINKS.md` et les rapports `security/cache-links-*.json`.
+
+Cache affiché avant synchronisation Android et consultable pendant celle-ci sur les deux plateformes. Résultats déchiffrés Android uniquement en mémoire, effacés au verrouillage. Cache disque toujours composé d’événements chiffrés, signés et vérifiés pour le compte. Liens HTTP/HTTPS dirigés vers le navigateur depuis un clic réel ; navigation externe dans l’éditeur interdite, vérification de révision conservée. Confirmation Android pour les brouillons avant le verrouillage lors de l’ouverture du navigateur.
+
+14 tests JVM, 26 tests instrumentés sur l’APK final, 61 tests Python et tests graphiques du paquet Linux réussis. Banque de données et comptes synthétiques uniquement. Signature v2 et certificat Android inchangés, APK non débogable, bibliothèques natives identiques aux AAR contrôlés. 4 159 entrées décompressées inspectées : aucun marqueur personnel ciblé détecté. Cinq clés de GnuTLS ont été comparées aux fixtures publiques d’autotest amont ; cette classification précise les anciennes mentions génériques de constantes PEM. Aucun historique distant réécrit ; anciennes identités d’auteur déjà documentées inchangées.
+
+699 coordonnées OSV sans alerte retournée, 699 métadonnées officielles consultées sans erreur finale. Versions compatibles et exceptions AGP/AndroidX/Rust conservées ; TOAST UI archivé. Six mises à jour Ubuntu embarquées (gvfs, gvfs-libs, heif-gdk-pixbuf, libheif1, libgbm1, libssl3t64). Les inventaires natifs distinguent les versions de départ et les mises à jour appliquées.
+
+**Exception ouverte pour le test Linux : WSA-2026-0006**, publié le 29 septembre, recommande WebKitGTK 2.54.0. Les index Ubuntu Noble consultés proposent toujours 2.52.6. Contenu signé et chiffré pour le compte, filtre DOMPurify, CSP, aucune page externe, médias/images/canvas et WebGL désactivés limitent l’exposition ; le rendu Skia demeure utilisé et aucune inatteignabilité exhaustive n’est affirmée. Mettre à jour vers un moteur compatible corrigé ou vérifier un correctif rétroporté avant toute nouvelle publication. Le contrôle OSV Maven/Cargo/npm/PyPI ne couvre pas cette réserve native. Détail dans `security/cache-links-webkit-exception.json`.
+
+Les contrôles de confidentialité et de sécurité sont ciblés, pas exhaustifs. Téléphone réel, Amber réel et association du navigateur par défaut à vérifier par l’utilisateur. Les clés et notes personnelles n’ont pas été consultées.
 
 ---
 
