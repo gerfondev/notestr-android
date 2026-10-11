@@ -46,6 +46,24 @@ class MarkdownEditorTest {
         assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
     }
 
+    @Test fun imagePickerButtonSitsBesideTableAndInsertsAtTheSavedSelection() {
+        val source = mutableStateOf("# Note test\n\nTexte avant et après.")
+        val pickerCalled = mutableStateOf(false)
+        val reference = "![Image](notestr-image://" + "a".repeat(64) + "?server=https%3A%2F%2Fimages.example&key=" + "A".repeat(43) + "&nonce=" + "B".repeat(16) + "&mime=image%2Fjpeg)"
+        render { MaterialTheme { MarkdownEditor(source.value, { source.value = it }, onPickImage = { insert -> pickerCalled.value = true; insert(reference) }) } }
+        assertVisual("Note test")
+        compose.waitUntil(10000) { javascript("!!document.querySelector('.notes-insert-image')") == "true" }
+        assertTrue(javascript("(function(){var b=document.querySelector('.notes-insert-image');return b.getAttribute('aria-label')==='Insérer une image' && b.previousElementSibling===document.querySelector('.toastui-editor-toolbar-icons.table').closest('button');})()") == "true")
+        tapHtml(".toastui-editor-ww-container p")
+        compose.waitForIdle()
+        assertTrue(javascript("window.notesEditor.rememberInsertionPoint()") == "true")
+        javascript("document.querySelector('.notes-insert-image').click()")
+        compose.waitUntil(5000) { pickerCalled.value }
+        compose.waitUntil(5000) { javascript("window.notesEditor.snapshot().includes('notestr-image://')") == "true" }
+        compose.waitUntil(5000) { source.value.contains(reference) }
+        assertTrue(source.value.contains(reference))
+    }
+
     @Test fun trashViewerRendersFormattingWithoutEditingAndOpensLinks() {
         val source = "# Corbeille fictive\n\nTexte **important**.\n\n- [ ] Tâche\n\n[Site](https://example.org/)\n"
         val changes = java.util.concurrent.CopyOnWriteArrayList<String>()
@@ -62,6 +80,33 @@ class MarkdownEditorTest {
         tapHtml(".toastui-editor-contents a")
         compose.waitUntil(5000) { opened.size == 1 }
         org.junit.Assert.assertEquals("https://example.org/", opened.single())
+        assertTrue(changes.isEmpty())
+    }
+
+    @Test fun lockedNoteWithEncryptedImageLoadsInReadOnlyVisualMode() {
+        val image = "![Image](notestr-image://" + "c".repeat(64) +
+            "?server=https%3A%2F%2Fimages.example&key=" + "D".repeat(43) +
+            "&nonce=" + "E".repeat(16) + "&mime=image%2Fjpeg)"
+        val source = "# Note verrouillée\n\nTexte conservé.\n\n$image\n"
+        val changes = java.util.concurrent.CopyOnWriteArrayList<String>()
+        val bitmap = android.graphics.Bitmap.createBitmap(2, 2, android.graphics.Bitmap.Config.ARGB_8888)
+        val imageBytes = java.io.ByteArrayOutputStream().use { output ->
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, output)
+            output.toByteArray()
+        }
+        bitmap.recycle()
+        render { MaterialTheme { MarkdownEditor(source, { changes.add(it) }, readOnly = true,
+            onLoadImage = { _, complete -> complete(imageBytes) }) } }
+        compose.waitUntil(20000) {
+            javascript("document.querySelector('.toastui-editor-contents h1')?.textContent === 'Note verrouillée'") == "true"
+        }
+        assertTrue(javascript("!!document.querySelector('.toastui-editor-contents img') && !document.querySelector('[contenteditable=true], .toastui-editor-toolbar')") == "true")
+        compose.onNode(hasText("Visuel")).assertDoesNotExist()
+        compose.onNode(hasText("Markdown")).assertDoesNotExist()
+        compose.waitUntil(5000) { javascript("document.querySelector('.toastui-editor-contents img')?.src.startsWith('data:image/jpeg;base64,')") == "true" }
+        compose.onNode(hasText("Impossible d’afficher le mode Visuel. Votre Markdown est conservé.")).assertDoesNotExist()
+        assertTrue(javascript("window.notesEditor.snapshot() === " + JSONObject.quote(source)) == "true")
+        javascript("document.body.dispatchEvent(new ClipboardEvent('paste', {bubbles:true,cancelable:true}))")
         assertTrue(changes.isEmpty())
     }
 

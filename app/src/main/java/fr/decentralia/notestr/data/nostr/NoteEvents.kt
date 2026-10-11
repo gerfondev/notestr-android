@@ -24,6 +24,9 @@ internal object NoteEvents {
     const val PIN_PREFIX = "notestr/pin/"
     fun pinAddress(identifier: String): String = PIN_PREFIX + backupAddress(identifier).removePrefix(PREFIX)
 
+    const val LOCK_PREFIX = "notestr/lock/"
+    fun lockAddress(identifier: String): String = LOCK_PREFIX + backupAddress(identifier).removePrefix(PREFIX)
+
     const val PREFIX = "notestr/previous/"
 
     fun backupAddress(identifier: String): String = PREFIX + MessageDigest.getInstance("SHA-256")
@@ -56,7 +59,7 @@ internal object NoteEvents {
             kind == DELETE || "$kind:${event.author().use { it.toHex() }}:${identifier(event)}" !in deletedAddresses
         }
         return unique.filter { it.kind().asU16() != BACKUP } + unique
-            .filter { it.kind().asU16() == BACKUP && identifier(it)?.let { d -> d.startsWith(PREFIX) || d.startsWith(PIN_PREFIX) || d.startsWith(TRASH_PREFIX) } == true }
+            .filter { it.kind().asU16() == BACKUP && identifier(it)?.let { d -> d.startsWith(PREFIX) || d.startsWith(PIN_PREFIX) || d.startsWith(TRASH_PREFIX) || d.startsWith(LOCK_PREFIX) } == true }
             .groupBy { identifier(it) }.values.map { it.minWith(newest) }
     }
 

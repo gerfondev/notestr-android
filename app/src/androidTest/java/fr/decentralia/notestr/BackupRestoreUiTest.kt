@@ -115,6 +115,32 @@ class BackupRestoreUiTest {
             assertEquals(note, repo.previousAtPublish)
         }
     }
+
+    @Test fun lockedNoteCannotLoadPreviousVersion() {
+        var previousCalls = 0
+        val repo = object : NostrRepository by FakeRepository() {
+            override suspend fun previous(note: Note): Result<String> {
+                previousCalls++
+                return Result.success("Ancienne version")
+            }
+        }
+        val locked = note.copy(locked = true)
+        lateinit var vm: NotestrViewModel
+        var loaded = false
+        compose.runOnIdle {
+            vm = ViewModelProvider(compose.activity)[NotestrViewModel::class.java]
+            NotestrViewModel::class.java.getDeclaredField("repository").apply { isAccessible = true }.set(vm, repo)
+            vm.edit(locked)
+        }
+        compose.onNodeWithContentDescription("Version précédente").assertIsNotEnabled()
+        compose.runOnIdle { vm.restorePrevious(locked) { loaded = true } }
+        compose.waitUntil(5000) { !vm.state.busy }
+        compose.runOnIdle {
+            assertEquals(0, previousCalls)
+            assertFalse(loaded)
+            assertEquals("Déverrouillez la note avant de charger une version précédente.", vm.state.message)
+        }
+    }
     @Test fun pinAndUnpinFromListKeepContentAndDate() {
         val repo = FakeRepository()
         lateinit var vm: NotestrViewModel

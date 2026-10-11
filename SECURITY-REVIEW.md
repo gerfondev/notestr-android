@@ -1,5 +1,27 @@
 # Contrôles de sécurité — Notestr Android 3.9 (9 octobre 2026)
 
+## Candidat local — affichage et restauration des notes verrouillées — 11 octobre 2026
+
+Android 3.9-test.44 (versionCode 44), APK SHA-256 `e74a76fce55e5e8aaf4bfdc60e64bff051bda485027a948f7c1d91390e90c54d`. Le mode lecture seule ne demande plus `Editor.getMarkdown()` au lecteur Toast UI, qui ne fournit pas cette méthode ; le chemin de chargement des références d’images chiffrées reste actif. Le bouton et le ViewModel refusent le chargement d’une version antérieure pour une note verrouillée. Le retour d’une note depuis la corbeille reste autorisé.
+
+14 tests JVM release réussis. Deux tests instrumentés ciblés réussis sur émulateur Android 11 : affichage/résolution d’image dans une note verrouillée et refus de restauration de version. APK de release local non débogable, signature v2 vérifiée, zipalign vérifié. Android 17/WebView 153.0.8010.36 non testé sur appareil physique.
+
+Revue de dépendances réutilisée : contrôle 3.9 du 9 octobre (708 coordonnées Maven, crates.io, npm et PyPI). Aucun composant modifié pour ce correctif. Les 178 alertes de l’espace npm de développement/test archivé restent documentées et ne sont pas intégrées au runtime. Réserves de la revue précédente conservées ; aucune affirmation d’absence de vulnérabilité.
+
+Scan ciblé des 83 fichiers source concernés et des 494 entrées APK : aucun chemin personnel connu, nom du propriétaire, nsec complet, en-tête de clé privée ou jeton GitHub détecté. Ce scan n’est pas exhaustif. Empreinte/signature et résultats du candidat dans `security/locked-note-fix-2026-10-11.json`. Candidat local uniquement : aucune publication, aucun push ni tag.
+
+# Candidat local — notes verrouillées — 11 octobre 2026
+
+Android 3.9-test.43 (versionCode 43), APK SHA-256 `bd3c15f3378d3005792ec128da6a7b5c76fbb3f1c65cb3ceee96c254a444419f`. Le lecteur visuel en lecture seule n’installe plus le gestionnaire d’événement d’édition. Les icônes verrouillé/déverrouillé sont alignées sur l’état de la note.
+
+Tests unitaires release et assemblage release réussis ; test instrumenté ciblé d’une note verrouillée contenant une référence d’image chiffrée réussi sur émulateur Android 11. Dans la classe instrumentée complète, un échec existant subsiste sur l’ouverture d’un lien depuis la corbeille. WebView 153.0.8010.36 non testé sur appareil physique. Signature v2 vérifiée, APK non débogable ; certificat Debug local, donc incompatibilité possible d’installation par-dessus une build signée autrement.
+
+Contrôle ciblé des sources et APK sans marqueur personnel recherché. Aucune dépendance modifiée ; la revue du 9 octobre et ses limites restent la revue de dépendances actuelle. Aucun claim d’audit exhaustif. Candidat local seulement, sans publication.
+
+---
+
+# Contrôles de sécurité — Notestr Android 3.9 (9 octobre 2026)
+
 Android 3.9, versionCode 41. APK SHA-256 : `91426d31d2cf2ab6984ee3156128ed6fee2e8fa6e09c56ea59a58e2bdd00bcf7`. Signature APK v2 vérifiée ; le certificat est identique à celui de l’APK 3.8 (empreinte SHA-256 `8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8`). Le manifeste ne déclare pas l’application débogable.
 
 Les dépendances Maven, Rust, npm et Python ont fait l’objet de 708 requêtes OSV. L’avis ProseMirror GHSA-c8x8-7fp4-3x9w est corrigé dans le bundle reconstruit avec `prosemirror-view` 1.42.6 (version corrigée 1.42.3 ou ultérieure), ainsi que des versions récentes compatibles des autres paquets ProseMirror. DOMPurify 3.4.16 est chargé séparément. L’audit npm de production ne signale aucune vulnérabilité ; l’audit complet du monorepo historique contient 178 alertes de dépendances d’outils/tests, qui ne sont pas embarquées et restent une réserve documentée.
@@ -9,6 +31,16 @@ La reconstruction conserve l’API TOAST UI 3.2.2 et ajoute le support des nœud
 Le contrôle ciblé des sources, de l’APK, du wheel et de l’archive source n’a trouvé aucun chemin personnel connu, nom du propriétaire, adresse e-mail qui lui soit attribuable, clé `nsec` complète, marqueur de clé privée PEM ou jeton GitHub. Il ne constitue pas un audit exhaustif. Les identités déjà présentes dans l’historique Git antérieur sont conservées ; aucun historique distant n’est réécrit.
 
 ---
+
+# Candidat local — verrouillage des notes et insertion d’image — 11 octobre 2026
+
+Android 3.9-test.42 (versionCode 42), APK local SHA-256 `5fbc5be3b493c69a92451226a6ac8eb69b77e7282809a8233d71e62e30ff8cd0`. Le verrouillage synchronisé entre versions compatibles Android/Linux rend la note en lecture seule et bloque sa modification, publication et mise à la corbeille. L’icône d’insertion d’image est ajoutée après celle du tableau dans la barre Visuel.
+
+Tests unitaires release et assemblage release réussis. Test instrumenté ciblé de l’icône, du sélecteur et de l’insertion au curseur réussi sur émulateur Android 11. Dans la suite instrumentée complète, 3 échecs restent : hiérarchie d’interface biométrique absente dans le test, biométrie forte non disponible sur l’émulateur, et ouverture de lien depuis l’affichage de la corbeille ; un test est ignoré. Les tests de verrouillage et de relais utilisent des données synthétiques. L’essai physique reste à faire.
+
+APK signé v2 par le certificat Android Debug local (`8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8`), non débogable. Contrôle ciblé des sources et de l’APK : aucun marqueur personnel ou secret recherché. Aucune dépendance modifiée ; la revue du 9 octobre reste la revue actuelle. Ses limites et réserves précédentes restent applicables. Vérifications non exhaustives.
+
+Candidat local uniquement ; aucun push ni tag distant. Détails dans `livrables/test-verrouillage-note-image-2026-10-11/LIRE-MOI.md`.
 
 # Zoom et déplacement des images — candidat local Android du 9 octobre 2026
 
@@ -491,3 +523,14 @@ Aucun compte utilisateur réel consulté. Les essais utilisent uniquement l’é
 - https://github.com/cure53/DOMPurify/releases
 - https://github.com/nhn/tui.editor
 - https://osv.dev/
+# Contrôles de sécurité — Notestr Android 3.9.1 (11 octobre 2026)
+
+APK de publication 3.9.1, versionCode 46, SHA-256 `93961a5f133c2d7c2ec4bca7c4a3d1f4251865f51fc40a4dd235a8f6d0192f33`. L’APK final est non débogable, sa signature v2 est vérifiée et son certificat est identique à celui de la version précédente. Il a été installé et lancé sur l’émulateur Android 11/API 30.
+
+Mises à jour : Kotlin 2.4.21, AndroidX Activity 1.13.0 et Fragment 1.9.1. Les 17 tests JVM de release réussissent. Les 18 tests instrumentés ciblés sur le verrouillage, l’éditeur, la restauration et les images réussissent, avec un test ignoré par condition. Le test d’intégration Android du verrouillage/déverrouillage, refus de suppression et relecture après redémarrage réussit sur un relais loopback synthétique. La suite instrumentée complète a deux échecs biométriques liés à l’émulateur non enrôlé (`BIOMETRIC_ERROR_NONE_ENROLLED`, puis absence d’interface Compose) ; ils ne sont pas masqués ni comptés comme réussites.
+
+Lot OSV du 11 octobre : 708 coordonnées Maven, crates.io, npm et PyPI ; une alerte ressort pour `prosemirror-view` 1.27.0 dans les outils npm archivés. Le code embarqué de l’éditeur utilise la version revue et corrigée 1.42.6. Les versions Compose/Lifecycle n’ont pas été augmentées car les versions stables plus récentes exigent une plateforme et un plugin Gradle plus récents que le SDK/API 36 actuellement validé. Les exceptions antérieures du SDK natif sont conservées dans les sections historiques de cette revue.
+
+Contrôle ciblé des 496 entrées de l’APK : aucun chemin personnel connu, courriel du propriétaire, `nsec` complet ou jeton GitHub correspondant aux motifs recherchés. Cette recherche n’est pas exhaustive. Aucun compte réel ni note utilisateur n’a servi aux tests. Le téléphone Android 17 de l’utilisateur et Amber réel n’ont pas été testés. Rapport : `security/release-3.9.1-android.json` et `security/release-3.9.1-dependencies.json`.
+
+# Contrôles de sécurité — Notestr Android 3.9 (9 octobre 2026)

@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-11",
+  "candidate": "Android 3.9-test.44",
+  "versionCode": 44,
+  "artifact": "Notestr-Android-3.9-test.44.apk",
+  "sha256": "e74a76fce55e5e8aaf4bfdc60e64bff051bda485027a948f7c1d91390e90c54d",
+  "changes": [
+    "Avoid calling getMarkdown() on the read-only Toast UI viewer, keeping encrypted image loading active for locked notes.",
+    "Disable and guard previous-version restoration for locked notes; keep untrash action available."
+  ],
+  "tests": {
+    "releaseJvm": "14 passed",
+    "lockedImageVisualMode": "passed on Android 11 emulator; generated JPEG response rendered as data URL",
+    "lockedPreviousVersionRestore": "passed on Android 11 emulator; UI disabled and ViewModel guard confirmed",
+    "releaseAssembly": "passed",
+    "apkSignature": "APK Signature Scheme v2 verified; one signer",
+    "debuggable": false,
+    "zipalign": "4-byte alignment verified"
+  },
+  "dependencyReview": {
+    "reusedReview": "2026-10-09 Android 3.9 review",
+    "coordinatesReviewed": 708,
+    "changedDependencies": 0,
+    "openLimitations": [
+      "178 development/test npm audit alerts remain in the archived workspace and are not shipped in the runtime.",
+      "Previously documented dependency and native SDK limitations remain open."
+    ]
+  },
+  "privacyScan": {
+    "sourceFiles": 83,
+    "apkEntries": 494,
+    "patterns": ["known owner path/name", "complete nsec", "private PEM header", "GitHub token"],
+    "matches": 0,
+    "exhaustive": false
+  },
+  "limitations": [
+    "No physical Android 17 device or WebView 153.0.8010.36 test was available; emulator used Android 11.",
+    "Dependency review was not rerun because no dependency changed; 2026-10-09 review is the latest recorded review."
+  ],
+  "publication": "Local test candidate only; no push, tag, release, or upload."
+}

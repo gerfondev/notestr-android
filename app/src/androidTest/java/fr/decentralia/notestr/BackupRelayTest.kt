@@ -58,11 +58,19 @@ class BackupRelayTest {
                 assertTrue(pinned.pinned)
                 assertEquals(restored.createdAt, pinned.createdAt)
                 assertEquals(restored.eventJson, pinned.eventJson)
+                val locked = fresh.setLocked(pinned, true).getOrThrow().note
+                assertTrue(locked.locked)
+                assertTrue(fresh.setTrashed(locked, true).isFailure)
+                assertTrue(fresh.publish("Tentative de modification refusée", locked).isFailure)
                 cache.clear()
                 RustNostrRepository(key.toCharArray(), relays, cache).use { restarted ->
                     val downloaded = restarted.refresh().getOrThrow().single()
                     assertTrue(downloaded.pinned)
+                    assertTrue(downloaded.locked)
                     assertEquals(current.markdown, restarted.previous(downloaded).getOrThrow())
+                    delay(1100)
+                    val unlocked = restarted.setLocked(downloaded, false).getOrThrow().note
+                    assertFalse(unlocked.locked)
                     RustNostrRepository(key.toCharArray(), listOf(relays.last()), cache).use { refusing ->
                         delay(1100)
                         assertTrue(refusing.setPinned(downloaded, false).isFailure)
@@ -70,7 +78,9 @@ class BackupRelayTest {
                     assertTrue(restarted.refresh().getOrThrow().single().pinned)
                     assertFalse(restarted.setPinned(downloaded, false).getOrThrow().note.pinned)
                 }
-                val trashed = fresh.setTrashed(restored, true).getOrThrow().note
+                val afterUnlock = fresh.refresh().getOrThrow().single()
+                assertFalse(afterUnlock.locked)
+                val trashed = fresh.setTrashed(afterUnlock, true).getOrThrow().note
                 cache.clear()
                 RustNostrRepository(key.toCharArray(), relays, cache).use { restarted ->
                     val downloaded = restarted.refresh().getOrThrow().single()

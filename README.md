@@ -1,6 +1,6 @@
 # Notestr Android
 
-> **Version 3.9** — Insertion d’images avec zoom et déplacement, correction du bouton d’enregistrement des relais sous Linux. Licence GPLv3 : voir [LICENSE](LICENSE) et [notes de version](RELEASE-NOTES-3.9.md).
+> **Version 3.9.1** — Verrouillage synchronisé des notes avec Linux, mises à jour de sécurité et corrections mineures. Voir [notes de version](RELEASE-NOTES-3.9.1.md).
 
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
@@ -9,13 +9,17 @@ Application Android native de notes privées chiffrées sur Nostr, compatible av
 
 **[Télécharger Notestr Android — Latest — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android.apk)**
 
-[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9**.
+[Voir la dernière version (Latest)](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.1**.
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Le fichier téléchargé se nomme `Notestr-Android.apk`. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : `91426d31d2cf2ab6984ee3156128ed6fee2e8fa6e09c56ea59a58e2bdd00bcf7`.
+SHA-256 : voir le fichier `SHA256SUMS` joint à la version 3.9.1.
+
+## Version 3.9.1
+
+Verrouillage/déverrouillage synchronisé des notes avec Linux, correctifs mineurs et mise à jour de sécurité des outils et bibliothèques Android. Le verrouillage est une protection contre les modifications accidentelles et doit être pris en charge par les deux applications pour rester cohérent. [Notes de version](RELEASE-NOTES-3.9.1.md).
 
 ## Nouveautés — 3.9
 
@@ -80,6 +84,7 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
+| **3.9.1** | `v3.9.1` | Verrouillage synchronisé avec Linux, correctifs mineurs et mises à jour de sécurité. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.1/Notestr-Android.apk) |
 | **3.9** | `v3.9` | Insertion d’image avec zoom ; licence GPLv3. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9/Notestr-Android.apk) |
 | **3.7.1** | `v3.7.1` | Correction du copier-coller des liens web. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7.1/Notestr-Android.apk) |
 | **3.7** | `v3.7` | Cache, liens corrigés, version et langues dans les paramètres. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7/Notestr-Android.apk) |

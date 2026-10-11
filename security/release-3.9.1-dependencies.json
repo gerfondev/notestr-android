@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-11",
+  "source": "Official OSV querybatch API; package versions updated to the versions used for 3.9.1",
+  "queryCount": 708,
+  "ecosystemCounts": {
+    "Maven": 276,
+    "crates.io": 369,
+    "npm": 22,
+    "PyPI": 41
+  },
+  "updatesApplied": {
+    "Kotlin Gradle/compiler plugins": "2.4.20 -> 2.4.21",
+    "androidx.activity:activity-compose": "1.11.0 -> 1.13.0",
+    "androidx.fragment:fragment": "1.8.9 -> 1.9.1"
+  },
+  "findings": [
+    {
+      "id": "GHSA-c8x8-7fp4-3x9w",
+      "package": "npm:prosemirror-view",
+      "queriedVersion": "1.27.0",
+      "disposition": "This old version is present in the archived npm development/test lockfile only. The APK and shipped editor bundle use the reviewed fixed 1.42.6 code."
+    }
+  ],
+  "compatibilityExceptions": [
+    "Compose BOM and Lifecycle remain on the latest versions validated with compileSdk 36 and AGP 8.13.2; the newer stable line requires API 37 and a newer Android Gradle Plugin.",
+    "Vendored Nostr SDK/JNA binaries and Rust dependency set are unchanged from the reviewed 3.9 release; see SECURITY-REVIEW.md for native exposure notes."
+  ],
+  "limitations": "The OSV batch is an advisory lookup, not proof that all components are free of vulnerabilities. Archived npm development/test alerts and native SDK exceptions remain documented."
+}

@@ -126,39 +126,17 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                     loadedRevision = -1
                 }
             }, enabled = visual) { Text("Markdown") }
-            if (onPickImage != null) IconButton(onClick = {
-                val active = webView
-                if (visual && active != null && loadedRevision >= 0) {
-                    val expectedRevision = loadedRevision
-                    active.evaluateJavascript("window.notesEditor.rememberInsertionPoint()") { captured ->
-                        if (captured == "true" && webView === active && loadedRevision == expectedRevision) {
-                            currentOnPickImage?.invoke { reference ->
-                                if (webView !== active || loadedRevision != expectedRevision) return@invoke
-                                active.evaluateJavascript("window.notesEditor.insertImageReference(${JSONObject.quote(reference)})") { inserted ->
-                                    if (inserted == "true" && webView === active && loadedRevision == expectedRevision) {
-                                        active.evaluateJavascript("window.notesEditor.snapshot()") { json ->
-                                            if (webView === active && loadedRevision == expectedRevision) {
-                                                runCatching { JSONObject("{\"v\":$json}") }
-                                                    .getOrNull()?.opt("v")?.let { if (it is String) currentOnChange(it) }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else if (!visual) {
-                    val captured = sourceValue
-                    currentOnPickImage?.invoke { reference ->
-                        val start = minOf(captured.selection.start, captured.selection.end).coerceIn(0, captured.text.length)
-                        val end = maxOf(captured.selection.start, captured.selection.end).coerceIn(start, captured.text.length)
-                        val prefix = if (start > 0 && captured.text[start - 1] != '\n') "\n\n" else ""
-                        val suffix = if (end < captured.text.length && captured.text[end] != '\n') "\n\n" else ""
-                        val insertion = prefix + reference + suffix
-                        val updated = captured.text.replaceRange(start, end, insertion)
-                        sourceValue = TextFieldValue(updated, TextRange(start + insertion.length))
-                        currentOnChange(updated)
-                    }
+            if (!visual && onPickImage != null) IconButton(onClick = {
+                val captured = sourceValue
+                currentOnPickImage?.invoke { reference ->
+                    val start = minOf(captured.selection.start, captured.selection.end).coerceIn(0, captured.text.length)
+                    val end = maxOf(captured.selection.start, captured.selection.end).coerceIn(start, captured.text.length)
+                    val prefix = if (start > 0 && captured.text[start - 1] != '\n') "\n\n" else ""
+                    val suffix = if (end < captured.text.length && captured.text[end] != '\n') "\n\n" else ""
+                    val insertion = prefix + reference + suffix
+                    val updated = captured.text.replaceRange(start, end, insertion)
+                    sourceValue = TextFieldValue(updated, TextRange(start + insertion.length))
+                    currentOnChange(updated)
                 }
             }, enabled = !readOnly) {
                 Icon(painterResource(R.drawable.ic_upload_image), contentDescription = tr("Insérer une image"))
@@ -209,6 +187,27 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         }.isSuccess
                                         owner.evaluateJavascript("window.notesEditor.copyResult($id, $copied)", null)
                                     }
+                                    if (webView === owner && visual && loadedRevision >= 0 && !currentReadOnly &&
+                                        message.optString("type") == "pickImage" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        val expectedRevision = loadedRevision
+                                        currentOnPickImage?.invoke { reference ->
+                                            owner.post {
+                                                if (webView === owner && visual && loadedRevision == expectedRevision && !currentReadOnly) {
+                                                    owner.evaluateJavascript("window.notesEditor.insertImageReference(${JSONObject.quote(reference)})") { inserted ->
+                                                        if (inserted == "true" && webView === owner && loadedRevision == expectedRevision) {
+                                                            owner.evaluateJavascript("window.notesEditor.snapshot()") { json ->
+                                                                if (webView === owner && loadedRevision == expectedRevision) {
+                                                                    runCatching { JSONObject("{\"v\":$json}") }
+                                                                        .getOrNull()?.opt("v")?.let { if (it is String) currentOnChange(it) }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                     if (webView === owner && visual && loadedRevision >= 0 &&
                                         message.optString("type") == "loadImage" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
@@ -223,8 +222,12 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                 }
                             }, "AndroidNotes")
                             webViewClient = object : WebViewClient() {
-                                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean =
-                                    request.url.toString() != EDITOR_URL
+                                override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                                    val url = request.url.toString()
+                                    if (url == EDITOR_URL) return false
+                                    if (browserIntent(url) != null) currentOnOpenLink?.invoke(url) ?: openBrowser(context, url)
+                                    return true
+                                }
 
                                 override fun onReceivedError(view: WebView, request: WebResourceRequest, failure: WebResourceError) {
                                     if (request.isForMainFrame && webView === owner) error = tr("La page de l’éditeur n’a pas pu être chargée.")

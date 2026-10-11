@@ -158,7 +158,7 @@ private fun SetupScreen(
                 } else if (password != confirmation) {
                     reportError(tr("Les mots de passe ne correspondent pas."))
                 } else {
-                    val permissions = """[{"type":"sign_event","kind":33457},{"type":"sign_event","kind":5},{"type":"nip44_encrypt"},{"type":"nip44_decrypt"}]"""
+                    val permissions = """[{"type":"sign_event","kind":33457},{"type":"sign_event","kind":30078},{"type":"sign_event","kind":5},{"type":"nip44_encrypt"},{"type":"nip44_decrypt"}]"""
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse("nostrsigner:")).apply {
                         putExtra("type", "get_public_key")
                         putExtra("permissions", permissions)
@@ -224,8 +224,12 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
                             if (note.pending) Text(tr(if (note.conflicted) "Conflit — version locale" else "En attente de synchronisation"), style = MaterialTheme.typography.labelSmall)
                             Text(note.title, style = MaterialTheme.typography.titleMedium)
                             if (note.pinned) Text(tr("Épinglée"), style = MaterialTheme.typography.labelSmall)
+                        if (note.locked) Text(tr("Note verrouillée"), style = MaterialTheme.typography.labelSmall)
                             Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
                         }
+                        if (!note.pending) ActionIcon(if (note.locked) tr("Déverrouiller la note") else tr("Verrouiller la note"),
+                            if (note.locked) R.drawable.ic_note_locked else R.drawable.ic_note_unlocked,
+                            { vm.toggleLocked(note) }, enabled = !state.busy)
                         if (!note.trashed && !note.pending) ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"),
                             if (note.pinned) R.drawable.ic_action_unpin else R.drawable.ic_action_pin,
                             { vm.togglePinned(note) }, enabled = !state.busy)
@@ -284,10 +288,10 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
         actions = {
             if (note != null && !note.pending) {
                 if (note.trashed) ActionIcon(tr("Restaurer la note"), R.drawable.ic_action_history, { vm.setTrashed(note, false) }, enabled = !busy)
-                else ActionIcon(tr("Version précédente"), R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy)
-                ActionIcon(tr(if (note.trashed) "Supprimer définitivement" else "Supprimer"), R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy)
+                else ActionIcon(tr("Version précédente"), R.drawable.ic_action_history, { confirmRestore = true }, enabled = !busy && !note.locked)
+                ActionIcon(tr(if (note.trashed) "Supprimer définitivement" else "Supprimer"), R.drawable.ic_action_delete, { confirmDelete = true }, enabled = !busy && !note.locked)
             }
-            if (note?.trashed != true) ActionIcon(tr("Publier"), R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy)
+            if (note?.trashed != true) ActionIcon(tr("Publier"), R.drawable.ic_action_publish, { vm.save(markdown, note) }, enabled = !busy && note?.locked != true)
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surfaceContainer)
     ) }) { padding ->
@@ -300,11 +304,11 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
                 }
             }
             key(editorRevision) {
-                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), readOnly = note?.trashed == true, onOpenLink = { url ->
+                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), readOnly = note?.trashed == true || note?.locked == true, onOpenLink = { url ->
                     if (markdown != note?.markdown.orEmpty()) pendingLink = url
                     else openBrowser(browserContext, url)
                 }, onLoadImage = { reference, complete -> vm.loadImage(reference, complete) },
-                    onPickImage = if (note?.trashed != true) ({ insert ->
+                    onPickImage = if (note?.trashed != true && note?.locked != true) ({ insert ->
                         pendingImageInsert = insert
                         imagePicker.launch("image/*")
                     }) else null)

@@ -118,6 +118,32 @@ class OfflineEditsTest {
         } finally { cache.savePending(author, emptyList()); cache.clear() }
     }
 
+    @Test fun lockingAcknowledgedNoteDoesNotCreateDuplicateConflict() = runBlocking {
+        val cache = EventCache(context); cache.savePending(author, emptyList())
+        val base = original(); cache.save(listOf(base.asJson()))
+        try {
+            lateinit var local: fr.decentralia.notestr.domain.model.Note
+            RustNostrRepository(key.toCharArray(), emptyList(), cache).use { repo ->
+                local = repo.saveLocal("# Accepted edit", repo.cached().getOrThrow().single()).getOrThrow().note
+            }
+            cache.savePending(author, listOf(org.json.JSONObject(cache.pending(author).single()).put("sent", true).toString()))
+            val lock = SecretKey.parse(key).use { secret -> Keys(secret).use { keys ->
+                EventBuilder(Kind(NoteEvents.BACKUP), nip44Encrypt(secret, keys.publicKey(), "true", Nip44Version.V2))
+                    .tags(listOf(Tag.identifier(NoteEvents.lockAddress(local.identifier))))
+                    .customCreatedAt(Timestamp.fromSecs(local.createdAt.toULong() + 1uL)).finalize(keys)
+            } }
+            cache.save(listOf(base.asJson(), local.eventJson, lock.asJson()))
+            RustNostrRepository(key.toCharArray(), emptyList(), cache).use { repo ->
+                val notes = repo.cached().getOrThrow()
+                assertEquals(1, notes.size)
+                assertTrue(notes.single().locked)
+                assertFalse(notes.single().pending)
+                assertFalse(notes.single().conflicted)
+                assertEquals("# Accepted edit", notes.single().markdown)
+            }
+        } finally { cache.savePending(author, emptyList()); cache.clear() }
+    }
+
     @Test fun corruptQueueCannotBeOverwritten() = runBlocking {
         val cache = EventCache(context); cache.save(listOf(original().asJson()))
         cache.savePending(author, listOf("corrupt"))

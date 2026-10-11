@@ -1,0 +1,53 @@
+{
+  "checkedAt": "2026-10-11",
+  "version": "3.9.1",
+  "versionCode": 46,
+  "artifact": "Notestr-Android.apk",
+  "sha256": "93961a5f133c2d7c2ec4bca7c4a3d1f4251865f51fc40a4dd235a8f6d0192f33",
+  "sizeBytes": 25994038,
+  "manifest": {
+    "applicationId": "fr.decentralia.notestr",
+    "minSdk": 26,
+    "targetSdk": 36,
+    "debuggable": false
+  },
+  "signature": {
+    "schemesVerified": ["v2"],
+    "certificateSha256": "8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+    "sameAsPreviousRelease": true
+  },
+  "dependencyUpdates": {
+    "kotlin": "2.4.21",
+    "androidx.activity": "1.13.0",
+    "androidx.fragment": "1.9.1",
+    "compatibility": "Compile SDK 36 and AGP 8.13.2 retained; Compose and lifecycle versions were not raised because their current stable lines require a newer Android toolchain/API level."
+  },
+  "tests": {
+    "releaseUnit": {"passed": 17, "failed": 0},
+    "targetedInstrumented": {"passed": 18, "failed": 0, "skipped": 1, "device": "Android 11 API 30 emulator"},
+    "lockedNoteLocalRelayIntegration": {"passed": 1, "failed": 0, "relay": "loopback synthetic only"},
+    "releaseApkInstallAndLaunch": "passed",
+    "fullInstrumentedSuite": "Two biometric-related failures remain on the emulator: no fingerprints are enrolled (BIOMETRIC_ERROR_NONE_ENROLLED) and the UI enrollment test consequently has no Compose hierarchy. The focused note-locking, image, restore and local-relay tests pass."
+  },
+  "privacyScan": {
+    "apkEntriesScanned": 496,
+    "targetedFindings": {
+      "ownerHomePath": 0,
+      "ownerEmail": 0,
+      "completeNsec": 0,
+      "githubToken": 0
+    },
+    "scope": "Targeted marker scan, not an exhaustive privacy proof."
+  },
+  "securityReview": {
+    "osvBatchQueries": 708,
+    "returnedAdvisories": 1,
+    "advisory": "GHSA-c8x8-7fp4-3x9w applies to archived prosemirror-view 1.27.0 tooling; the embedded editor uses the reviewed fixed 1.42.6 code. No private key, account data or user note is bundled.",
+    "priorNativeSdkAndBuildToolExceptions": "Carried forward from SECURITY-REVIEW.md; no claim of zero vulnerabilities."
+  },
+  "limitations": [
+    "No physical Android 17 device test for this APK.",
+    "Biometric UI tests need an enrolled fingerprint on the emulator; those two full-suite failures are documented above.",
+    "Historical Git author identities were preserved; no history was rewritten."
+  ]
+}

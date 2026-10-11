@@ -47,3 +47,5 @@ html{height:100vh}body,#editor{height:100%}
 /* Trash uses the sanitized viewer without editable controls. */
 body.notes-readonly{overflow:auto}
 .notes-readonly #editor{height:auto;min-height:100%}
+.toastui-editor-toolbar-icons.notes-insert-image{background:none!important;display:inline-flex;align-items:center;justify-content:center;color:#555;padding:0}
+.toastui-editor-toolbar-icons.notes-insert-image svg{width:18px;height:18px}

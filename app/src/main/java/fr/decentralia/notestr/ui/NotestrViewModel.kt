@@ -284,6 +284,10 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun restorePrevious(note: Note, loaded: (String) -> Unit) = runTask {
+        if (note.locked && !note.trashed) {
+            fail(tr("Déverrouillez la note avant de charger une version précédente."))
+            return@runTask
+        }
         val expected = session
         val result = repository?.previous(note)?.getOrThrow() ?: run {
             if (expected == session) fail(tr("Aucune version précédente disponible pour cette note."))
@@ -301,6 +305,17 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         state = state.copy(
             notes = state.notes.map { if (it.identifier == note.identifier) result.note else it }.sortedWith(noteOrder),
             message = result.warning ?: if (result.note.pinned) tr("Note épinglée.") else tr("Note désépinglée.")
+        )
+    }
+
+    fun toggleLocked(note: Note) = runTask {
+        val expected = session
+        val result = repository?.setLocked(note, !note.locked)?.getOrThrow() ?: error(tr("Application verrouillée"))
+        if (expected != session) return@runTask
+        state = state.copy(
+            screen = if (state.screen is Screen.Editor) Screen.Notes else state.screen,
+            notes = state.notes.map { if (it.identifier == note.identifier) result.note else it }.sortedWith(noteOrder),
+            message = result.warning ?: tr(if (result.note.locked) "Note verrouillée." else "Note déverrouillée.")
         )
     }
 

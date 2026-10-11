@@ -14,6 +14,8 @@ interface NostrRepository {
     suspend fun delete(note: Note): Result<Unit>
     suspend fun setTrashed(note: Note, trashed: Boolean): Result<Publication>
     suspend fun setPinned(note: Note, pinned: Boolean): Result<Publication>
+    suspend fun setLocked(note: Note, locked: Boolean): Result<Publication> =
+        Result.failure(UnsupportedOperationException("Note locking is not supported by this repository"))
     suspend fun uploadImage(bytes: ByteArray): Result<String> = Result.failure(UnsupportedOperationException("Insertion d’image indisponible."))
     suspend fun loadImage(reference: String): Result<ByteArray> = Result.failure(UnsupportedOperationException("Lecture d’image indisponible."))
 }

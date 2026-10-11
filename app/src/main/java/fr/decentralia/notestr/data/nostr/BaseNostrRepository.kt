@@ -104,8 +104,11 @@ abstract class BaseNostrRepository(
 
     private fun conflict(edit: PendingEdit, current: Note?): Boolean {
         if (NoteEvents.permanentlyDeleted(events, publicKey, edit.identifier)) return true
+        // The acknowledged local event is already the authoritative remote
+        // note. Its separate lock metadata must not create a duplicate conflict.
+        if (current?.eventId == edit.update.id().toHex()) return false
+        if (current?.locked == true) return true
         if (current?.trashed == true) return true
-        if (current?.eventId == edit.update.id().toHex()) return false // acknowledgement lost before local commit
         return current?.eventId != edit.base?.id()?.toHex()
     }
 
@@ -126,7 +129,8 @@ abstract class BaseNostrRepository(
             }
             if (!conflicted) result.removeAll { it.identifier == edit.identifier }
             result += edit.update.toNote(plaintext(edit.update)).copy(
-                pinned = current?.pinned ?: false, pending = true, conflicted = conflicted)
+                pinned = current?.pinned ?: false, locked = current?.locked ?: false,
+                pending = true, conflicted = conflicted)
         }
         return result.sortedWith(noteOrder)
     }
@@ -134,6 +138,7 @@ abstract class BaseNostrRepository(
     override suspend fun saveLocal(markdown: String, previous: Note?, asCopy: Boolean): Result<Publication> = operation {
         require(markdown.isNotBlank()) { tr("La note est vide.") }
         require(previous?.trashed != true) { tr("Restaurez la note depuis la corbeille avant de la modifier.") }
+        require(previous?.locked != true) { tr("Déverrouillez cette note avant de la modifier.") }
         merge(emptyList())
         val edits = pendingEdits().toMutableList()
         val existing = previous?.let { n -> edits.firstOrNull { it.identifier == n.identifier } }
@@ -203,7 +208,9 @@ abstract class BaseNostrRepository(
                 val trash = pins[NoteEvents.trashAddress(NoteEvents.identifier(event)!!)]
                 val value = trash?.let { plaintext(it) } ?: "false"
                 require(value == "true" || value == "false") { tr("État de corbeille invalide.") }
-                event.toNote(plaintext(event)).copy(pinned = pinned, trashed = value == "true")
+                val lock = pins[NoteEvents.lockAddress(NoteEvents.identifier(event)!!)]
+                val locked = lock?.let { booleanValue(it) } ?: false
+                event.toNote(plaintext(event)).copy(pinned = pinned, locked = locked, trashed = value == "true")
             }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
@@ -227,6 +234,7 @@ abstract class BaseNostrRepository(
         merge(emptyList())
         val old = previous?.let { note ->
             require(!note.trashed && !isTrashed(note) && !NoteEvents.permanentlyDeleted(events, publicKey, note.identifier)) { tr("Restaurez la note depuis la corbeille avant de la modifier.") }
+            require(!isLocked(note)) { tr("Déverrouillez cette note avant de la modifier.") }
             val event = Event.fromJson(note.eventJson)
             require(NoteEvents.verified(listOf(event), publicKey).size == 1 &&
                 event.kind().asU16() == NoteEvents.NOTE && NoteEvents.identifier(event) == note.identifier &&
@@ -267,6 +275,42 @@ abstract class BaseNostrRepository(
         return value == "true"
     }
 
+    private suspend fun booleanValue(event: Event): Boolean {
+        val value = plaintext(event)
+        require(value == "true" || value == "false") { tr("État de verrouillage invalide.") }
+        return value == "true"
+    }
+
+    private suspend fun isLocked(note: Note): Boolean {
+        val event = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.lockAddress(note.identifier) }
+        return event?.let { booleanValue(it) } ?: false
+    }
+
+    override suspend fun setLocked(note: Note, locked: Boolean): Result<Publication> = operation {
+        merge(emptyList())
+        val current = NoteEvents.latest(events, NoteEvents.NOTE, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == note.identifier }
+        require(current?.id()?.toHex() == note.eventId && isLocked(note) == note.locked) {
+            tr("La note a changé. Actualisez et ouvrez sa dernière version.")
+        }
+        require(!note.pending) { tr("Publiez d’abord cette note avant de la verrouiller.") }
+        val address = NoteEvents.lockAddress(note.identifier)
+        val previous = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == address }
+        val event = sign(EventBuilder(Kind(NoteEvents.BACKUP), encrypt(locked.toString()))
+            .tags(listOf(Tag.identifier(address))).customCreatedAt(NoteEvents.updateTime(previous, null)))
+        connect()
+        check(client.sendEvent(event, ackPolicy = AckPolicy.all()).success.isNotEmpty()) {
+            tr("Aucun relais n’a accepté le verrouillage. Réessayez après reconnexion.")
+        }
+        merge(listOf(event))
+        val warning = try { persist(); null } catch (_: Exception) {
+            tr("Verrouillage synchronisé, mais écriture du cache local impossible. Actualisez avant de fermer.")
+        }
+        Publication(note.copy(locked = locked), warning)
+    }
+
     override suspend fun setPinned(note: Note, pinned: Boolean): Result<Publication> = operation {
         merge(emptyList())
         val address = NoteEvents.pinAddress(note.identifier)
@@ -294,6 +338,7 @@ abstract class BaseNostrRepository(
 
     override suspend fun setTrashed(note: Note, trashed: Boolean): Result<Publication> = operation {
         merge(emptyList())
+        require(!trashed || !isLocked(note)) { tr("Déverrouillez cette note avant de la déplacer vers la corbeille.") }
         require(!NoteEvents.permanentlyDeleted(events, publicKey, note.identifier)) { tr("Cette note a été supprimée définitivement.") }
         val current = NoteEvents.latest(events, NoteEvents.NOTE, publicKey)
             .firstOrNull { NoteEvents.identifier(it) == note.identifier }
@@ -432,6 +477,7 @@ abstract class BaseNostrRepository(
 
     override suspend fun delete(note: Note): Result<Unit> = operation {
         merge(emptyList())
+        require(!isLocked(note)) { tr("Déverrouillez cette note avant de la supprimer définitivement.") }
         require(note.trashed && isTrashed(note)) { tr("Déplacez d’abord la note dans la corbeille.") }
         val backup = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
             .firstOrNull { NoteEvents.identifier(it) == NoteEvents.backupAddress(note.identifier) }
@@ -444,6 +490,7 @@ abstract class BaseNostrRepository(
                 Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.backupAddress(note.identifier)}")),
                 Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.pinAddress(note.identifier)}")),
                 Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.trashAddress(note.identifier)}")),
+                Tag.parse(listOf("a", "${NoteEvents.BACKUP}:${publicKey.toHex()}:${NoteEvents.lockAddress(note.identifier)}")),
                 Tag.parse(listOf("k", NoteEvents.BACKUP.toString()))
             )).customCreatedAt(Timestamp.fromSecs(timestamp)))
         connect()

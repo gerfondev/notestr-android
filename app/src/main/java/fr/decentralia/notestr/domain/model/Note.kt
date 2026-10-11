@@ -11,7 +11,8 @@ data class Note(
     val pinned: Boolean = false,
     val trashed: Boolean = false,
     val pending: Boolean = false,
-    val conflicted: Boolean = false
+    val conflicted: Boolean = false,
+    val locked: Boolean = false
 ) {
     val listKey: String get() = (if (pending) "pending:" else "note:") + identifier
     val title: String

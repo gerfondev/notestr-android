@@ -1,3 +1,7 @@
+# 3.9.1 — 11 octobre 2026
+
+Ajout du verrouillage/déverrouillage synchronisé des notes, compatible entre Android et Linux. Les notes verrouillées restent consultables mais ne peuvent pas être modifiées ou supprimées depuis les versions compatibles. Correction de bugs mineurs et mise à jour de sécurité des dépendances Android. Sur Linux, correction de l’export PDF pour intégrer les images de la note. Numéros de version Android/Linux alignés sur 3.9.1. Voir RELEASE-NOTES-3.9.1.md.
+
 # 3.9 — 9 octobre 2026
 
 Insertion d’images chiffrées avec aperçu visuel, visionneuse plein écran, zoom et déplacement sur Android et Linux. Correction Linux du bouton **Enregistrer les relais** dans les paramètres. Ajout de la licence GNU GPLv3 et de son texte complet dans les paramètres. Mise à jour des dépendances Android, Python, JavaScript et bibliothèques natives Linux ; réserves restantes documentées dans SECURITY-REVIEW.md.
