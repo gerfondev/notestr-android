@@ -39,6 +39,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -63,8 +64,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.annotation.DrawableRes
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -229,10 +232,14 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
                         }
                         if (!note.pending) ActionIcon(if (note.locked) tr("Déverrouiller la note") else tr("Verrouiller la note"),
                             if (note.locked) R.drawable.ic_note_locked else R.drawable.ic_note_unlocked,
-                            { vm.toggleLocked(note) }, enabled = !state.busy)
+                            { vm.toggleLocked(note) }, enabled = !state.busy,
+                            tint = if (note.locked) {
+                                if (isSystemInDarkTheme()) Color(0xFF81C784) else Color(0xFF2E7D32)
+                            } else MaterialTheme.colorScheme.outline)
                         if (!note.trashed && !note.pending) ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"),
-                            if (note.pinned) R.drawable.ic_action_unpin else R.drawable.ic_action_pin,
-                            { vm.togglePinned(note) }, enabled = !state.busy)
+                            R.drawable.ic_action_pin,
+                            { vm.togglePinned(note) }, enabled = !state.busy,
+                            tint = if (note.pinned) Color(0xFFFF8904) else MaterialTheme.colorScheme.outline)
                     }
                 }
             }
@@ -416,14 +423,22 @@ private fun FormPage(title: String, back: (() -> Unit)? = null, content: @Compos
 /** Labels serve TalkBack and the long-press tooltip; touch targets remain 48 dp. */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ActionIcon(label: String, @DrawableRes icon: Int, onClick: () -> Unit, enabled: Boolean = true) {
+private fun ActionIcon(
+    label: String,
+    @DrawableRes icon: Int,
+    onClick: () -> Unit,
+    enabled: Boolean = true,
+    tint: Color? = null
+) {
     TooltipBox(
         positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
         tooltip = { PlainTooltip { Text(label) } },
         state = rememberTooltipState()
     ) {
         IconButton(onClick = onClick, enabled = enabled, modifier = Modifier.size(48.dp)) {
-            Icon(painterResource(icon), contentDescription = label, modifier = Modifier.size(24.dp))
+            val iconTint = tint?.let { if (enabled) it else it.copy(alpha = it.alpha * 0.38f) }
+                ?: LocalContentColor.current
+            Icon(painterResource(icon), contentDescription = label, modifier = Modifier.size(24.dp), tint = iconTint)
         }
     }
 }
