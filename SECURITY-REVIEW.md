@@ -534,3 +534,8 @@ Lot OSV du 11 octobre : 708 coordonnées Maven, crates.io, npm et PyPI ; une ale
 Contrôle ciblé des 496 entrées de l’APK : aucun chemin personnel connu, courriel du propriétaire, `nsec` complet ou jeton GitHub correspondant aux motifs recherchés. Cette recherche n’est pas exhaustive. Aucun compte réel ni note utilisateur n’a servi aux tests. Le téléphone Android 17 de l’utilisateur et Amber réel n’ont pas été testés. Rapport : `security/release-3.9.1-android.json` et `security/release-3.9.1-dependencies.json`.
 
 # Contrôles de sécurité — Notestr Android 3.9 (9 octobre 2026)
+
+
+# Vérification APK Notestr Android 3.9.1 — versionCode 47 (12 octobre 2026)
+
+Recompilation de la release existante pour permettre la mise à niveau Android : versionName `3.9.1` conservée, versionCode `47`. SHA-256 APK : `509d6fe20bc3f0cef47b4bf5460d64dcb61098d76bccaae371cc67e521a9ba90`. 17 tests unitaires release réussis. Signature de publication vérifiée (certificat SHA-256 `8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8`) et alignement ZIP vérifié. Les 496 entrées ont été inspectées par recherche ciblée : aucun marqueur recherché pour chemin personnel connu, clé privée, nsec ou jeton GitHub. Dépendances inchangées ; les avis et limites du contrôle du 11 octobre ci-dessus restent applicables. Pas d'installation sur appareil physique dans cet environnement. Rapport : `security/release-3.9.1-versioncode-47.json`.

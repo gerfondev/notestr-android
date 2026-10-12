@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-12",
+  "artifact": "Notestr-Android.apk",
+  "applicationId": "fr.decentralia.notestr",
+  "versionName": "3.9.1",
+  "versionCode": 47,
+  "sha256": "509d6fe20bc3f0cef47b4bf5460d64dcb61098d76bccaae371cc67e521a9ba90",
+  "build": "./gradlew testReleaseUnitTest assembleRelease",
+  "unitTests": "17 passed",
+  "apkEntriesInspected": 496,
+  "targetedPrivacySecretScan": "0 matches for known owner path, nsec pattern, PEM private key header, GitHub token pattern",
+  "signatureCertificateSha256": "8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+  "signatureVerified": true,
+  "zipalignVerified": true,
+  "limitations": "Targeted scan only; no physical-device installation test in this environment. Dependency review and documented exceptions are inherited from SECURITY-REVIEW.md dated 2026-10-11; dependencies unchanged for this metadata-only rebuild."
+}
