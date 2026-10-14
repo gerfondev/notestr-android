@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-14",
+  "platform": "Android",
+  "versionName": "3.9.2",
+  "versionCode": 50,
+  "compileSdk": 36,
+  "security_updates": {
+    "gradle_wrapper": {
+      "from": "8.14.5",
+      "to": "8.14.6",
+      "distribution_sha256": "7988ed071b2a07900e2ec715fca15c6ab72bce6db433af301fa7fa7e9407bd24",
+      "reason": "Gradle 8.14.6 release notes list fixes for three high-rated vulnerabilities, including two unauthenticated client/daemon deserialization issues and a repository SSL-failure fallback issue.",
+      "source": "https://docs.gradle.org/8.14.6/release-notes.html"
+    },
+    "other_components": "Kotlin 2.4.21, AGP 8.13.2 and runtime dependency versions remain as reviewed for 3.9.1. No newer compatible security correction was introduced in this build. The latest stable Compose BOM and Lifecycle releases were not adopted because this project remains on validated API 36 / AGP 8.13; broader upgrades need compatibility testing."
+  },
+  "validation": {
+    "gradle": "8.14.6",
+    "jdk": "17.0.20.1",
+    "tasks": ["testReleaseUnitTest", "assembleRelease"],
+    "jvm_unit_tests": 17,
+    "build_result": "passed",
+    "instrumented_or_physical_device_test": "not run; no Android device/emulator was available",
+    "apk_sha256": "f5bffc660328f7cf048f5d29cd9a74a91e5229a72836abb379caaf675ef42ba7",
+    "apk_entries_inspected": 496,
+    "apk_signing": "APK Signature Scheme v2 verified; certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8, matching the 3.9.1 versionCode 47 APK",
+    "apk_zip_alignment": "zipalign -c -P 16 -v 4 passed",
+    "apk_debuggable": false
+  },
+  "privacy": {
+    "targeted_source_scan_files": 222,
+    "targeted_apk_scan_files": 496,
+    "searched_markers": ["known local owner path", "full Nostr nsec", "private-key PEM header", "GitHub token"],
+    "apk_matches": 0,
+    "source_matches": 0,
+    "source_owner_path": "one old local build-path mention in SECURITY-REVIEW.md was redacted; the final targeted scan found no matches",
+    "history": "previously public author identities in old commits are retained; no history rewrite",
+    "limitations": "Targeted checks only; they cannot detect unknown identities or all encoded data. No real account or user notes were used."
+  },
+  "publication_status": "not yet published; GitHub credential on this host reports invalid"
+}

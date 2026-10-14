@@ -22,6 +22,8 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebResourceError
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
@@ -41,6 +43,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -49,6 +52,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.delay
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 // A public bridge class, with callbacks bound to the WebView that owns it.
 class MarkdownEditorBridge(private val receive: (String) -> Unit) {
@@ -87,6 +93,22 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
     var loadedRevision by remember { mutableStateOf(-1) }
     var error by remember { mutableStateOf<String?>(null) }
     var imageFullscreen by remember { mutableStateOf(false) }
+    var pendingImageDownload by remember { mutableStateOf<ByteArray?>(null) }
+    val context = LocalContext.current
+    val imageSaver = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("image/jpeg")) { uri ->
+        val bytes = pendingImageDownload
+        pendingImageDownload = null
+        if (uri == null || bytes == null) return@rememberLauncherForActivityResult
+        Thread {
+            val saved = runCatching {
+                context.contentResolver.openOutputStream(uri, "w")?.use { it.write(bytes) }
+                    ?: error("Impossible d’ouvrir le fichier choisi.")
+            }
+            android.os.Handler(android.os.Looper.getMainLooper()).post {
+                Toast.makeText(context, if (saved.isSuccess) tr("Image enregistrée.") else tr("Enregistrement de l’image impossible."), Toast.LENGTH_LONG).show()
+            }
+        }.start()
+    }
     var sourceValue by remember { mutableStateOf(TextFieldValue(markdown)) }
     val currentOnOpenLink by rememberUpdatedState(onOpenLink)
     val currentReadOnly by rememberUpdatedState(readOnly)
@@ -218,6 +240,28 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                                 owner.evaluateJavascript("window.notesEditor.imageResult(${JSONObject.quote(reference)},${JSONObject.quote(data)})", null)
                                             }
                                         } }
+                                    }
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "downloadImage" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        val reference = message.optString("reference")
+                                        val expectedRevision = loadedRevision
+                                        android.app.AlertDialog.Builder(context)
+                                            .setMessage(tr("Enregistrer cette image dans un emplacement de votre choix ?"))
+                                            .setNegativeButton(tr("Annuler"), null)
+                                            .setPositiveButton(tr("Télécharger")) { _, _ ->
+                                                currentOnLoadImage?.invoke(reference) { bytes -> owner.post {
+                                                    if (webView !== owner || !visual || loadedRevision != expectedRevision) return@post
+                                                    if (bytes == null) {
+                                                        Toast.makeText(context, tr("Image indisponible."), Toast.LENGTH_LONG).show()
+                                                    } else {
+                                                        pendingImageDownload = bytes
+                                                        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.ROOT).format(Date())
+                                                        imageSaver.launch("Notestr-image-$stamp.jpg")
+                                                    }
+                                                } }
+                                            }
+                                            .show()
                                     }
                                 }
                             }, "AndroidNotes")

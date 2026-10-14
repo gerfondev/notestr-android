@@ -539,3 +539,28 @@ Contrôle ciblé des 496 entrées de l’APK : aucun chemin personnel connu, cou
 # Vérification APK Notestr Android 3.9.1 — versionCode 47 (12 octobre 2026)
 
 Recompilation de la release existante pour permettre la mise à niveau Android : versionName `3.9.1` conservée, versionCode `47`. SHA-256 APK : `509d6fe20bc3f0cef47b4bf5460d64dcb61098d76bccaae371cc67e521a9ba90`. 17 tests unitaires release réussis. Signature de publication vérifiée (certificat SHA-256 `8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8`) et alignement ZIP vérifié. Les 496 entrées ont été inspectées par recherche ciblée : aucun marqueur recherché pour chemin personnel connu, clé privée, nsec ou jeton GitHub. Dépendances inchangées ; les avis et limites du contrôle du 11 octobre ci-dessus restent applicables. Pas d'installation sur appareil physique dans cet environnement. Rapport : `security/release-3.9.1-versioncode-47.json`.
+
+
+# Candidat bêta Android — alignement des listes (14 octobre 2026)
+
+APK local non publié, versionName `3.9.1-beta`, versionCode `48`, basé sur les sources publiées 3.9.1. SHA-256 `9be93f51b14b3162daf2e617cf4862d5ca759cef9b65e357fa0bb5a29620c7cc`. Signature et zipalign vérifiés ; certificat identique à la version publique. 17 tests unitaires réussis, 0 échec(s). Scan ciblé des 496 entrées sans correspondance des motifs owner path, clé Nostr exacte, en-tête de clé privée ou jeton GitHub. Aucun appareil Android connecté pour vérifier le rendu sur téléphone. Dépendances inchangées ; les limites de la revue du 11 octobre restent applicables. Rapport `security/list-alignment-test-2026-10-14.json`.
+
+## Candidat local — téléchargement d’images (14 octobre 2026)
+
+APK de développement `3.9.1-dev`, versionCode 49, SHA-256 `43f5d90ffdab6b179a0d903fcc2f1154e73dd793396635d401e4dc4a507406b1`. 17 tests JVM et compilation release réussis ; signature v2 et alignement ZIP vérifiés, 496 entrées contrôlées. Le menu contextuel Android propose le téléchargement après confirmation et utilise le sélecteur de fichiers système ; l’image exportée est déchiffrée et non chiffrée dans l’emplacement explicitement choisi. Scan ciblé : aucun chemin `[local path omitted]`, nsec complet ou jeton GitHub correspondant aux motifs recherchés dans l’APK. Scan de 124 fichiers source/ressource Android/Linux : aucun marqueur ciblé. Aucun téléphone ni émulateur Android n’était disponible dans cette exécution, donc pas de validation tactile sur appareil. Dépendances inchangées ; les réserves sur l’éditeur Toast UI et le SDK natif restent celles des sections précédentes. Aucun compte ni note réelle utilisé. Paquet local uniquement, aucune publication.
+
+## Contrôles Android 3.9.2 — 14 octobre 2026
+
+Le wrapper Gradle est passé de 8.14.5 à 8.14.6. Les notes officielles de Gradle indiquent que 8.14.6 corrige trois vulnérabilités élevées ; l’empreinte officielle du ZIP binaire (`7988ed…7bd24`) est inscrite dans le wrapper. Kotlin 2.4.21, AGP 8.13.2 et les bibliothèques runtime déjà qualifiées restent inchangés. Les versions AndroidX plus récentes n’ont pas été prises sans validation coordonnée de la plateforme API 36.
+
+Gradle 8.14.6 : `testReleaseUnitTest` (17 tests) et `assembleRelease` réussis. APK 3.9.2, versionCode 50, SHA-256 `f5bffc660328f7cf048f5d29cd9a74a91e5229a72836abb379caaf675ef42ba7`. Non débogable ; signature v2 vérifiée ; certificat SHA-256 identique à celui de l’APK 3.9.1 versionCode 47 ; zipalign 16 Ko réussi. Aucun appareil ou émulateur Android n’était disponible pour test instrumenté/physique.
+
+Les 496 entrées de l’APK ont été examinées par recherche ciblée de chemins personnels connus, nsec complète, en-têtes de clé privée et jetons GitHub : aucun marqueur. Les fichiers source suivis et ajoutés ont aussi été contrôlés. Une ancienne mention de chemin local dans cette revue a été retirée. Les identités d’auteur des anciens commits publics ne sont pas réécrites. Rapport : `security/release-3.9.2-android.json`.
+
+## Contrôles Linux 3.9.2 — 14 octobre 2026
+
+L’AppImage reprend le runtime, les bibliothèques natives et le jeu de dépendances de l’AppImage 3.9.1 contrôlée, puis y intègre les sources de l’application 3.9.2. WebKitGTK 2.54.0 et le bundle embarqué ProseMirror 1.42.6 sont conservés. Les versions PyPI aiohttp 3.14.5, cryptography 50.0.2, websockets 17.2 et Pillow 12.3.0 demeurent celles du paquet précédent contrôlé. La revue complète antérieure des dépendances du 11 octobre est réutilisée ; ce n’est pas un nouveau balayage exhaustif des registres natifs.
+
+119 tests Python réussis. Le `--check` et les essais GTK/WebKit de l’AppImage finale réussissent, dont éditeur, paramètres, confidentialité CSP et export PDF. Le wheel et l’archive source sont construits depuis ces sources ; les propriétaires de l’archive source sont normalisés. AppImage reconstruite à partir du payload 3.9.1 et de ses bibliothèques natives : ce n’est pas une reconstruction complète de WebKitGTK.
+
+Contrôle ciblé de 3 871 fichiers extraits : aucun chemin personnel connu, nsec complète ou jeton GitHub. Douze marqueurs d’en-tête PEM sont présents dans libgnutls, libssh et le module SSH de cryptography, composants amont embarqués ; aucune clé Notestr ou clé de compte n’a été trouvée dans le code de l’application. Aucun cache ou base utilisateur n’est inclus. Les identités d’auteur des anciens commits publics sont conservées. Ces contrôles ciblés ne prouvent pas l’absence de toute donnée personnelle inconnue ou encodée. Rapport : `security/release-3.9.2-linux.json`.

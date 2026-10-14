@@ -136,6 +136,17 @@
     if(e.isTrusted && loaded && /^https?:\/\//i.test(url))
       send({type:'openLink',epoch,url,markdown:value()});
   },true);
+  // Android replaces WebView's inert built-in image menu with an explicit
+  // native save action. Send only the signed image reference; the host loads
+  // and decrypts it through the normal attachment path after confirmation.
+  document.addEventListener('contextmenu',e=>{
+    if(!(e.target instanceof Element))return;
+    const image=e.target.closest('.toastui-editor-contents img');if(!image)return;
+    const reference=embeddedAssets.get(image.getAttribute('src'))||imageSources.get(image.getAttribute('src'));
+    if(!validImageReference(reference))return;
+    e.preventDefault();e.stopImmediatePropagation();
+    send({type:'downloadImage',epoch,reference});
+  },true);
   document.addEventListener('drop',e=>{e.preventDefault();e.stopImmediatePropagation();},true);
   document.addEventListener('dragover',e=>e.preventDefault(),true);
   document.addEventListener('mousedown',e=>{const target=e.target instanceof Element?e.target:e.target?.parentElement;if(readOnly&&!target?.closest('a'))e.stopImmediatePropagation();},true);
