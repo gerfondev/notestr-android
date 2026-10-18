@@ -15,8 +15,8 @@ android {
         applicationId = "fr.decentralia.notestr"
         minSdk = 26
         targetSdk = 36
-        versionCode = 55
-        versionName = "3.9.3"
+        versionCode = 63
+        versionName = "3.9.3-dev.63"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

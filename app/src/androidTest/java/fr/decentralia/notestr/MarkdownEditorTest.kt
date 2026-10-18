@@ -25,6 +25,28 @@ import java.util.concurrent.TimeUnit
 class MarkdownEditorTest {
     @get:Rule val compose = createAndroidComposeRule<MainActivity>()
 
+    @Test fun visualTablesFitThePhoneWidthAndWrapLongCellContent() {
+        val source = """# Tableau
+
+| Produit | Quantité | Remarque |
+| --- | --- | --- |
+| Article très long sans espace pour vérifier le retour à la ligne | 12 | Un texte de remarque qui doit rester dans la largeur disponible |
+"""
+        render { MaterialTheme { MarkdownEditor(source, {}) } }
+        compose.waitUntil(15000) { javascript("!!document.querySelector('.toastui-editor-ww-container table')") == "true" }
+        val responsive = javascript("""(() => {
+            const table=document.querySelector('.toastui-editor-ww-container table');
+            const cell=table?.querySelector('td');
+            const container=table?.closest('.toastui-editor-ww-container');
+            const style=table&&getComputedStyle(table);
+            const cellStyle=cell&&getComputedStyle(cell);
+            return !!table && style.tableLayout==='fixed' &&
+                table.getBoundingClientRect().width <= container.clientWidth + 1 &&
+                cellStyle.overflowWrap==='anywhere';
+        })()""")
+        assertTrue("La table doit tenir dans la largeur du WebView et permettre le retour à la ligne.", responsive == "true")
+    }
+
     @Test fun imageOpensFullscreenAndSystemBackClosesWithoutChangingNote() {
         val source = "# Note test\n\nUne image déchiffrée.\n"
         render { MaterialTheme { MarkdownEditor(source, {}) } }
@@ -110,11 +132,13 @@ class MarkdownEditorTest {
         assertTrue(changes.isEmpty())
     }
 
-    @Test fun alreadyLoadedImageCanBeResolvedAgainForPdfExport() {
-        val reference = "notestr-image://" + "f".repeat(64) +
-            "?server=https%3A%2F%2Fimages.example&key=" + "F".repeat(43) +
-            "&nonce=" + "G".repeat(16) + "&mime=image%2Fjpeg"
-        val source = "# PDF image test\n\n![Image]($reference)\n"
+    @Test fun multipleLoadedImagesAreReusedForPdfExport() {
+        fun reference(hash: Char, key: Char, nonce: Char) = "notestr-image://" + hash.toString().repeat(64) +
+            "?server=https%3A%2F%2Fimages.example&key=" + key.toString().repeat(43) +
+            "&nonce=" + nonce.toString().repeat(16) + "&mime=image%2Fjpeg"
+        val first = reference('f', 'F', 'G')
+        val second = reference('e', 'E', 'H')
+        val source = "# PDF image test\n\n![Image 1]($first)\n\n![Image 2]($second)\n"
         val loadCount = java.util.concurrent.atomic.AtomicInteger()
         val bitmap = android.graphics.Bitmap.createBitmap(4, 4, android.graphics.Bitmap.Config.ARGB_8888)
         val imageBytes = java.io.ByteArrayOutputStream().use { output ->
@@ -127,16 +151,17 @@ class MarkdownEditorTest {
             complete(imageBytes)
         }) } }
         compose.waitUntil(15000) {
-            loadCount.get() == 1 && javascript("document.querySelector('.toastui-editor-contents img')?.src.startsWith('data:image/jpeg;base64,')") == "true"
+            loadCount.get() == 2 && javascript("Array.from(document.querySelectorAll('.toastui-editor-contents img')).length===2 && Array.from(document.querySelectorAll('.toastui-editor-contents img')).every(img=>img.complete&&img.naturalWidth===4)") == "true"
         }
 
-        // The export path asks the WebView to resolve images again. The first
-        // render has already replaced the placeholder with a data URL.
+        // A PDF reuses already decrypted images and must not request them again.
+        assertTrue(javascript("window.notesEditor.printableImageCount()") == "2")
+        assertTrue(javascript("JSON.stringify(window.notesEditor.imagesPendingForPrint())") == JSONObject.quote("[]"))
         javascript("window.notesEditor.resolveImages(true)")
-        compose.waitUntil(5000) { loadCount.get() == 2 }
-        compose.waitUntil(5000) {
-            javascript("document.querySelector('.toastui-editor-contents img')?.complete && document.querySelector('.toastui-editor-contents img')?.naturalWidth === 4") == "true"
-        }
+        compose.waitForIdle()
+        assertTrue(loadCount.get() == 2)
+        javascript("window.__pdfReady=null; window.notesEditor.prepareForPrint().then(ready=>window.__pdfReady=ready); true")
+        compose.waitUntil(20000) { javascript("window.__pdfReady === true") == "true" }
         assertTrue(javascript("window.notesEditor.snapshot().includes('notestr-image://')") == "true")
     }
 

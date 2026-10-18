@@ -1,21 +1,24 @@
 {
   "date": "2026-10-18",
   "candidate": {
-    "versionName": "3.9.3",
-    "versionCode": 55,
+    "versionName": "3.9.3-dev.63",
+    "versionCode": 63,
+    "releaseVersion": "3.9.3",
     "package": "fr.decentralia.notestr"
   },
   "artifact": {
-    "path": "livrables/test-release-3.9.3/android/Notestr-Android-3.9.3.apk",
-    "sha256": "42031c737638d2f3efeaa8da1f0cfbb0db80d0865e94313635aef59beb3f6b8e",
+    "path": "Notestr-Android-3.9.3.apk",
+    "sha256": "b20a1765d1b494f2cfd8b997c123fd04eefbde4f6a8ab955b2d5734404544c2b",
     "signing": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8; same certificate as prior local candidates and published 3.9.2",
-    "debuggable": false
+    "debuggable": false,
+    "publicAssetName": "Notestr-Android-3.9.3.apk"
   },
   "changes": [
     "Add Android PrintManager PDF export.",
     "Keep encrypted Blossom image references available through print rendering; fetch the URL host embedded in each note first, then try profile Blossom mirrors, and wait for WebView image decode before printing.",
     "Adjust print layout on Android and Linux so images are constrained to readable page dimensions and surrounding text flows in remaining space.",
-    "Apply compatible security updates; Android retains the reviewed Gradle 8.14.6 toolchain, and Linux updates Pillow and selected Ubuntu runtime packages."
+    "Apply compatible security updates; Android retains the reviewed Gradle 8.14.6 toolchain, and Linux updates Pillow and selected Ubuntu runtime packages.",
+    "Fix PDF export readiness to count only visible, distinct image sources in the WYSIWYG note content; this addresses the reported six-image count for a note containing two photos."
   ],
   "dependencies": {
     "gradle": "8.14.6",
@@ -25,21 +28,23 @@
     "composeBom": "2026.06.00",
     "lifecycle": "2.10.0",
     "jdk": "Temurin 17.0.20.1+1",
-    "sdkBuildTools": "36.0.0",
+    "sdkBuildTools": "35.0.0 (installed tool used for verification; compileSdk remains 36)",
     "securityContext": "Gradle 8.14.6 release notes report fixes for three high-severity vulnerabilities. AndroidX upgrades beyond the API 36/AGP 8.13.2 validated toolchain were not included. Prior Toast UI and native FFI review limitations remain open."
   },
   "validation": {
     "releaseBuild": "passed: ./gradlew --no-daemon testReleaseUnitTest assembleRelease",
     "releaseJvmTests": {
       "passed": 18,
-      "failed": 0
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
     },
     "androidTestCompilation": "passed: compileDebugAndroidTestKotlin",
-    "androidTestExecution": "not run: no Android device/emulator connected; ADB server could not start in sandbox",
-    "devicePdfImageTest": "not run; user must verify on Android 17 phone",
+    "androidTestExecution": "Not run in the build environment; the user tested and confirmed the exact dev.63 APK works.",
+    "devicePdfImageTest": "User confirmed the multi-image PDF export works on their device.",
     "apkSignature": "verified using APK Signature Scheme v2",
     "zipalign16k": "passed",
-    "packageMetadata": "package name fr.decentralia.notestr; versionName 3.9.3; versionCode 55; compileSdk 36",
+    "packageMetadata": "package fr.decentralia.notestr; versionName 3.9.3-dev.63; versionCode 63; release/tag version 3.9.3; compileSdk 36",
     "apkEntries": 505,
     "targetedPrivacyScan": {
       "ownerPathMatches": 0,
@@ -52,12 +57,12 @@
     "sourcePrivacyScan": "172 app/source/configuration files checked in the prior scan; no targeted owner path, owner npub, configured email, full nsec, private PEM marker, or GitHub token found. Scan is targeted, not exhaustive."
   },
   "limits": [
-    "No Android 17 phone or emulator test was possible; PDF export with Blossom images needs user validation on device.",
     "Linux GUI smoke test retains a pre-existing copy-code button assertion mismatch; 113 Python tests and synthetic image PDF export checks pass.",
     "Prior AndroidX, Toast UI, native FFI and broad third-party review limitations remain documented; no exhaustive claim of vulnerability absence.",
-    "Privacy checks are targeted and do not prove absence of unknown or encoded personal data."
+    "Privacy checks are targeted and do not prove absence of unknown or encoded personal data.",
+    "Dependency/native-library review limitations documented in SECURITY-REVIEW.md remain; privacy scans are targeted, not exhaustive."
   ],
-  "publication": "GitHub release 3.9.3 authorized by the user after local Android candidate validation.",
+  "publication": "Updated existing GitHub release v3.9.3 APK asset after explicit user authorization; tag and history unchanged.",
   "userValidation": "The user reported the Android candidate appears to work. No device logs were collected in the build environment.",
   "limitations": []
 }

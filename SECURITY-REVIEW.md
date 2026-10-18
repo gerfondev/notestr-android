@@ -601,3 +601,63 @@ SHA-256 APK : `42031c737638d2f3efeaa8da1f0cfbb0db80d0865e94313635aef59beb3f6b8e`
 Le contrôle source ciblé antérieur porte sur 172 fichiers ; l’inspection ciblée des 505 entrées APK n’a trouvé aucun chemin propriétaire, nsec complète, marqueur PEM de clé privée ni jeton GitHub correspondant aux motifs. Le balayage a repéré 44 chaînes ressemblant à des courriels dans des composants compilés tiers/natifs et les ressources de l’éditeur ; ce motif générique ne désigne pas de courriel configuré du propriétaire dans les sources ou la configuration de l’application. Les contrôles restent ciblés, et non exhaustifs.
 
 Les réserves de sécurité Android précédentes restent applicables : dépendances Toast UI intégrées et couverture incomplète des binaires FFI. Les mises à niveau plus récentes de Compose/Lifecycle incompatibles avec API 36/AGP validé n’ont pas été forcées. Les mises à jour Linux Pillow 13.0.0 et paquets Ubuntu sont documentées dans la revue Linux. Le test Android sur appareil, notamment l’export PDF d’une note contenant une image Blossom, reste à faire ; le candidat local doit être validé par l’utilisateur avant toute publication. Rapport détaillé : `security/release-3.9.3-android.json`. Aucun téléversement, push ou tag distant effectué.
+# Candidat local Android — tableaux adaptatifs et geste Retour — 18 octobre 2026
+
+Android 3.9.3-dev.56 (versionCode 56), APK SHA-256 `ee2291abe7365abc6d6cf96649c9d7e3bda8bd62dce59e2de13466ec3afa8e1f`. Les tableaux Visuel sont contraints à la largeur disponible sur téléphone, avec cellules à mise en page fixe et texte long renvoyé à la ligne. Le geste système Retour depuis l’éditeur et les paramètres revient à la liste des notes.
+
+18 tests JVM réussis ; compilation des tests instrumentés réussie, dont le test de largeur et de retour à la ligne des tableaux. Leur exécution sur appareil n’a pas été possible : aucun appareil ni émulateur connecté. Les dépendances ne changent pas ; la revue du jour de la version 3.9.3 et ses limites AndroidX, Toast UI et FFI restent applicables. APK non débogable, version et code vérifiés, signature APK v2 vérifiée, alignement 4 octets et pages 16 Kio vérifiés.
+
+Contrôle ciblé de 95 fichiers source et des 505 entrées APK : aucun marqueur recherché de chemin personnel, nom du propriétaire, nsec complet, clé privée PEM ou jeton GitHub détecté. Le contrôle n’est pas exhaustif. Candidat de test local uniquement, sans publication. Rapport : `security/android-table-navigation-dev-2026-10-18.json`.
+
+# Candidat Android local — export PDF avec plusieurs images — 18 octobre 2026
+
+Android 3.9.3-dev.57 (versionCode 57), APK SHA-256 `2e724b88473d65a73e4bd835daab0b29a1f34a14e1a9c87dba8b48cb50a9642b`. L’export PDF ne retélécharge plus les images déjà affichées et déchiffrées ; les seules images absentes sont récupérées avant impression. Les chargements en cours sont suivis pour éviter les requêtes doublées, et un échec libère l’état afin qu’un nouvel essai puisse reprendre.
+
+Cause identifiée dans le parcours précédent : le bouton PDF réinitialisait l’ensemble des requêtes d’image et récupérait toutes les images à nouveau. Les opérations du dépôt sont sérialisées par un mutex, et l’impression attendait la récupération et le décodage de toutes les images. Une note avec plusieurs images déclenchait donc des requêtes Blossom/déchiffrements/base64 redondants en série. Le nouveau test instrumenté couvre deux images distinctes et vérifie qu’elles sont réutilisées. 18 tests JVM réussis, test instrumenté compilé ; son exécution n’a pas été possible, ADB ne démarrant pas dans cet environnement. Aucun téléphone/émulateur validé.
+
+Pas de dépendance modifiée ; revue de sécurité du jour de la 3.9.3 réutilisée avec ses réserves AndroidX, Toast UI et FFI. APK non débogable, version/code confirmés, signature v2 vérifiée, alignement 4 octets et pages 16 Kio vérifiés. Contrôle ciblé de 95 fichiers source et 505 entrées APK : aucun marqueur recherché de chemin personnel, nom du propriétaire, nsec complet, clé privée PEM ou jeton GitHub détecté ; contrôle non exhaustif. Candidat de test local seulement. Détails : `security/android-pdf-multiple-images-dev-2026-10-18.json`.
+
+## Correctif de régression du chargement des images — Android — 18 octobre 2026
+
+Le candidat 3.9.3-dev.57 ne consultait plus que la table `imageSources`. Quand l’éditeur normalisait la source d’une image, la référence chiffrée pouvait rester uniquement dans la table de secours `embeddedAssets`, donc l’image ne se chargeait plus. La résolution consulte à nouveau les deux tables. Les images déjà converties en `data:image/` sont ignorées afin de ne pas les redemander.
+
+APK local 3.9.3-dev.58, versionCode 58, SHA-256 `ff128b44889d280d6267e0097dc9182751766aa9018198ac05736bb9ac101421`. 18 tests JVM réussis, compilation des tests instrumentés réussie ; pas d’exécution sur téléphone/émulateur. Vérification de la signature v2, des métadonnées, de l’alignement 16 Kio et de la logique embarquée dans l’APK réussie. Scan ciblé de 95 fichiers source et des 505 entrées APK sans marqueur sélectionné ; scan non exhaustif. Les dépendances sont inchangées ; les réserves AndroidX, Toast UI et FFI de la revue 3.9.3 restent applicables. Candidat local, aucune publication. Rapport : `security/android-image-loading-regression-dev-2026-10-18.json`.
+
+## Correctif de la course de démarrage des images et du PDF — Android — 18 octobre 2026
+
+Une course était possible entre l’appel JavaScript `setDocument` et le retour asynchrone de `evaluateJavascript` : l’éditeur pouvait émettre ses premières demandes d’image avant que Kotlin accepte les messages du WebView. La révision est désormais marquée active avant l’appel, et désactivée si l’initialisation échoue. Cela devrait permettre le chargement normal des images et la résolution des références avant l’export ; le scénario doit encore être confirmé sur téléphone.
+
+APK local 3.9.3-dev.59, versionCode 59, SHA-256 `52e649f826f0d80bd377c58addb206a055003f1050c1e3979ff5b68edd3c43f2`. 18 tests JVM réussis ; tests instrumentés compilés mais non exécutés faute d’appareil/émulateur. Signature v2, version, alignement 16 Kio et contenus ciblés contrôlés. Scans ciblés de 96 fichiers source et 505 entrées APK sans marqueur recherché ; ils ne sont pas exhaustifs. Dépendances inchangées ; les réserves AndroidX, Toast UI et FFI restent applicables. Candidat local non publié. Rapport : `security/android-image-pdf-bridge-race-dev-2026-10-18.json`.
+
+## Correctif de disponibilité du PDF avec plusieurs images — Android — 18 octobre 2026
+
+L’étape de préparation PDF attend désormais le décodage effectif de chaque image et retombe sur les événements `load`/`error` si l’API `decode()` tarde ou échoue. Elle vérifie uniquement les références encore présentes dans les images de la note, et ne bloque plus sur une entrée obsolète de la table. Le test instrumenté couvrant deux images vérifie aussi que `prepareForPrint()` renvoie un résultat prêt.
+
+APK local 3.9.3-dev.60, versionCode 60, SHA-256 `9e4407adc6eab860cef2fd9a53f90481177bd24ada888c5a6ff7a57126a0a7d3`. 18 tests JVM réussis ; tests instrumentés compilés mais non exécutés, ADB ne démarrant pas dans cet environnement. Signature v2, métadonnées, alignement 16 Kio et contenu embarqué vérifiés. Scan ciblé de 96 fichiers source et de 505 entrées APK sans marqueur recherché ; contrôle non exhaustif. Dépendances inchangées ; réserves AndroidX, Toast UI et FFI toujours applicables. Candidat local non publié. Rapport : `security/android-pdf-two-images-dev-2026-10-18.json`.
+
+## Diagnostic PDF pour notes avec plusieurs images — Android — 18 octobre 2026
+
+Le contrôle PDF se limite désormais aux images connectées et rendues dans le contenu actuel. Les images déjà complètement chargées sont acceptées sans attendre `decode()`. En cas d’échec restant, l’application affiche le nombre d’images chargées et le nombre de références encore à récupérer, ce qui permettra de distinguer un blocage du téléchargement d’un problème de rendu.
+
+APK local 3.9.3-dev.61, versionCode 61, SHA-256 `83270ba0f9221a093f35d541a2738444f73398324303507b872de67c3fbbe85b`. 18 tests JVM réussis ; test instrumenté à deux images compilé mais non exécuté, aucun appareil/émulateur n’étant accessible ici. Signature v2, version, alignement 16 Kio vérifiés. Scan ciblé de 96 fichiers source et 505 entrées APK sans marqueur sélectionné ; scan non exhaustif. Dépendances inchangées et réserves AndroidX, Toast UI et FFI conservées. Candidat local non publié. Rapport : `security/android-pdf-images-diagnostic-dev-2026-10-18.json`.
+
+## Déduplication des images dans l’export PDF — Android — 18 octobre 2026
+
+Le diagnostic fourni par l’utilisateur pour dev.61 indiquait 6 éléments d’image, dont seulement 2 chargés, alors que la note comportait deux photos et qu’aucune référence ne restait à récupérer. L’export ne compte maintenant que les images rendues dans la zone de contenu WYSIWYG et déduplique celles qui partagent la même source. Le test instrumenté vérifie qu’une note de deux images donne exactement deux éléments imprimables.
+
+APK local 3.9.3-dev.62, versionCode 62, SHA-256 `c6304f3f61c1b5a31614e8fbb6a6a83b73c0e6eac949c15f1a5d2d28c57f4517`. 18 tests JVM réussis ; tests instrumentés compilés mais non exécutés, faute d’appareil/émulateur accessible. Signature v2, métadonnées, alignement 16 Kio vérifiés. Scan ciblé de 96 fichiers source et 505 entrées APK sans marqueur sélectionné ; non exhaustif. Dépendances inchangées ; réserves AndroidX, Toast UI et FFI conservées. Candidat local non publié. Rapport : `security/android-pdf-image-dom-dedup-dev-2026-10-18.json`.
+
+## Candidat Android dev.63 — numéro de candidat uniquement — 18 octobre 2026
+
+Le candidat passe de 3.9.3-dev.62/versionCode 62 à 3.9.3-dev.63/versionCode 63 afin de permettre son installation comme mise à jour. Aucun code fonctionnel ni aucune dépendance n’a changé. Sauvegarde de `app/build.gradle.kts` : `sauvegardes/avant-dev63-2026-10-18/build.gradle.kts`.
+
+La compilation utilise Temurin 17.0.20.1+1 (archive officielle vérifiée par SHA-256 via l’API Adoptium), Gradle 8.14.6, AGP 8.13.2, SDK 36 et Build Tools 35.0.0. `testReleaseUnitTest`, `assembleRelease` et `compileDebugAndroidTestKotlin` passent ; 18 tests JVM réussis. Les tests instrumentés ne sont pas exécutés sur appareil/émulateur. L’APK non débogable compte 505 entrées ; sa version, la signature v2 et l’alignement 16 Kio sont vérifiés. SHA-256 : `b20a1765d1b494f2cfd8b997c123fd04eefbde4f6a8ab955b2d5734404544c2b`.
+
+Contrôle ciblé des 505 entrées APK : aucun chemin propriétaire connu, nsec complète, en-tête PEM de clé privée ni jeton GitHub selon les motifs recherchés. Ce contrôle n’est pas exhaustif. Les réserves AndroidX, Toast UI, FFI et dépendances tierces des revues précédentes restent applicables. L’export PDF d’une note avec plusieurs images doit encore être vérifié sur le téléphone. Paquet local uniquement ; aucune publication GitHub. Rapport : `security/android-pdf-images-dev63-2026-10-18.json`.
+
+
+## Mise à jour de la release Android 3.9.3 — 18 octobre 2026
+
+Après validation de l’APK dev.63 par l’utilisateur, l’asset APK de la release GitHub existante v3.9.3 a été remplacé par le paquet testé. Nom d’application embarqué : 3.9.3-dev.63 ; versionCode 63 ; numéro de release conservé : 3.9.3. SHA-256 : `b20a1765d1b494f2cfd8b997c123fd04eefbde4f6a8ab955b2d5734404544c2b`. Le tag v3.9.3 n’a pas été déplacé et l’historique n’a pas été réécrit.
+
+Le correctif compte uniquement les images visibles et distinctes de la note pour la préparation PDF. L’utilisateur a confirmé que l’export avec plusieurs images fonctionne. 18 tests JVM passent ; compilation des tests instrumentés réussie. Signature APK v2, métadonnées et alignement 16 Kio vérifiés. Contrôle ciblé des 505 entrées APK et des sources publiées sans chemin propriétaire connu, nsec complète, clé PEM privée ni jeton GitHub détecté ; ces contrôles ne sont pas exhaustifs. Réserves AndroidX, Toast UI et FFI documentées précédemment conservées. Rapport : `security/release-3.9.3-android.json`.

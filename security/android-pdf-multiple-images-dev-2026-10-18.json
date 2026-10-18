@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.57",
+    "versionCode": 57,
+    "package": "fr.decentralia.notestr"
+  },
+  "diagnosis": "PDF export previously reset the image request set and fetched every image again, including images already decrypted and displayed. BaseNostrRepository serializes image operations through one mutex, and the export waited for all image callbacks and WebView decodes before opening PrintManager. Multiple images therefore caused redundant sequential network/decryption/base64 work and increased the chance of a slow or failed export.",
+  "changes": [
+    "Reuse images already decrypted in the editor; only unresolved note images are requested for print.",
+    "Track image requests in flight to avoid duplicate requests during initial rendering and PDF preparation.",
+    "A failed image request clears its in-flight state so a later PDF attempt can retry it.",
+    "Add an instrumented regression for a note containing two distinct images and verify loaded images are not requested again for PDF."
+  ],
+  "dependencies": {
+    "changed": false,
+    "review": "Reuses the same-day dependency/security review recorded in security/release-3.9.3-android.json and SECURITY-REVIEW.md.",
+    "limits": "Existing AndroidX, Toast UI and native FFI review limitations remain. No claim of vulnerability absence."
+  },
+  "artifact": {
+    "path": "livrables/test-pdf-images-multiples-2026-10-18/android/Notestr-Android-3.9.3-dev.57.apk",
+    "sha256": "2e724b88473d65a73e4bd835daab0b29a1f34a14e1a9c87dba8b48cb50a9642b",
+    "entries": 505,
+    "versionMetadata": "aapt confirms package fr.decentralia.notestr, versionCode 57, versionName 3.9.3-dev.57, compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "zipalign 4-byte and 16-KiB page alignment checks passed."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed, including the two-image PDF reuse regression.",
+    "androidInstrumentedTestExecution": "not run: ADB could not start in the sandbox; no device/emulator test was completed.",
+    "javascriptSyntax": "node --check passed for app/src/main/assets/editor/editor.js.",
+    "targetedPrivacyScan": {
+      "sourceFilesChecked": 95,
+      "apkEntriesChecked": 505,
+      "ownerPathMatches": 0,
+      "ownerNameMatches": 0,
+      "fullNsecMatches": 0,
+      "privatePemMatches": 0,
+      "githubTokenMatches": 0,
+      "scope": "Targeted marker scan only; it is not an exhaustive personal-data audit."
+    }
+  },
+  "publication": "none; local test candidate only."
+}

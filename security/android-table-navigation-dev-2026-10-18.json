@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.56",
+    "versionCode": 56,
+    "package": "fr.decentralia.notestr"
+  },
+  "changes": [
+    "Android visual-editor tables are constrained to the available phone width and use fixed layout with wrapping for long cell contents.",
+    "Android system Back, including the left-edge swipe gesture, returns from the note editor or settings to the notes list."
+  ],
+  "dependencies": {
+    "changed": false,
+    "review": "Reuses the same-day 3.9.3 dependency/security review in security/release-3.9.3-android.json and SECURITY-REVIEW.md. No dependency, native SDK, or build-tool versions changed for this UI candidate.",
+    "limits": "Previously documented AndroidX, Toast UI, and native FFI review limitations remain; no claim of absence of vulnerabilities."
+  },
+  "artifact": {
+    "path": "livrables/test-table-navigation-2026-10-18/android/Notestr-Android-3.9.3-dev.56.apk",
+    "sha256": "ee2291abe7365abc6d6cf96649c9d7e3bda8bd62dce59e2de13466ec3afa8e1f",
+    "entries": 505,
+    "versionMetadata": "aapt confirms package fr.decentralia.notestr, versionCode 56, versionName 3.9.3-dev.56, compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "zipalign 4-byte and 16-KiB page alignment checks passed."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed, including visualTablesFitThePhoneWidthAndWrapLongCellContent.",
+    "androidInstrumentedTestExecution": "not run: no device or emulator attached; ADB device list was empty.",
+    "targetedPrivacyScan": {
+      "sourceFilesChecked": 95,
+      "apkEntriesChecked": 505,
+      "ownerPathMatches": 0,
+      "ownerNameMatches": 0,
+      "fullNsecMatches": 0,
+      "privatePemMatches": 0,
+      "githubTokenMatches": 0,
+      "scope": "Targeted marker scan only; it is not an exhaustive personal-data audit."
+    }
+  },
+  "publication": "none; local test candidate only."
+}

@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-18",
+  "candidate": {"versionName": "3.9.3-dev.61", "versionCode": 61, "package": "fr.decentralia.notestr"},
+  "changes": [
+    "PDF image readiness now considers only image elements that are connected and rendered in the current note.",
+    "Already complete images with a natural width are accepted without waiting for decode().",
+    "The final readiness check uses the loaded state of each current image and remaining references, not a stale decode-promise result.",
+    "If readiness still fails, a diagnostic toast reports loaded image count and unresolved image count."
+  ],
+  "dependencies": {"changed": false, "review": "Same-day review in security/release-3.9.3-android.json and SECURITY-REVIEW.md reused.", "limits": "AndroidX, Toast UI and native FFI review limitations remain."},
+  "build": "Gradle 8.14.6, AGP 8.13.2, JDK 17, Android SDK 36; release build succeeded.",
+  "artifact": {
+    "path": "livrables/test-pdf-images-diagnostic-2026-10-18/android/Notestr-Android-3.9.3-dev.61.apk",
+    "sha256": "83270ba0f9221a093f35d541a2738444f73398324303507b872de67c3fbbe85b",
+    "entries": 505,
+    "versionMetadata": "Package fr.decentralia.notestr; versionCode 61; versionName 3.9.3-dev.61; compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified with Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "4-byte and 16-KiB page alignment verified."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed; includes two-image PDF readiness assertion.",
+    "androidInstrumentedTestExecution": "not run; ADB cannot start in this environment and no device test was completed.",
+    "javascriptSyntax": "node --check passed.",
+    "targetedPrivacyScan": "96 source files and 505 APK entries scanned for selected path, email, private-key, and token markers; no selected markers found. Not exhaustive."
+  },
+  "publication": "none; local diagnostic test candidate only."
+}

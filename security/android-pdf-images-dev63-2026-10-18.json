@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.63",
+    "versionCode": 63,
+    "package": "fr.decentralia.notestr"
+  },
+  "changeScope": "Candidate number only: dev.62 to dev.63. The functional sources are unchanged from dev.62; versionCode is incremented to allow installation as an update.",
+  "backup": "sauvegardes/avant-dev63-2026-10-18/build.gradle.kts",
+  "dependencies": {
+    "changed": false,
+    "review": "Reused the same-day security and dependency review documented in SECURITY-REVIEW.md and security/release-3.9.3-android.json; this candidate changes only package version metadata.",
+    "limits": "Existing AndroidX, Toast UI, native FFI and third-party review limits remain. No new exhaustive audit is claimed."
+  },
+  "build": {
+    "jdk": "Eclipse Temurin 17.0.20.1+1, official Adoptium binary; SHA-256 verified against official Adoptium API metadata",
+    "gradle": "8.14.6",
+    "agp": "8.13.2",
+    "compileSdk": 36,
+    "sdkBuildTools": "35.0.0",
+    "result": "testReleaseUnitTest assembleRelease compileDebugAndroidTestKotlin succeeded"
+  },
+  "artifact": {
+    "path": "livrables/test-pdf-images-dev-63-2026-10-18/android/Notestr-Android-3.9.3-dev.63.apk",
+    "sha256": "b20a1765d1b494f2cfd8b997c123fd04eefbde4f6a8ab955b2d5734404544c2b",
+    "entries": 505,
+    "metadata": "fr.decentralia.notestr, versionName 3.9.3-dev.63, versionCode 63, compileSdk 36",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+    "alignment": "zipalign 16-KiB check passed",
+    "publicAssetName": "Notestr-Android-3.9.3.apk"
+  },
+  "validation": {
+    "releaseUnitTests": "18 passed, 0 failures, 0 errors, 0 skipped",
+    "instrumentedTestCompilation": "passed; tests not run on a device or emulator",
+    "targetedPrivacyScan": "505 APK entries scanned for known owner path, full nsec, PEM private-key header and GitHub-token patterns; no matches. Targeted, not exhaustive.",
+    "devicePdfTest": "not run; the user must verify the two-image PDF export on the target phone"
+  },
+  "publication": "Uploaded as the Android APK asset in existing GitHub release v3.9.3 after explicit user authorization; existing tag was not moved.",
+  "userValidation": "User confirmed the dev.63 package works, including the multi-image PDF export."
+}

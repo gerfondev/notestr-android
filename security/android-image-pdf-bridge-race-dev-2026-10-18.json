@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.59",
+    "versionCode": 59,
+    "package": "fr.decentralia.notestr"
+  },
+  "diagnosis": "Potential initialization race: setDocument emits loadImage through the JavaScript bridge before evaluateJavascript returns. Android previously accepted bridge messages only after that return callback set loadedRevision, which could discard initial image requests. This is consistent with missing images and PDF preparation failing on notes with image references; device reproduction remains necessary.",
+  "change": "Mark the expected editor revision active before calling setDocument. If initialization reports an error, clear that revision and show the existing visual-editor error. The image-source fallback mapping from dev.58 remains in place.",
+  "dependencies": {
+    "changed": false,
+    "review": "Same-day review in security/release-3.9.3-android.json and SECURITY-REVIEW.md reused.",
+    "limits": "AndroidX, Toast UI and native FFI review limitations remain. No claim of vulnerability absence."
+  },
+  "build": "Gradle 8.14.6, AGP 8.13.2, JDK 17, Android SDK 36; release build succeeded.",
+  "artifact": {
+    "path": "livrables/test-chargement-pdf-images-2026-10-18/android/Notestr-Android-3.9.3-dev.59.apk",
+    "sha256": "52e649f826f0d80bd377c58addb206a055003f1050c1e3979ff5b68edd3c43f2",
+    "entries": 505,
+    "versionMetadata": "aapt confirms package fr.decentralia.notestr, versionCode 59, versionName 3.9.3-dev.59, compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified with Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "zipalign 4-byte and 16-KiB page alignment checks passed."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed, including a test that loads two image references and verifies they are ready for PDF reuse.",
+    "androidInstrumentedTestExecution": "not run: no Android device/emulator test was completed; ADB daemon cannot start in this environment.",
+    "javascriptSyntax": "node --check passed for app/src/main/assets/editor/editor.js.",
+    "sourceScan": "96 files under app/src and app/build.gradle.kts checked for selected owner path/email/private-key/token markers; no selected markers found.",
+    "apkScan": "505 APK entries inspected for selected personal-data/secret markers; no selected markers found.",
+    "scanLimits": "Targeted checks only, not exhaustive."
+  },
+  "publication": "none; local test candidate only."
+}

@@ -1,10 +1,10 @@
 # 3.9.3 — 18 octobre 2026
 
-Export PDF ajouté sur Android. Corrections mineures de mise en page des PDF Android et Linux. Mise à jour de sécurité de Pillow vers 13.0.0 sur Linux et revue des composants de sécurité Android. Versions Android/Linux alignées. Voir RELEASE-NOTES-3.9.3.md et SECURITY-REVIEW.md.
+Export PDF ajouté sur Android, avec correction de l’export des notes comportant plusieurs images. Corrections mineures de mise en page des PDF Android et Linux. Mise à jour de sécurité de Pillow vers 13.0.0 sur Linux et revue des composants de sécurité Android. Versions Android/Linux alignées. Voir RELEASE-NOTES-3.9.3.md et SECURITY-REVIEW.md.
 
 # 3.9.1 — 11 octobre 2026
 
-Ajout du verrouillage/déverrouillage synchronisé des notes, compatible entre Android et Linux. Les notes verrouillées restent consultables mais ne peuvent pas être modifiées ou supprimées depuis les versions compatibles. Correction de bugs mineurs et mise à jour de sécurité des dépendances Android. Sur Linux, correction de l’export PDF pour intégrer les images de la note. Numéros de version Android/Linux alignés sur 3.9.1. Voir RELEASE-NOTES-3.9.1.md.
+Ajout du verrouillage/déverrouillage synchronisé des notes, compatible entre Android et Linux. Les notes verrouillées restent consultables mais ne peuvent pas être modifiées ou supprimées depuis les versions compatibles. Correction de bugs mineurs et mise à jour de sécurité des dépendances Android. Sur Linux, correction de l’export PDF pour intégrer les images de la note. Numéros de version Android/Linux alignés sur 3.9.1. Voir release-notes/RELEASE-NOTES-3.9.1.md.
 
 # 3.9 — 9 octobre 2026
 
@@ -12,19 +12,19 @@ Insertion d’images chiffrées avec aperçu visuel, visionneuse plein écran, z
 
 # 3.8
 
-Corbeille commune Android/Linux, délai de verrouillage Android de 3 minutes, modifications chiffrées hors connexion, correction des lenteurs et améliorations visuelles. Voir [les notes de version](RELEASE-NOTES-3.8.md).
+Corbeille commune Android/Linux, délai de verrouillage Android de 3 minutes, modifications chiffrées hors connexion, correction des lenteurs et améliorations visuelles. Voir [les notes de version](release-notes/RELEASE-NOTES-3.8.md).
 
 # 3.7.1 — 3 octobre 2026
 
-Correction du copier-coller des liens web : les champs URL et Texte du lien conservent le collage natif sans insertion intempestive dans la note. Contrôles de sécurité et de confidentialité renouvelés. Voir RELEASE-NOTES-3.7.1.md.
+Correction du copier-coller des liens web : les champs URL et Texte du lien conservent le collage natif sans insertion intempestive dans la note. Contrôles de sécurité et de confidentialité renouvelés. Voir release-notes/RELEASE-NOTES-3.7.1.md.
 
 # 3.7
 
-Cache des notes, correction des liens, version dans les paramètres et choix français/anglais. Voir RELEASE-NOTES-3.7.md.
+Cache des notes, correction des liens, version dans les paramètres et choix français/anglais. Voir release-notes/RELEASE-NOTES-3.7.md.
 
 # 3.6 — 27 septembre 2026
 
-Épinglage/désépinglage chiffré et synchronisé avec Linux, classement prioritaire des notes épinglées, icônes accessibles. Numéros Android/Linux alignés sur 3.6 ; versionCode 22. Contrôles de sécurité renouvelés. Voir RELEASE-NOTES-3.6.md.
+Épinglage/désépinglage chiffré et synchronisé avec Linux, classement prioritaire des notes épinglées, icônes accessibles. Numéros Android/Linux alignés sur 3.6 ; versionCode 22. Contrôles de sécurité renouvelés. Voir release-notes/RELEASE-NOTES-3.6.md.
 
 # 2.0 — 24 septembre 2026
 

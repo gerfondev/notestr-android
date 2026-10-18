@@ -59,3 +59,20 @@ body.notes-readonly{overflow:auto}
 .toastui-editor-contents .task-list-item::before {
   top: calc((1.55em - 18px) / 2);
 }
+
+/* Keep note tables inside a phone viewport and wrap long cell contents. */
+@media (max-width:600px){
+  .toastui-editor-contents table{
+    width:100%!important;
+    max-width:100%;
+    table-layout:fixed;
+  }
+  .toastui-editor-contents table th,
+  .toastui-editor-contents table td{
+    min-width:0;
+    padding:5px 6px;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    vertical-align:top;
+  }
+}

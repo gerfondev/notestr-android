@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.60",
+    "versionCode": 60,
+    "package": "fr.decentralia.notestr"
+  },
+  "diagnosis": "A note with multiple images could reach the PDF-ready check while one WebView image decode promise had rejected or while an obsolete reference remained in the reference map. The previous readiness check treated either condition as a failure even when all images in the current note were loaded.",
+  "changes": [
+    "Wait for each image decode, then fall back to its load/error events when decode is still pending or rejects.",
+    "Determine unresolved references from the images currently present in the note instead of the entire historical source map.",
+    "Extend the two-image instrumented regression to await prepareForPrint() and require a ready result."
+  ],
+  "dependencies": {
+    "changed": false,
+    "review": "Same-day review in security/release-3.9.3-android.json and SECURITY-REVIEW.md reused.",
+    "limits": "AndroidX, Toast UI and native FFI review limitations remain; no claim of vulnerability absence."
+  },
+  "build": "Gradle 8.14.6, AGP 8.13.2, JDK 17, Android SDK 36; release build succeeded.",
+  "artifact": {
+    "path": "livrables/test-pdf-deux-images-2026-10-18/android/Notestr-Android-3.9.3-dev.60.apk",
+    "sha256": "9e4407adc6eab860cef2fd9a53f90481177bd24ada888c5a6ff7a57126a0a7d3",
+    "entries": 505,
+    "versionMetadata": "aapt confirms package fr.decentralia.notestr, versionCode 60, versionName 3.9.3-dev.60, compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified with Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "zipalign 4-byte and 16-KiB page alignment checks passed."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed; the two-image regression now checks prepareForPrint readiness.",
+    "androidInstrumentedTestExecution": "not run: ADB daemon cannot start in this environment and no device/emulator test was completed.",
+    "javascriptSyntax": "node --check passed for app/src/main/assets/editor/editor.js.",
+    "bundledEditorCheck": "Confirmed the APK contains the updated decode-wait and current-image pending-reference logic.",
+    "targetedPrivacyScan": {
+      "sourceFilesChecked": 96,
+      "apkEntriesChecked": 505,
+      "selectedMarkersFound": 0,
+      "scope": "Targeted marker scan only; not an exhaustive personal-data audit."
+    }
+  },
+  "publication": "none; local test candidate only."
+}

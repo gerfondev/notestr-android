@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.BackHandler
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.foundation.clickable
@@ -97,6 +98,9 @@ fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -
         }
     }
     val state = vm.state
+    BackHandler(enabled = state.screen is Screen.Editor || state.screen == Screen.Settings) {
+        vm.backToNotes()
+    }
     val snackbar = remember { SnackbarHostState() }
     LaunchedEffect(state.message) { state.message?.let { snackbar.showSnackbar(it); vm.dismissMessage() } }
     Box(Modifier.fillMaxSize()) {

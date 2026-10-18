@@ -126,15 +126,25 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
     LaunchedEffect(visual, loadedRevision, pdfExportRequested) {
         if (visual && loadedRevision >= 0 && pdfExportRequested && error == null) {
             pdfExportRequested = false
-            val references = Regex("notestr-image://[0-9a-fA-F]{64}\\?[^\\s)]+")
-                .findAll(currentMarkdown).map { it.value }.toSet()
-            if (references.isEmpty()) {
-                startWebViewPrint(context, webView, currentMarkdown)
-            } else if (currentOnLoadImage != null && webView != null) {
-                pdfImagesPending = references
-                webView?.evaluateJavascript("window.notesEditor.resolveImages(true)", null)
-            } else {
+            val owner = webView
+            if (owner == null) {
                 Toast.makeText(context, tr("Impossible de récupérer les images pour le PDF."), Toast.LENGTH_LONG).show()
+            } else owner.evaluateJavascript("window.notesEditor.imagesPendingForPrint()") { result ->
+                if (webView !== owner || !visual || loadedRevision < 0) return@evaluateJavascript
+                val references = runCatching { org.json.JSONArray(result).let { array ->
+                    (0 until array.length()).map { array.getString(it) }.toSet()
+                } }.getOrNull()
+                if (references == null) {
+                    Toast.makeText(context, tr("Impossible de préparer les images du PDF."), Toast.LENGTH_LONG).show()
+                } else if (references.isNotEmpty() && currentOnLoadImage == null) {
+                    Toast.makeText(context, tr("Impossible de récupérer les images pour le PDF."), Toast.LENGTH_LONG).show()
+                } else {
+                    // Only unresolved images are fetched. Images already visible in
+                    // the editor stay in the WebView and are reused by PrintManager.
+                    pdfImagesPending = references
+                    if (references.isEmpty()) owner.evaluateJavascript("window.notesEditor.prepareForPrint()", null)
+                    else owner.evaluateJavascript("window.notesEditor.resolvePrintImages()", null)
+                }
             }
         }
     }
@@ -219,7 +229,10 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         if (message.optBoolean("ready")) {
                                             startWebViewPrint(context, owner, currentMarkdown)
                                         } else {
-                                            Toast.makeText(context, tr("Certaines images ne sont pas prêtes pour le PDF."), Toast.LENGTH_LONG).show()
+                                            val loaded = message.optInt("loadedCount", 0)
+                                            val total = message.optInt("imageCount", 0)
+                                            val pending = message.optInt("pendingCount", 0)
+                                            Toast.makeText(context, "Images du PDF : $loaded/$total chargées, $pending à récupérer.", Toast.LENGTH_LONG).show()
                                         }
                                     }
                                     if (webView === owner && visual && loadedRevision >= 0 &&
@@ -279,6 +292,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         currentOnLoadImage?.invoke(reference) { bytes -> owner.post {
                                             if (webView !== owner || !visual || loadedRevision < 0) return@post
                                             if (bytes == null) {
+                                                owner.evaluateJavascript("window.notesEditor.imageLoadFailed(${JSONObject.quote(reference)})", null)
                                                 if (pdfImagesPending?.contains(reference) == true) {
                                                     pdfImagesPending = null
                                                     Toast.makeText(context, tr("Impossible de récupérer les images pour le PDF."), Toast.LENGTH_LONG).show()
@@ -345,7 +359,10 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                     if (webView !== owner || !visual || url != EDITOR_URL) return
                                     revision++
                                     val expected = revision
-                                    loadedRevision = -1
+                                    // setDocument can synchronously emit loadImage from the JS bridge.
+                                    // Mark this revision active before evaluating it so those messages
+                                    // are not discarded while evaluateJavascript's result is pending.
+                                    loadedRevision = expected
                                     // Page completion drives initialization; no one-shot JS 'ready' message is required.
                                     val source = JSONObject.quote(currentMarkdown)
                                     val editorLanguage = JSONObject.quote(fr.decentralia.notestr.i18n.Strings.language)
@@ -363,7 +380,10 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                             if (status?.optBoolean("ok") == true) {
                                                 loadedRevision = expected
                                                 error = null
-                                            } else error = status?.optString("error") ?: tr("Le moteur visuel n’a pas répondu.")
+                                            } else {
+                                                loadedRevision = -1
+                                                error = status?.optString("error") ?: tr("Le moteur visuel n’a pas répondu.")
+                                            }
                                         }
                                     }
                                 }

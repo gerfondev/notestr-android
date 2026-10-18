@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-18",
+  "candidate": {"versionName": "3.9.3-dev.62", "versionCode": 62, "package": "fr.decentralia.notestr"},
+  "diagnosis": "User's dev.61 diagnostic returned 2/6 loaded and 0 unresolved references for a note with two photographs. This showed PDF readiness counted non-distinct or non-content WebView image elements in addition to the note's logical images.",
+  "changes": [
+    "Restrict PDF images to rendered image elements inside Toast UI's WYSIWYG content region.",
+    "Deduplicate rendered elements with the same source while preserving repeated note images that have distinct generated sources.",
+    "Add an instrumented assertion that a synthetic two-image note yields exactly two printable images."
+  ],
+  "dependencies": {"changed": false, "review": "Same-day review in security/release-3.9.3-android.json and SECURITY-REVIEW.md reused.", "limits": "AndroidX, Toast UI and native FFI review limitations remain."},
+  "build": "Gradle 8.14.6, AGP 8.13.2, JDK 17, Android SDK 36; release build succeeded.",
+  "artifact": {
+    "path": "livrables/test-pdf-images-dedup-2026-10-18/android/Notestr-Android-3.9.3-dev.62.apk",
+    "sha256": "c6304f3f61c1b5a31614e8fbb6a6a83b73c0e6eac949c15f1a5d2d28c57f4517",
+    "entries": 505,
+    "versionMetadata": "Package fr.decentralia.notestr; versionCode 62; versionName 3.9.3-dev.62; compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified with Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "4-byte and 16-KiB page alignment verified."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed; added assertion for the two-image printable count.",
+    "androidInstrumentedTestExecution": "not run; ADB cannot start in this environment and no device test was completed.",
+    "javascriptSyntax": "node --check passed.",
+    "targetedPrivacyScan": "96 source files and 505 APK entries checked for selected owner-path, email, private-key, and token markers; none found. Not exhaustive."
+  },
+  "publication": "none; local test candidate only."
+}

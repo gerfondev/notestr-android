@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-18",
+  "candidate": {
+    "versionName": "3.9.3-dev.58",
+    "versionCode": 58,
+    "package": "fr.decentralia.notestr"
+  },
+  "diagnosis": "Candidate 3.9.3-dev.57 looked up image references only in imageSources. The editor can normalize an image source while retaining its reference in embeddedAssets, so the fallback mapping was lost and images could stop loading.",
+  "changes": [
+    "Restore image reference lookup through imageSources and embeddedAssets for normal note rendering and PDF image preparation.",
+    "Skip data:image sources that are already decoded, avoiding redundant requests for images already displayed.",
+    "Keep in-flight request tracking and failure retry behavior from the PDF multi-image work."
+  ],
+  "dependencies": {
+    "changed": false,
+    "review": "Same-day Android dependency/security review recorded in security/release-3.9.3-android.json and SECURITY-REVIEW.md reused.",
+    "limits": "Existing AndroidX, Toast UI and native FFI review limitations remain; no claim of absence of vulnerabilities."
+  },
+  "artifact": {
+    "path": "livrables/test-chargement-images-2026-10-18/android/Notestr-Android-3.9.3-dev.58.apk",
+    "sha256": "ff128b44889d280d6267e0097dc9182751766aa9018198ac05736bb9ac101421",
+    "entries": 505,
+    "versionMetadata": "aapt confirms package fr.decentralia.notestr, versionCode 58, versionName 3.9.3-dev.58, compileSdk 36.",
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8.",
+    "alignment": "zipalign 4-byte and 16-KiB page alignment checks passed."
+  },
+  "validation": {
+    "releaseJvmTests": "18 passed, 0 failures.",
+    "androidInstrumentedTestCompilation": "passed, including the PDF multi-image regression.",
+    "androidInstrumentedTestExecution": "not run: no Android device/emulator test was completed; ADB is unavailable in this environment.",
+    "javascriptSyntax": "node --check passed for app/src/main/assets/editor/editor.js.",
+    "bundledEditorCheck": "Confirmed APK contains fallback imageSources/embeddedAssets lookup and skips already-loaded data:image sources.",
+    "targetedPrivacyScan": {
+      "sourceFilesChecked": 95,
+      "apkEntriesChecked": 505,
+      "selectedMarkersFound": 0,
+      "scope": "Targeted marker scan only; not an exhaustive personal-data audit."
+    }
+  },
+  "publication": "none; local test candidate only."
+}
