@@ -9,7 +9,7 @@ Application Android native de notes privées chiffrées sur Nostr, compatible av
 
 **[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.3.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.3** (versionCode 63).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.3** (versionCode 64).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
@@ -22,7 +22,7 @@ SHA-256 : voir `SHA256SUMS-3.9.3-Android.txt` dans les fichiers de la release.
 - Export PDF depuis Android, avec récupération des images chiffrées depuis les serveurs Blossom avant l’impression.
 - Correction de l’export PDF des notes comportant plusieurs images.
 - Mise en page PDF Android/Linux améliorée : les grandes images restent lisibles et le texte utilise l’espace disponible.
-- Mises à jour de sécurité et corrections mineures. Version Android : versionCode 63 (candidat testé dev.63).
+- Mises à jour de sécurité et corrections mineures. Version Android : versionCode 64.
 - Versions Android et Linux alignées sur 3.9.3. [Notes de version](RELEASE-NOTES-3.9.3.md).
 
 ## Versions précédentes

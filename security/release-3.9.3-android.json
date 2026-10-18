@@ -1,14 +1,14 @@
 {
   "date": "2026-10-18",
   "candidate": {
-    "versionName": "3.9.3-dev.63",
-    "versionCode": 63,
+    "versionName": "3.9.3",
+    "versionCode": 64,
     "releaseVersion": "3.9.3",
     "package": "fr.decentralia.notestr"
   },
   "artifact": {
     "path": "Notestr-Android-3.9.3.apk",
-    "sha256": "b20a1765d1b494f2cfd8b997c123fd04eefbde4f6a8ab955b2d5734404544c2b",
+    "sha256": "82405f5ea657a50599b5570b7a0ed99adcd6fd4b3486187be67bf1035941e8a6",
     "signing": "APK Signature Scheme v2 verified; Android Debug test certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8; same certificate as prior local candidates and published 3.9.2",
     "debuggable": false,
     "publicAssetName": "Notestr-Android-3.9.3.apk"
@@ -18,7 +18,8 @@
     "Keep encrypted Blossom image references available through print rendering; fetch the URL host embedded in each note first, then try profile Blossom mirrors, and wait for WebView image decode before printing.",
     "Adjust print layout on Android and Linux so images are constrained to readable page dimensions and surrounding text flows in remaining space.",
     "Apply compatible security updates; Android retains the reviewed Gradle 8.14.6 toolchain, and Linux updates Pillow and selected Ubuntu runtime packages.",
-    "Fix PDF export readiness to count only visible, distinct image sources in the WYSIWYG note content; this addresses the reported six-image count for a note containing two photos."
+    "Fix PDF export readiness to count only visible, distinct image sources in the WYSIWYG note content; this addresses the reported six-image count for a note containing two photos.",
+    "Correction after publication: remove the -dev.63 suffix from the app version displayed in settings; increment versionCode to 64 so Android can install the corrected package. No functional code or dependencies changed."
   ],
   "dependencies": {
     "gradle": "8.14.6",
@@ -40,11 +41,11 @@
       "skipped": 0
     },
     "androidTestCompilation": "passed: compileDebugAndroidTestKotlin",
-    "androidTestExecution": "Not run in the build environment; the user tested and confirmed the exact dev.63 APK works.",
-    "devicePdfImageTest": "User confirmed the multi-image PDF export works on their device.",
-    "apkSignature": "verified using APK Signature Scheme v2",
-    "zipalign16k": "passed",
-    "packageMetadata": "package fr.decentralia.notestr; versionName 3.9.3-dev.63; versionCode 63; release/tag version 3.9.3; compileSdk 36",
+    "androidTestExecution": "Not run in the build environment. User installed and confirmed the corrected versionName/versionCode APK; functional code matches the previously device-tested package.",
+    "devicePdfImageTest": "User confirmed that the multiple-image PDF export works with the previous package containing identical functional code.",
+    "apkSignature": "APK Signature Scheme v2 verified; signer certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8",
+    "zipalign16k": "passed: zipalign -c -P 16 -v 4",
+    "packageMetadata": "package fr.decentralia.notestr; versionName 3.9.3; versionCode 64; release/tag version 3.9.3; compileSdk 36",
     "apkEntries": 505,
     "targetedPrivacyScan": {
       "ownerPathMatches": 0,
@@ -52,9 +53,11 @@
       "privateKeyPemMatches": 0,
       "githubTokenMatches": 0,
       "emailLikeMatches": 44,
-      "emailLikeMatchNote": "Matches occurred in bundled dependency/native/editor components; this heuristic did not identify owner-configured email in application source or configuration. It is not a complete personal-data audit."
+      "emailLikeMatchNote": "Generic email-like strings occur in bundled dependencies/native/editor resources; this heuristic is not a complete personal-data audit."
     },
-    "sourcePrivacyScan": "172 app/source/configuration files checked in the prior scan; no targeted owner path, owner npub, configured email, full nsec, private PEM marker, or GitHub token found. Scan is targeted, not exhaustive."
+    "sourcePrivacyScan": "Targeted scan of 235 tracked repository files: zero matches for the known owner home path, full nsec, private PEM marker, or GitHub token patterns. Not exhaustive.",
+    "debuggable": false,
+    "sdkBuildTools": "35.0.0"
   },
   "limits": [
     "Linux GUI smoke test retains a pre-existing copy-code button assertion mismatch; 113 Python tests and synthetic image PDF export checks pass.",
@@ -62,7 +65,7 @@
     "Privacy checks are targeted and do not prove absence of unknown or encoded personal data.",
     "Dependency/native-library review limitations documented in SECURITY-REVIEW.md remain; privacy scans are targeted, not exhaustive."
   ],
-  "publication": "Updated existing GitHub release v3.9.3 APK asset after explicit user authorization; tag and history unchanged.",
-  "userValidation": "The user reported the Android candidate appears to work. No device logs were collected in the build environment.",
+  "publication": "User authorized replacing the existing GitHub v3.9.3 APK asset; publication is in progress. Tag/history remain unchanged.",
+  "userValidation": "User confirmed the corrected APK works and explicitly authorized publication of this package.",
   "limitations": []
 }
