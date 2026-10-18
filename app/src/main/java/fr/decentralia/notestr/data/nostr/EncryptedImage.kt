@@ -40,11 +40,12 @@ internal data class EncryptedImage(
             .joinToString("") { "%02x".format(it) }
     }
 
-    fun markdownReference(server: String): String {
+    fun markdownReference(server: String, blobUrl: String? = null): String {
         val b64 = Base64.getUrlEncoder().withoutPadding()
         val encodedKey = b64.encodeToString(key)
         val encodedNonce = b64.encodeToString(nonce)
-        return "![Image](notestr-image://$hash?server=${server.encodeURL()}&key=$encodedKey&nonce=$encodedNonce&mime=image%2Fjpeg)"
+        val urlParameter = blobUrl?.let { "&url=${it.encodeURL()}" }.orEmpty()
+        return "![Image](notestr-image://$hash?server=${server.encodeURL()}&key=$encodedKey&nonce=$encodedNonce&mime=image%2Fjpeg$urlParameter)"
     }
 }
 

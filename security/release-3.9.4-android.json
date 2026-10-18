@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-18",
+  "version": "3.9.4",
+  "platform": "Android",
+  "versionCode": 70,
+  "artifact": {
+    "name": "Notestr-Android-3.9.4.apk",
+    "sha256": "629d5e3d7c3b3cb9fa94a7f0b55ebc4843288588b9ef974d7104c5f3a6099f52",
+    "signature": "APK Signature Scheme v2 verified; same test certificate as the previously published 3.9.x APKs",
+    "debuggable": false,
+    "zipalign16k": "verified"
+  },
+  "changes": [
+    "Blossom upload authorization fallback and descriptor URL preservation, tested on the user-approved local candidate.",
+    "Align unordered bullets, ordered markers, and task checkboxes to the first text line."
+  ],
+  "dependencies": {
+    "changed": false,
+    "review": "The same-day Android 3.9.3 review was consulted. Maven, Rust, JavaScript, build-tool and Android SDK review limitations and documented exceptions remain applicable; no new dependency versions were introduced for 3.9.4."
+  },
+  "validation": {
+    "releaseBuild": "testReleaseUnitTest assembleRelease passed",
+    "unitTests": {
+      "passed": 22,
+      "failed": 0,
+      "errors": 0
+    },
+    "userValidation": "User reported the Android/Linux test candidates work before requesting this publication.",
+    "physicalDevice": "Not retested during this release build."
+  },
+  "privacy": {
+    "apkExtractedFiles": 504,
+    "targetedMatches": {
+      "ownerPath": 0,
+      "suppliedPublicIdentifier": 0,
+      "fullNsec": 0,
+      "privateKeyPem": 0,
+      "githubToken": 0
+    },
+    "scope": "Targeted scan; source history retains existing public author identities. New release commit uses a project identity. Not exhaustive."
+  },
+  "publication": "User explicitly requested GitHub publication of version 3.9.4; no history rewrite."
+}

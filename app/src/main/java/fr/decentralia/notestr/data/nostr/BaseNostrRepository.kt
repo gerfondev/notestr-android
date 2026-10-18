@@ -1,5 +1,6 @@
 package fr.decentralia.notestr.data.nostr
 
+import fr.decentralia.notestr.BuildConfig
 import fr.decentralia.notestr.i18n.tr
 
 import fr.decentralia.notestr.data.storage.EventCache
@@ -371,7 +372,7 @@ abstract class BaseNostrRepository(
         ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
             .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
         val servers = BlossomServers.fromProfile(profile)
-        var failure: Exception? = null
+        val failures = mutableListOf<String>()
         for (server in servers.distinct()) {
             try {
                 val uploadEvent = sign(EventBuilder(Kind(24242u), "Upload encrypted Notestr image")
@@ -381,35 +382,76 @@ abstract class BaseNostrRepository(
                         Tag.parse(listOf("server", URL(server).host.lowercase())),
                         Tag.parse(listOf("x", image.hash)),
                     )))
-                val token = Base64.getUrlEncoder().withoutPadding().encodeToString(uploadEvent.asJson().toByteArray(Charsets.UTF_8))
-                uploadEncryptedBlob(server, image, token)
+                check(uploadEvent.verify() && uploadEvent.kind().asU16() == 24242u.toUShort()) {
+                    "Événement d’autorisation Blossom invalide."
+                }
+                val eventJson = uploadEvent.asJson().toByteArray(Charsets.UTF_8)
+                val tokens = listOf(
+                    Base64.getUrlEncoder().withoutPadding().encodeToString(eventJson),
+                    // A few deployed Blossom servers still decode the pre-BUD-11 standard Base64 form.
+                    Base64.getEncoder().encodeToString(eventJson),
+                ).distinct()
+                val blobUrl = uploadEncryptedBlob(server, image, tokens)
                 withContext(Dispatchers.IO) { cache.saveImage(image.hash, image.ciphertext) }
-                return@operation image.markdownReference(server)
+                return@operation image.markdownReference(server, blobUrl)
             } catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) { failure = error }
+            catch (error: Exception) { failures += "$server: ${error.message ?: error.javaClass.simpleName}" }
         }
-        throw failure ?: IllegalStateException(tr("Aucun serveur d’images n’est configuré."))
+        if (failures.isNotEmpty()) {
+            throw IllegalStateException("Aucun serveur Blossom n’a accepté l’image. " + failures.joinToString(" | "))
+        }
+        throw IllegalStateException(tr("Aucun serveur d’images n’est configuré."))
     }
 
-    private suspend fun uploadEncryptedBlob(server: String, image: EncryptedImage, token: String) = withContext(Dispatchers.IO) {
-        val connection = (URL("$server/upload").openConnection() as HttpURLConnection).apply {
-            requestMethod = "PUT"
-            instanceFollowRedirects = false
-            connectTimeout = 15_000
-            readTimeout = 30_000
-            doOutput = true
-            setFixedLengthStreamingMode(image.ciphertext.size)
-            setRequestProperty("Content-Type", "application/octet-stream")
-            setRequestProperty("X-SHA-256", image.hash)
-            setRequestProperty("Authorization", "Nostr $token")
+    private suspend fun uploadEncryptedBlob(server: String, image: EncryptedImage, tokens: List<String>): String? = withContext(Dispatchers.IO) {
+        var lastError: Exception? = null
+        for ((index, token) in tokens.withIndex()) {
+            val connection = (URL("$server/upload").openConnection() as HttpURLConnection).apply {
+                requestMethod = "PUT"
+                instanceFollowRedirects = false
+                connectTimeout = 15_000
+                readTimeout = 30_000
+                doOutput = true
+                setFixedLengthStreamingMode(image.ciphertext.size)
+                setRequestProperty("Content-Type", "application/octet-stream")
+                setRequestProperty("X-SHA-256", image.hash)
+                setRequestProperty("Authorization", "Nostr $token")
+            }
+            try {
+                connection.outputStream.use { it.write(image.ciphertext) }
+                val status = connection.responseCode
+                if (status !in 200..299) {
+                    val reason = connection.getHeaderField("X-Reason").orEmpty()
+                    val body = connection.errorStream?.use { stream ->
+                        val buffer = ByteArray(2048)
+                        val count = stream.read(buffer)
+                        if (count > 0) String(buffer, 0, count, Charsets.UTF_8) else ""
+                    }.orEmpty()
+                    val detail = sequenceOf(reason, body)
+                        .map { it.replace(Regex("[\\p{Cntrl}&&[^\\r\\n\\t]]"), " ").replace(Regex("\\s+"), " ").trim() }
+                        .filter { it.isNotEmpty() }
+                        .distinct()
+                        .joinToString(" — ")
+                        .take(300)
+                    val suffix = if (detail.isEmpty()) "" else ": $detail"
+                    val failure = IllegalStateException("Blossom HTTP $status${connection.responseMessage?.let { " ($it)" }.orEmpty()}$suffix")
+                    val legacyEncodingMayHelp = BlossomServers.mayRetryLegacyAuthorization(status, detail)
+                    if (index + 1 < tokens.size && legacyEncodingMayHelp) {
+                        lastError = failure
+                        continue
+                    }
+                    throw failure
+                }
+                val descriptor = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
+                check(descriptor.optString("sha256").equals(image.hash, ignoreCase = true)) { "Empreinte Blossom incorrecte." }
+                val returnedUrl = descriptor.optString("url").takeIf { it.isNotBlank() }
+                if (returnedUrl != null) check(BlossomServers.validBlobUrl(returnedUrl, image.hash) != null) {
+                    "URL du blob Blossom invalide."
+                }
+                return@withContext returnedUrl
+            } finally { connection.disconnect() }
         }
-        try {
-            connection.outputStream.use { it.write(image.ciphertext) }
-            val status = connection.responseCode
-            if (status !in 200..299) throw IllegalStateException("Le serveur Blossom a refusé l’image (HTTP $status).")
-            val descriptor = JSONObject(connection.inputStream.bufferedReader().use { it.readText() })
-            check(descriptor.optString("sha256").equals(image.hash, ignoreCase = true)) { "Empreinte Blossom incorrecte." }
-        } finally { connection.disconnect() }
+        throw lastError ?: IllegalStateException("Échec de l’envoi Blossom.")
     }
 
     override suspend fun loadImage(reference: String): Result<ByteArray> = operation {
@@ -417,6 +459,8 @@ abstract class BaseNostrRepository(
         require(uri.scheme == "notestr-image" && uri.host?.matches(Regex("[0-9a-f]{64}")) == true) { tr("Référence d’image invalide.") }
         require(uri.getQueryParameter("mime") == "image/jpeg") { tr("Type d’image invalide.") }
         val server = BlossomServers.normalize(uri.getQueryParameter("server") ?: "") ?: error(tr("Serveur Blossom invalide."))
+        val descriptorUrl = uri.getQueryParameter("url")?.let { BlossomServers.validBlobUrl(it, uri.host!!) }
+        require(uri.getQueryParameter("url").isNullOrBlank() || descriptorUrl != null) { tr("URL du blob Blossom invalide.") }
         val key = Base64.getUrlDecoder().decode(uri.getQueryParameter("key") ?: "")
         val nonce = Base64.getUrlDecoder().decode(uri.getQueryParameter("nonce") ?: "")
         require(key.size == 32 && nonce.size == 12) { tr("Clé d’image invalide.") }
@@ -427,12 +471,14 @@ abstract class BaseNostrRepository(
             if (encrypted != null) withContext(Dispatchers.IO) { cache.deleteImage(digest) }
             encrypted = null
             var lastError: Exception? = null
-            try {
-                // The signed note records the server that accepted the upload.
-                // Try it first; a profile lookup must not block ordinary image reads.
-                encrypted = downloadEncryptedImage(server, digest)
-            } catch (cancelled: CancellationException) { throw cancelled }
-            catch (error: Exception) { lastError = error }
+            val initialUrls = BlossomServers.imageDownloadUrls(descriptorUrl, server, digest, emptyList())
+            for (url in initialUrls) {
+                try {
+                    encrypted = downloadEncryptedImage(url, digest)
+                    break
+                } catch (cancelled: CancellationException) { throw cancelled }
+                catch (error: Exception) { lastError = error }
+            }
 
             if (encrypted == null) {
                 try {
@@ -442,11 +488,11 @@ abstract class BaseNostrRepository(
                         timeout = Duration.ofSeconds(10), maxEvents = 20u
                     ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
                         .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
-                    val mirrors = BlossomServers.imageFallbacks(server, BlossomServers.fromProfile(profile))
-                        .filterNot { it == server }
-                    for (candidate in mirrors) {
+                    val mirrorUrls = BlossomServers.imageDownloadUrls(descriptorUrl, server, digest, BlossomServers.fromProfile(profile))
+                    for (url in mirrorUrls) {
+                        if (url in initialUrls) continue
                         try {
-                            encrypted = downloadEncryptedImage(candidate, digest)
+                            encrypted = downloadEncryptedImage(url, digest)
                             break
                         } catch (cancelled: CancellationException) { throw cancelled }
                         catch (error: Exception) { lastError = error }
@@ -463,12 +509,16 @@ abstract class BaseNostrRepository(
         EncryptedImage.decrypt(encryptedBytes, key, nonce)
     }
 
-    private suspend fun downloadEncryptedImage(server: String, digest: String): ByteArray = withContext(Dispatchers.IO) {
-        val connection = (URL("$server/$digest.jpg").openConnection() as HttpURLConnection).apply {
+    private suspend fun downloadEncryptedImage(downloadUrl: String, digest: String): ByteArray = withContext(Dispatchers.IO) {
+        val parsedUrl = URL(downloadUrl)
+        require(parsedUrl.protocol == "https" && parsedUrl.path.contains(digest)) { tr("URL du blob Blossom invalide.") }
+        val connection = (parsedUrl.openConnection() as HttpURLConnection).apply {
             requestMethod = "GET"
             instanceFollowRedirects = false
             connectTimeout = 12_000
             readTimeout = 20_000
+            setRequestProperty("User-Agent", BlossomServers.userAgent(BuildConfig.VERSION_NAME))
+            setRequestProperty("Accept", "application/octet-stream")
         }
         try {
             check(connection.responseCode == 200) { tr("Image indisponible sur le serveur Blossom.") }

@@ -1,29 +1,29 @@
 # Notestr Android
 
-> **Version 3.9.3** — Export PDF sur Android, y compris les images chiffrées hébergées sur Blossom ; correction de l’export de notes avec plusieurs images ; mise en page PDF améliorée et mises à jour de sécurité. [Notes de version 3.9.3](RELEASE-NOTES-3.9.3.md).
+> **Version 3.9.4** — correction d’un problème de stockage d’images sur les serveurs Blossom et alignement des listes dans l’éditeur. [Notes de version 3.9.4](RELEASE-NOTES-3.9.4.md).
 
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.3.apk)**
+**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.4.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.3** (versionCode 64).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.4** (versionCode 70).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : voir `SHA256SUMS-3.9.3-Android.txt` dans les fichiers de la release.
+SHA-256 : voir `SHA256SUMS-3.9.4-Android.txt` dans les fichiers de la release.
 
-## Version 3.9.3
+## Version 3.9.4
 
-- Export PDF depuis Android, avec récupération des images chiffrées depuis les serveurs Blossom avant l’impression.
-- Correction de l’export PDF des notes comportant plusieurs images.
-- Mise en page PDF Android/Linux améliorée : les grandes images restent lisibles et le texte utilise l’espace disponible.
-- Mises à jour de sécurité et corrections mineures. Version Android : versionCode 64.
-- Versions Android et Linux alignées sur 3.9.3. [Notes de version](RELEASE-NOTES-3.9.3.md).
+- Android et Linux : correction d’un bug lié au stockage de fichiers sur les serveurs Blossom.
+- Listes à puces, numérotées et cases à cocher alignées dans l’éditeur visuel.
+- Versions Android et Linux alignées sur 3.9.4. Android versionCode 70. [Notes de version](RELEASE-NOTES-3.9.4.md).
+
+Les versions précédentes conservent leurs notes dans le dossier `release-notes/`.
 
 ## Versions précédentes
 
@@ -98,6 +98,7 @@ Cet APK est l’application complète : il convient à une première installatio
 
 | Version | Tag Git | Modifications | APK complet |
 | --- | --- | --- | --- |
+| **3.9.4** | `v3.9.4` | Correctif Blossom et alignement des listes dans l’éditeur. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.4/Notestr-Android-3.9.4.apk) |
 | **3.9.3** | `v3.9.3` | Export PDF avec images, mise en page améliorée et mises à jour de sécurité. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.3/Notestr-Android-3.9.3.apk) |
 | **3.9.2** | `v3.9.2` | Icônes de couleur, téléchargement des images et corrections mineures. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.2/Notestr-Android-3.9.2.apk) |
 | **3.9.1** | `v3.9.1` | Verrouillage synchronisé avec Linux, correctifs mineurs et mises à jour de sécurité. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.1/Notestr-Android.apk) |
