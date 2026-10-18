@@ -17,6 +17,12 @@ internal object BlossomServers {
         return servers.ifEmpty { listOf(DEFAULT) }
     }
 
+    /** Preserve the note's original blob location after trying current profile mirrors. */
+    fun imageFallbacks(referenceServer: String, profileServers: List<String>): List<String> {
+        val origin = normalize(referenceServer) ?: return profileServers.mapNotNull(::normalize).distinct()
+        return (profileServers + origin).mapNotNull(::normalize).distinct()
+    }
+
     fun normalize(value: String): String? = try {
         val uri = java.net.URI(value.trim())
         if (uri.scheme != "https" || uri.host.isNullOrBlank() || uri.userInfo != null ||

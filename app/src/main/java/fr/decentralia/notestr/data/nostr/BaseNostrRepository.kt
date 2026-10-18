@@ -425,46 +425,34 @@ abstract class BaseNostrRepository(
         val validCached = encrypted?.let { java.security.MessageDigest.getInstance("SHA-256").digest(it).joinToString("") { b -> "%02x".format(b) } == digest } == true
         if (!validCached) {
             if (encrypted != null) withContext(Dispatchers.IO) { cache.deleteImage(digest) }
-            connect()
-            val profile = client.fetchEvents(
-                ReqTarget.auto(listOf(Filter().author(publicKey).kind(Kind(10063u)).limit(20uL))),
-                timeout = Duration.ofSeconds(10), maxEvents = 20u
-            ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
-                .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
-            val allowedServers = BlossomServers.fromProfile(profile)
-            val candidates = listOf(server).filter { it in allowedServers } + allowedServers.filter { it != server }
+            encrypted = null
             var lastError: Exception? = null
-            for (candidate in candidates) {
+            try {
+                // The signed note records the server that accepted the upload.
+                // Try it first; a profile lookup must not block ordinary image reads.
+                encrypted = downloadEncryptedImage(server, digest)
+            } catch (cancelled: CancellationException) { throw cancelled }
+            catch (error: Exception) { lastError = error }
+
+            if (encrypted == null) {
                 try {
-                    encrypted = withContext(Dispatchers.IO) {
-                        val connection = (URL("$candidate/$digest.jpg").openConnection() as HttpURLConnection).apply {
-                            requestMethod = "GET"
-                            instanceFollowRedirects = false
-                            connectTimeout = 12_000
-                            readTimeout = 20_000
-                        }
+                    connect()
+                    val profile = client.fetchEvents(
+                        ReqTarget.auto(listOf(Filter().author(publicKey).kind(Kind(10063u)).limit(20uL))),
+                        timeout = Duration.ofSeconds(10), maxEvents = 20u
+                    ).filter { it.author() == publicKey && it.kind().asU16() == 10063u.toUShort() && it.verify() }
+                        .maxWithOrNull(compareBy<Event> { it.createdAt().asSecs() }.thenByDescending { it.id().toHex() })
+                    val mirrors = BlossomServers.imageFallbacks(server, BlossomServers.fromProfile(profile))
+                        .filterNot { it == server }
+                    for (candidate in mirrors) {
                         try {
-                            check(connection.responseCode == 200) { tr("Image indisponible sur le serveur Blossom.") }
-                            val bytes = connection.inputStream.use { stream ->
-                                val output = java.io.ByteArrayOutputStream()
-                                val buffer = ByteArray(8192)
-                                while (true) {
-                                    val count = stream.read(buffer)
-                                    if (count < 0) break
-                                    require(output.size() + count <= 20 * 1024 * 1024 + 16) { tr("Fichier d’image trop volumineux.") }
-                                    output.write(buffer, 0, count)
-                                }
-                                output.toByteArray()
-                            }
-                            require(java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
-                                .joinToString("") { "%02x".format(it) } == digest) { tr("Empreinte Blossom incorrecte.") }
-                            cache.saveImage(digest, bytes)
-                            bytes
-                        } finally { connection.disconnect() }
+                            encrypted = downloadEncryptedImage(candidate, digest)
+                            break
+                        } catch (cancelled: CancellationException) { throw cancelled }
+                        catch (error: Exception) { lastError = error }
                     }
-                    break
                 } catch (cancelled: CancellationException) { throw cancelled }
-                catch (error: Exception) { lastError = error }
+                catch (error: Exception) { if (lastError == null) lastError = error }
             }
             check(encrypted != null) { lastError?.message ?: tr("Image indisponible sur les serveurs Blossom de ce compte.") }
         }
@@ -473,6 +461,33 @@ abstract class BaseNostrRepository(
             tr("Empreinte Blossom incorrecte.")
         }
         EncryptedImage.decrypt(encryptedBytes, key, nonce)
+    }
+
+    private suspend fun downloadEncryptedImage(server: String, digest: String): ByteArray = withContext(Dispatchers.IO) {
+        val connection = (URL("$server/$digest.jpg").openConnection() as HttpURLConnection).apply {
+            requestMethod = "GET"
+            instanceFollowRedirects = false
+            connectTimeout = 12_000
+            readTimeout = 20_000
+        }
+        try {
+            check(connection.responseCode == 200) { tr("Image indisponible sur le serveur Blossom.") }
+            val bytes = connection.inputStream.use { stream ->
+                val output = java.io.ByteArrayOutputStream()
+                val buffer = ByteArray(8192)
+                while (true) {
+                    val count = stream.read(buffer)
+                    if (count < 0) break
+                    require(output.size() + count <= 20 * 1024 * 1024 + 16) { tr("Fichier d’image trop volumineux.") }
+                    output.write(buffer, 0, count)
+                }
+                output.toByteArray()
+            }
+            require(java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
+                .joinToString("") { "%02x".format(it) } == digest) { tr("Empreinte Blossom incorrecte.") }
+            cache.saveImage(digest, bytes)
+            bytes
+        } finally { connection.disconnect() }
     }
 
     override suspend fun delete(note: Note): Result<Unit> = operation {

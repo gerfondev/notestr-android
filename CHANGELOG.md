@@ -1,3 +1,7 @@
+# 3.9.3 — 18 octobre 2026
+
+Export PDF ajouté sur Android. Corrections mineures de mise en page des PDF Android et Linux. Mise à jour de sécurité de Pillow vers 13.0.0 sur Linux et revue des composants de sécurité Android. Versions Android/Linux alignées. Voir RELEASE-NOTES-3.9.3.md et SECURITY-REVIEW.md.
+
 # 3.9.1 — 11 octobre 2026
 
 Ajout du verrouillage/déverrouillage synchronisé des notes, compatible entre Android et Linux. Les notes verrouillées restent consultables mais ne peuvent pas être modifiées ou supprimées depuis les versions compatibles. Correction de bugs mineurs et mise à jour de sécurité des dépendances Android. Sur Linux, correction de l’export PDF pour intégrer les images de la note. Numéros de version Android/Linux alignés sur 3.9.1. Voir RELEASE-NOTES-3.9.1.md.

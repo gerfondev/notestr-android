@@ -110,6 +110,36 @@ class MarkdownEditorTest {
         assertTrue(changes.isEmpty())
     }
 
+    @Test fun alreadyLoadedImageCanBeResolvedAgainForPdfExport() {
+        val reference = "notestr-image://" + "f".repeat(64) +
+            "?server=https%3A%2F%2Fimages.example&key=" + "F".repeat(43) +
+            "&nonce=" + "G".repeat(16) + "&mime=image%2Fjpeg"
+        val source = "# PDF image test\n\n![Image]($reference)\n"
+        val loadCount = java.util.concurrent.atomic.AtomicInteger()
+        val bitmap = android.graphics.Bitmap.createBitmap(4, 4, android.graphics.Bitmap.Config.ARGB_8888)
+        val imageBytes = java.io.ByteArrayOutputStream().use { output ->
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, output)
+            output.toByteArray()
+        }
+        bitmap.recycle()
+        render { MaterialTheme { MarkdownEditor(source, {}, onLoadImage = { _, complete ->
+            loadCount.incrementAndGet()
+            complete(imageBytes)
+        }) } }
+        compose.waitUntil(15000) {
+            loadCount.get() == 1 && javascript("document.querySelector('.toastui-editor-contents img')?.src.startsWith('data:image/jpeg;base64,')") == "true"
+        }
+
+        // The export path asks the WebView to resolve images again. The first
+        // render has already replaced the placeholder with a data URL.
+        javascript("window.notesEditor.resolveImages(true)")
+        compose.waitUntil(5000) { loadCount.get() == 2 }
+        compose.waitUntil(5000) {
+            javascript("document.querySelector('.toastui-editor-contents img')?.complete && document.querySelector('.toastui-editor-contents img')?.naturalWidth === 4") == "true"
+        }
+        assertTrue(javascript("window.notesEditor.snapshot().includes('notestr-image://')") == "true")
+    }
+
     @Test fun englishEditorPreservesFrenchNoteTextAndTranslatesCopyButton() {
         val source = "# Réglages\n\n```\nCopier ce texte inchangé\n```\n"
         compose.runOnIdle { fr.decentralia.notestr.i18n.Strings.select("en") }

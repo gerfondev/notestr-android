@@ -32,4 +32,15 @@ class EncryptedImageTest {
         )))
         assertEquals(listOf("https://blossom.nostr.build"), BlossomServers.fromTags(emptyList()))
     }
+
+    @Test fun imageFallbacksKeepTheReferenceServerWhenItWasRemovedFromTheProfile() {
+        assertEquals(
+            listOf("https://current.example", "https://old.example"),
+            BlossomServers.imageFallbacks("https://old.example", listOf("https://current.example", "https://old.example/"))
+        )
+        assertEquals(
+            listOf("https://blossom.nostr.build", "https://old.example"),
+            BlossomServers.imageFallbacks("https://old.example", BlossomServers.fromTags(emptyList()))
+        )
+    }
 }

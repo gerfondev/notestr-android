@@ -10,6 +10,8 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import android.content.Context
+import android.print.PrintAttributes
+import android.print.PrintManager
 import android.graphics.Rect
 import android.view.ActionMode
 import android.view.Menu
@@ -94,6 +96,8 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
     var error by remember { mutableStateOf<String?>(null) }
     var imageFullscreen by remember { mutableStateOf(false) }
     var pendingImageDownload by remember { mutableStateOf<ByteArray?>(null) }
+    var pdfImagesPending by remember { mutableStateOf<Set<String>?>(null) }
+    var pdfExportRequested by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val imageSaver = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("image/jpeg")) { uri ->
         val bytes = pendingImageDownload
@@ -119,19 +123,35 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
     LaunchedEffect(markdown) {
         if (sourceValue.text != markdown) sourceValue = TextFieldValue(markdown, TextRange(markdown.length))
     }
+    LaunchedEffect(visual, loadedRevision, pdfExportRequested) {
+        if (visual && loadedRevision >= 0 && pdfExportRequested && error == null) {
+            pdfExportRequested = false
+            val references = Regex("notestr-image://[0-9a-fA-F]{64}\\?[^\\s)]+")
+                .findAll(currentMarkdown).map { it.value }.toSet()
+            if (references.isEmpty()) {
+                startWebViewPrint(context, webView, currentMarkdown)
+            } else if (currentOnLoadImage != null && webView != null) {
+                pdfImagesPending = references
+                webView?.evaluateJavascript("window.notesEditor.resolveImages(true)", null)
+            } else {
+                Toast.makeText(context, tr("Impossible de récupérer les images pour le PDF."), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
     BackHandler(enabled = imageFullscreen) {
         webView?.evaluateJavascript("window.notesEditor.closeImageLightbox()", null)
         imageFullscreen = false
     }
 
     Column(modifier) {
-        if (!readOnly) Row(Modifier.fillMaxWidth()) {
-            TextButton(onClick = {
+        Row(Modifier.fillMaxWidth()) {
+            if (!readOnly) {
+                TextButton(onClick = {
                 loadedRevision = -1
                 error = null
                 visual = true
-            }, enabled = !visual) { Text(tr("Visuel")) }
-            TextButton(onClick = {
+                }, enabled = !visual) { Text(tr("Visuel")) }
+                TextButton(onClick = {
                 val active = webView
                 // Never replace the source with an empty/uninitialized editor snapshot.
                 if (active != null && loadedRevision >= 0 && error == null) {
@@ -147,7 +167,19 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                     visual = false
                     loadedRevision = -1
                 }
-            }, enabled = visual) { Text("Markdown") }
+                }, enabled = visual) { Text("Markdown") }
+            }
+            TextButton(onClick = {
+                if (visual && webView != null && loadedRevision >= 0 && error == null) {
+                    pdfExportRequested = true
+                    // Start immediately; LaunchedEffect runs on the next frame.
+                } else {
+                    pdfExportRequested = true
+                    visual = true
+                    loadedRevision = -1
+                    error = null
+                }
+            }) { Text(tr("Exporter en PDF")) }
             if (!visual && onPickImage != null) IconButton(onClick = {
                 val captured = sourceValue
                 currentOnPickImage?.invoke { reference ->
@@ -180,6 +212,16 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                             addJavascriptInterface(MarkdownEditorBridge { json ->
                                 val message = runCatching { JSONObject(json) }.getOrNull()
                                 if (message != null) owner.post {
+                                    if (webView === owner && visual && loadedRevision >= 0 &&
+                                        message.optString("type") == "printImagesReady" &&
+                                        message.optInt("epoch", -1) == loadedRevision) {
+                                        pdfImagesPending = null
+                                        if (message.optBoolean("ready")) {
+                                            startWebViewPrint(context, owner, currentMarkdown)
+                                        } else {
+                                            Toast.makeText(context, tr("Certaines images ne sont pas prêtes pour le PDF."), Toast.LENGTH_LONG).show()
+                                        }
+                                    }
                                     if (webView === owner && visual && loadedRevision >= 0 &&
                                         message.optString("type") == "imageViewer" &&
                                         message.optInt("epoch", -1) == loadedRevision) {
@@ -235,9 +277,31 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         message.optInt("epoch", -1) == loadedRevision) {
                                         val reference = message.optString("reference")
                                         currentOnLoadImage?.invoke(reference) { bytes -> owner.post {
-                                            if (webView === owner && visual && loadedRevision >= 0 && bytes != null) {
+                                            if (webView !== owner || !visual || loadedRevision < 0) return@post
+                                            if (bytes == null) {
+                                                if (pdfImagesPending?.contains(reference) == true) {
+                                                    pdfImagesPending = null
+                                                    Toast.makeText(context, tr("Impossible de récupérer les images pour le PDF."), Toast.LENGTH_LONG).show()
+                                                }
+                                            } else {
                                                 val data = android.util.Base64.encodeToString(bytes, android.util.Base64.NO_WRAP)
-                                                owner.evaluateJavascript("window.notesEditor.imageResult(${JSONObject.quote(reference)},${JSONObject.quote(data)})", null)
+                                                owner.evaluateJavascript("window.notesEditor.imageResult(${JSONObject.quote(reference)},${JSONObject.quote(data)})") { result ->
+                                                    owner.post {
+                                                        val pending = pdfImagesPending
+                                                        if (pending != null && reference in pending) {
+                                                            if (result == "true") {
+                                                                val remaining = pending - reference
+                                                                pdfImagesPending = remaining
+                                                                if (remaining.isEmpty()) {
+                                                                    owner.evaluateJavascript("window.notesEditor.prepareForPrint()", null)
+                                                                }
+                                                            } else {
+                                                                pdfImagesPending = null
+                                                                Toast.makeText(context, tr("Impossible de préparer les images du PDF."), Toast.LENGTH_LONG).show()
+                                                            }
+                                                        }
+                                                    }
+                                                }
                                             }
                                         } }
                                     }
@@ -344,6 +408,41 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
 }
 
 private const val EDITOR_URL = "file:///android_asset/editor/index.html"
+
+private fun startWebViewPrint(context: Context, webView: WebView?, markdown: String) {
+    val view = webView ?: return
+    val title = markdown.lineSequence().firstOrNull { it.isNotBlank() }
+        ?.trim()?.trimStart('#', ' ')
+        ?.take(80)?.ifBlank { null } ?: tr("Note Nostr")
+    val css = """
+        (function(){
+          var id='notestr-print-styles';
+          var style=document.getElementById(id);
+          if(!style){style=document.createElement('style');style.id=id;document.head.appendChild(style);}
+          style.textContent='@page{size:A4;margin:17mm 18mm 18mm;}'+
+            '@media print{html,body{height:auto!important;overflow:visible!important;color:#202124!important;font:11pt/1.5 sans-serif!important;}'+
+            '.toastui-editor-defaultUI-toolbar,.toastui-editor-mode-switch,.toastui-editor-md-tab-container,.toastui-editor-popup,.notes-code-actions,.notes-image-lightbox{display:none!important;}'+
+            '#editor,.toastui-editor-defaultUI,.toastui-editor-main,.toastui-editor-main-container,.toastui-editor-ww-container,.toastui-editor-ww-container .ProseMirror{height:auto!important;min-height:0!important;max-height:none!important;overflow:visible!important;width:auto!important;}'+
+            '.toastui-editor-ww-container{border:0!important;} .toastui-editor-contents{padding:0!important;}'+
+            '.toastui-editor-contents img{display:block;max-width:100%!important;max-height:165mm!important;width:auto!important;height:auto!important;object-fit:contain!important;margin:6pt 0 8pt!important;}'+
+            '.toastui-editor-contents h1,.toastui-editor-contents h2,.toastui-editor-contents h3{break-after:avoid-page;}'+
+            '.toastui-editor-contents table,.toastui-editor-contents pre{break-inside:avoid-page;} }';
+          return true;
+        })()
+    """.trimIndent()
+    view.evaluateJavascript(css) {
+        try {
+            val manager = context.getSystemService(Context.PRINT_SERVICE) as PrintManager
+            manager.print(title, view.createPrintDocumentAdapter(title), PrintAttributes.Builder()
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                .setColorMode(PrintAttributes.COLOR_MODE_COLOR)
+                .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                .build())
+        } catch (_: Exception) {
+            Toast.makeText(context, tr("Export PDF impossible."), Toast.LENGTH_LONG).show()
+        }
+    }
+}
 
 internal fun browserIntent(url: String): Intent? {
     if (url.any { it.isWhitespace() || it.code < 32 } || '\\' in url) return null
