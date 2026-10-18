@@ -57,7 +57,9 @@
     },
     "sourcePrivacyScan": "Targeted scan of 235 tracked repository files: zero matches for the known owner home path, full nsec, private PEM marker, or GitHub token patterns. Not exhaustive.",
     "debuggable": false,
-    "sdkBuildTools": "35.0.0"
+    "sdkBuildTools": "35.0.0",
+    "publicAssetDownload": "Anonymous download from the v3.9.3 release matched SHA-256 82405f5ea657a50599b5570b7a0ed99adcd6fd4b3486187be67bf1035941e8a6.",
+    "publicAssetMetadata": "Confirmed from anonymously downloaded APK: package fr.decentralia.notestr; versionName 3.9.3; versionCode 64; compileSdk 36."
   },
   "limits": [
     "Linux GUI smoke test retains a pre-existing copy-code button assertion mismatch; 113 Python tests and synthetic image PDF export checks pass.",
@@ -65,7 +67,7 @@
     "Privacy checks are targeted and do not prove absence of unknown or encoded personal data.",
     "Dependency/native-library review limitations documented in SECURITY-REVIEW.md remain; privacy scans are targeted, not exhaustive."
   ],
-  "publication": "User authorized replacing the existing GitHub v3.9.3 APK asset; publication is in progress. Tag/history remain unchanged.",
+  "publication": "Published to the existing GitHub release v3.9.3 after explicit user confirmation. APK downloaded anonymously and SHA-256 matched. Existing tag v3.9.3 remains peeled to e10cc9e110226bdb4d103ad8d32939cfbbb5f842; no tag move or history rewrite.",
   "userValidation": "User confirmed the corrected APK works and explicitly authorized publication of this package.",
   "limitations": []
 }
