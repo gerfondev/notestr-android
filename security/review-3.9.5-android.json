@@ -54,7 +54,16 @@
     },
     "scope": "Targeted scan only; not exhaustive."
   },
-  "publication": "not published; GitHub access currently unavailable",
+  "publication": {
+    "status": "published and verified",
+    "date": "2026-10-31",
+    "repository": "gerfondev/notestr-android",
+    "tag": "v3.9.5",
+    "commit": "7b5f5a4",
+    "release_url": "https://github.com/gerfondev/notestr-android/releases/tag/v3.9.5",
+    "anonymous_download_verification": "APK and checksum downloaded without authentication; sha256sum matched the controlled artifact",
+    "apk_sha256": "e1b1fce8bdfb313822677c19301a3f636249e240f61c3dae2e7d09fbfee8ac3e"
+  },
   "limits": [
     "Full Android Maven/OSV audit was not refreshed due unavailable network access; compatibility-sensitive AndroidX, TOAST UI and native FFI limitations remain."
   ]
