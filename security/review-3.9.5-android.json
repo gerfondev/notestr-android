@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-31",
+  "version": "3.9.5",
+  "versionCode": 71,
+  "platform": "Android",
+  "status": "user-reported device test completed for development-named candidate; release publication authorized",
+  "artifact": {
+    "name": "Notestr-Android-3.9.5.apk",
+    "sha256": "e1b1fce8bdfb313822677c19301a3f636249e240f61c3dae2e7d09fbfee8ac3e",
+    "entries": 505,
+    "debuggable": false,
+    "signature": "APK Signature Scheme v2 verified; certificate matches the published 3.9.x signing certificate",
+    "zipalign16k": "verified",
+    "signing": "APK Signature Scheme v2 verified; signer certificate SHA-256 8de9e60e3088c01bdf9c51695a1e06c7af0e89099e8d9800dc58c1bead3e63d8, matching the existing 3.9.x package signer"
+  },
+  "dependencies": {
+    "compose_bom": "2026.06.00 retained",
+    "lifecycle": "2.10.0 retained",
+    "kotlin": "2.4.21",
+    "gradle": "8.14.6",
+    "agp": "8.13.2",
+    "reason": "Newer Compose/Lifecycle require API 37 and AGP 9.1 according to the project review; current validated baseline is API 36 / AGP 8.13.2. No known security fix justified that compatibility-breaking migration in this candidate.",
+    "compose_bom_latest_review": "2026.06.00 retained; Compose stable updates reviewed but not included pending compatibility/build-tool migration validation.",
+    "lifecycle_latest_review": "2.10.0 retained; official Android docs list 2.11.0 stable, but no security fix was established in the available review and integration was not validated in this candidate."
+  },
+  "build": {
+    "sdk": "Android platform 36; Build Tools 35.0.0",
+    "jdk": "17.0.20.1",
+    "result": "clean testReleaseUnitTest assembleRelease successful",
+    "unitTests": {
+      "passed": 22,
+      "failures": 0,
+      "errors": 0
+    },
+    "warnings": "SDK tools warned that it saw SDK XML v4 while supporting through v3; build completed successfully. Native debug symbols for three bundled libraries could not be stripped and were packaged as-is."
+  },
+  "validation": {
+    "apkSignature": "verified",
+    "zipalign": "16 KiB verified",
+    "physicalDevice": "User confirmed having tested the development-named Android candidate; the APK SHA-256 matches this release-named copy.",
+    "dependencyAudit": "Maven/OSV audit not refreshed because online advisory queries were unavailable; no clean comprehensive audit claimed",
+    "debuggable": false,
+    "version": "3.9.5; versionCode 71; no dev suffix"
+  },
+  "privacy": {
+    "sourceFilesScanned": 240,
+    "apkEntriesScanned": 505,
+    "targetedMatches": {
+      "ownerPath": 0,
+      "knownPublicIdentifier": 0,
+      "completeNsec": 0,
+      "completePrivateKeyBlock": 0,
+      "githubToken": 0
+    },
+    "scope": "Targeted scan only; not exhaustive."
+  },
+  "publication": "not published; GitHub access currently unavailable",
+  "limits": [
+    "Full Android Maven/OSV audit was not refreshed due unavailable network access; compatibility-sensitive AndroidX, TOAST UI and native FFI limitations remain."
+  ]
+}

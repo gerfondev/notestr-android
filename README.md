@@ -1,129 +1,28 @@
 # Notestr Android
 
-> **Version 3.9.4** — correction d’un problème de stockage d’images sur les serveurs Blossom et alignement des listes dans l’éditeur. [Notes de version 3.9.4](RELEASE-NOTES-3.9.4.md).
-
+> **Version 3.9.5** — revue de sécurité des dépendances et de l’outillage Android ; versionCode 71. [Notes de version 3.9.5](RELEASE-NOTES-3.9.5.md).
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.4.apk)**
+**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.5.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.4** (versionCode 70).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.5** (versionCode 71).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : voir `SHA256SUMS-3.9.4-Android.txt` dans les fichiers de la release.
+SHA-256 : voir `SHA256SUMS-3.9.5-Android.txt` dans les fichiers de la release.
 
-## Version 3.9.4
+## Version 3.9.5
 
-- Android et Linux : correction d’un bug lié au stockage de fichiers sur les serveurs Blossom.
-- Listes à puces, numérotées et cases à cocher alignées dans l’éditeur visuel.
-- Versions Android et Linux alignées sur 3.9.4. Android versionCode 70. [Notes de version](RELEASE-NOTES-3.9.4.md).
+- Revue de sécurité des dépendances et de l’outillage Android.
+- Conservation des versions Compose/Lifecycle compatibles avec la base Android qualifiée.
+- Version Android alignée sur Linux : 3.9.5 (versionCode 71). [Notes de version](RELEASE-NOTES-3.9.5.md).
 
-Les versions précédentes conservent leurs notes dans le dossier `release-notes/`.
-
-## Versions précédentes
-
-### Version 3.9.2
-
-Ajout d’icônes de couleur sur Android, téléchargement des images présentes dans les notes et corrections mineures de l’éditeur visuel. [Notes de version](release-notes/RELEASE-NOTES-3.9.2.md).
-
-### Version 3.9.1
-
-Verrouillage/déverrouillage synchronisé des notes avec Linux, correctifs mineurs et mises à jour de sécurité des outils et bibliothèques Android. [Notes de version](release-notes/RELEASE-NOTES-3.9.1.md).
-
-## Nouveautés — 3.9
-
-Insertion d’images chiffrées avec affichage plein écran, zoom et déplacement ; correction Linux du bouton d’enregistrement des relais dans Paramètres. Licence GPLv3 consultable depuis les paramètres. [Notes de version 3.9](release-notes/RELEASE-NOTES-3.9.md). VersionCode 41. Mettre à jour les deux applications pour bénéficier des mêmes nouveautés.
-
-## Correction — 3.7.1
-
-Le copier-coller dans les champs URL et Texte du lien fonctionne sans modifier le corps de la note. [Notes de version 3.7.1](release-notes/RELEASE-NOTES-3.7.1.md). VersionCode 28.
-
-## Modifications — 3.7
-
-- Notes en cache affichées avant la synchronisation, puis actualisées depuis les relais.
-- Liens HTTP/HTTPS ouverts dans le navigateur et curseur main avec une souris.
-- Numéro de version visible dans les paramètres.
-- Interface française ou anglaise, choix mémorisé.
-
-APK non débogable, certificat conservé, versionCode 26. Voir [les notes de version](release-notes/RELEASE-NOTES-3.7.md) et [les contrôles de sécurité](SECURITY-REVIEW.md).
-
-## Modifications précédentes — 2.0
-
-- Sauvegarde automatique de la version précédente lors de la publication d’une note modifiée : une seule sauvegarde chiffrée, conservée localement et sur les relais qui l’acceptent.
-- Restauration via **Version précédente**, puis **Publier** pour confirmer.
-- Actions principales sous forme d’icônes ; un appui long affiche leur fonction. Descriptions accessibles et zones tactiles de 48 dp.
-- Davantage de place pour le contenu : l’action de restauration rejoint la barre de l’éditeur.
-- Correctifs de sécurité du SDK, des bibliothèques et de l’outillage inclus ; contrôles renouvelés avant publication.
-
-APK unique non débogable, certificat conservé et versionCode 20 pour remplacer aussi les APK de test. Voir [les notes de version](release-notes/RELEASE-NOTES-2.0.md), [le protocole de sauvegarde](BACKUP-PROTOCOL.md) et [les vérifications de sécurité](SECURITY-REVIEW.md).
-
-## Modifications précédentes — 1.2.5
-
-- Sauvegarde automatique unique et chiffrée de la version précédente, conservée localement et sur les relais qui l’acceptent.
-- Action **Version précédente** pour charger la sauvegarde ; **Publier** confirme sa restauration.
-- Format partagé avec Notestr Linux ; cache et gestion des refus de relais renforcés.
-- SDK Nostr et bibliothèques natives corrigés, filtre HTML DOMPurify 3.4.16 et dépendances de compilation mises à jour.
-
-APK unique non débogable, certificat conservé et versionCode 18. Voir [les notes de version](release-notes/RELEASE-NOTES-1.2.5.md), [le protocole de sauvegarde](BACKUP-PROTOCOL.md) et [les vérifications de sécurité](SECURITY-REVIEW.md).
-
-## Modifications précédentes — 1.2.4
-
-- Ajout du logo sur l’écran de lancement de l’application.
-- Correction du chevauchement du menu de sélection Android avec la barre de mise en forme.
-- Correction de la disparition de la barre de mise en forme pendant l’édition d’une note.
-- Correction du placement et de la zone tactile du bouton Retour dans les réglages.
-
-APK de publication non débogable, avec le certificat des versions précédentes. VersionCode 16 pour permettre aussi la mise à jour des APK de test locaux. Maintenance de sécurité : Kotlin 2.4.20 et remplacement de l’ancien DOMPurify intégré à l’éditeur par la version 3.4.15. Voir [le contrôle de sécurité](SECURITY-REVIEW.md).
-
-## Modifications précédentes — 1.2.3
-
-Les blocs de code du mode Visuel proposent un bouton **Copier** à la place du champ de langage. Le contenu seul est copié dans le presse-papiers, sans modifier la note. Le langage du bloc reste conservé dans le Markdown.
-
-APK complet prêt à installer. La confirmation « Copié ! » apparaît après la copie dans le presse-papiers Android.
-
-## Modifications précédentes — 1.2.2
-
-- Correction Amber : ouverture du signataire quand l’autorisation de chiffrement ou de signature n’est pas mémorisée, puis reprise de la publication.
-- Conservation de la session et de l’éditeur pendant la demande ; refus et annulation pris en charge.
-- Respect des refus mémorisés dans Amber.
-
-Cet APK est l’application complète : il convient à une première installation comme à une mise à jour.
-
-## Historique des versions et téléchargements
-
-| Version | Tag Git | Modifications | APK complet |
-| --- | --- | --- | --- |
-| **3.9.4** | `v3.9.4` | Correctif Blossom et alignement des listes dans l’éditeur. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.4/Notestr-Android-3.9.4.apk) |
-| **3.9.3** | `v3.9.3` | Export PDF avec images, mise en page améliorée et mises à jour de sécurité. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.3/Notestr-Android-3.9.3.apk) |
-| **3.9.2** | `v3.9.2` | Icônes de couleur, téléchargement des images et corrections mineures. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.2/Notestr-Android-3.9.2.apk) |
-| **3.9.1** | `v3.9.1` | Verrouillage synchronisé avec Linux, correctifs mineurs et mises à jour de sécurité. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9.1/Notestr-Android.apk) |
-| **3.9** | `v3.9` | Insertion d’image avec zoom ; licence GPLv3. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.9/Notestr-Android.apk) |
-| **3.7.1** | `v3.7.1` | Correction du copier-coller des liens web. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7.1/Notestr-Android.apk) |
-| **3.7** | `v3.7` | Cache, liens corrigés, version et langues dans les paramètres. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.7/Notestr-Android.apk) |
-| **3.6** | `v3.6` | Épinglage chiffré synchronisé avec Linux ; numérotation commune. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v3.6/Notestr-Android.apk) |
-| 1.2.4 | `v1.2.4` | Logo au lancement et corrections des barres de sélection et de mise en forme. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.4/Notestr-Android.apk) |
-| 1.2.3 | `v1.2.3` | Bouton Copier dans les blocs de code, à la place du champ de langage ; copie du texte sans modifier la note. | [Télécharger](https://github.com/gerfondev/notestr-android/releases/download/v1.2.3/Notestr-Android.apk) |
-| 1.2.2 | `v1.2.2` | Correction d’un bug avec Amber lors de la création ou de la modification d’une note : demande d’autorisation interactive puis reprise de la publication. | [Télécharger](https://blossom.primal.net/dc7a6ec3b398f3ca6abbfca75405a3c15284481e8f82a11b535259d6ff4acac1) |
-| 1.2.1 | `v1.2.1` | Correction du mode Visuel, biométrie, icône et corrections des titres H1–H6. | [Télécharger](https://blossom.primal.net/b2650dd82b5b96eaa9628baac46ae7742a125abd9aed74e1539dd6ecc5981e6b) |
-
-Les premières versions conservées dans l’historique Git de ce dépôt sont les versions 1.2.x.
-
-Pour consulter l’historique : `git log --oneline --decorate` et `git tag --list`. Les paquets et notes de chaque version publiée sont disponibles dans [GitHub Releases](https://github.com/gerfondev/notestr-android/releases).
-
-Les notes détaillées et empreintes des APK figurent dans [CHANGELOG.md](CHANGELOG.md).
-
-## Modifications précédentes — 1.2.1
-
-- Correction du bug du mode Visuel : la note s’affiche désormais dans l’éditeur visuel, alors que seul le Markdown s’affichait auparavant.
-- Ajout du déverrouillage biométrique, activable dans les réglages, avec le mot de passe toujours disponible.
-- Ajout d’une icône pour l’application, visible dans le lanceur du smartphone.
-
-Les corrections des titres et du menu de mise en forme H1–H6 sont également incluses.
+Les notes des versions précédentes sont conservées dans [`release-notes/`](release-notes/).
 
 ## Fonctions
 
