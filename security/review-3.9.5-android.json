@@ -3,7 +3,7 @@
   "version": "3.9.5",
   "versionCode": 71,
   "platform": "Android",
-  "status": "user-reported device test completed for development-named candidate; release publication authorized",
+  "status": "published and verified after user-reported device test",
   "artifact": {
     "name": "Notestr-Android-3.9.5.apk",
     "sha256": "e1b1fce8bdfb313822677c19301a3f636249e240f61c3dae2e7d09fbfee8ac3e",
