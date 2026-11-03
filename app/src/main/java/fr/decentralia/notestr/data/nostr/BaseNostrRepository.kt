@@ -7,6 +7,7 @@ import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.explicitLineBreaks
 import fr.decentralia.notestr.domain.publicationTitle
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.domain.model.FolderState
 import fr.decentralia.notestr.domain.model.noteOrder
 import java.security.SecureRandom
 import java.net.HttpURLConnection
@@ -131,6 +132,7 @@ abstract class BaseNostrRepository(
             if (!conflicted) result.removeAll { it.identifier == edit.identifier }
             result += edit.update.toNote(plaintext(edit.update)).copy(
                 pinned = current?.pinned ?: false, locked = current?.locked ?: false,
+                folderId = current?.folderId,
                 pending = true, conflicted = conflicted)
         }
         return result.sortedWith(noteOrder)
@@ -202,6 +204,7 @@ abstract class BaseNostrRepository(
     private suspend fun notes(): List<Note> {
         val pins = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
             .associateBy { NoteEvents.identifier(it) }
+        val folderState = currentFolderState()
         return NoteEvents.latest(events, NoteEvents.NOTE, publicKey).mapNotNull { event ->
             try {
                 val pin = pins[NoteEvents.pinAddress(NoteEvents.identifier(event)!!)]
@@ -211,7 +214,8 @@ abstract class BaseNostrRepository(
                 require(value == "true" || value == "false") { tr("État de corbeille invalide.") }
                 val lock = pins[NoteEvents.lockAddress(NoteEvents.identifier(event)!!)]
                 val locked = lock?.let { booleanValue(it) } ?: false
-                event.toNote(plaintext(event)).copy(pinned = pinned, locked = locked, trashed = value == "true")
+                event.toNote(plaintext(event)).copy(pinned = pinned, locked = locked,
+                    trashed = value == "true", folderId = NoteEvents.identifier(event)?.let(folderState.assignments::get))
             }
             catch (cancelled: CancellationException) { throw cancelled }
             catch (error: Exception) {
@@ -219,6 +223,38 @@ abstract class BaseNostrRepository(
                 null
             }
         }.sortedWith(noteOrder)
+    }
+
+    private suspend fun currentFolderState(): FolderState {
+        val event = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.FOLDER_ADDRESS }
+            ?: return FolderState()
+        return FolderState.fromJson(plaintext(event))
+    }
+
+    override suspend fun folderState(): Result<FolderState> = operation {
+        merge(emptyList())
+        currentFolderState()
+    }
+
+    override suspend fun saveFolderState(value: FolderState): Result<FolderState> = operation {
+        merge(emptyList())
+        val validated = value.validated()
+        val previous = NoteEvents.latest(events, NoteEvents.BACKUP, publicKey)
+            .firstOrNull { NoteEvents.identifier(it) == NoteEvents.FOLDER_ADDRESS }
+        val event = sign(EventBuilder(Kind(NoteEvents.BACKUP), encrypt(validated.toJson()))
+            .tags(listOf(Tag.identifier(NoteEvents.FOLDER_ADDRESS)))
+            .customCreatedAt(NoteEvents.updateTime(previous, null)))
+        connect()
+        check(client.sendEvent(event, ackPolicy = AckPolicy.all()).success.isNotEmpty()) {
+            tr("Aucun relais n’a accepté la modification des dossiers. Réessayez après reconnexion.")
+        }
+        merge(listOf(event))
+        val warning = try { persist(); null } catch (_: Exception) {
+            tr("Dossiers synchronisés, mais écriture du cache local impossible. Actualisez avant de fermer.")
+        }
+        if (warning != null) throw IllegalStateException(warning)
+        validated
     }
 
     protected open val requiresInteractiveDecryption = false

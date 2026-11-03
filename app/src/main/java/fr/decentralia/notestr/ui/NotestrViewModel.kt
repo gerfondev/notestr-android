@@ -23,6 +23,8 @@ import fr.decentralia.notestr.data.nostr.RustNostrRepository
 import fr.decentralia.notestr.data.storage.AppPreferences
 import fr.decentralia.notestr.data.storage.EventCache
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.domain.model.FolderState
+import fr.decentralia.notestr.domain.model.NoteFolder
 import fr.decentralia.notestr.domain.model.noteOrder
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.delay
@@ -53,7 +55,9 @@ data class UiState(
     val message: String? = null,
     val relays: List<String> = listOf(AppPreferences.DEFAULT_RELAY),
     val publicKey: String = "",
-    val biometricEnabled: Boolean = false
+    val biometricEnabled: Boolean = false,
+    val folders: List<NoteFolder> = emptyList(),
+    val selectedFolderId: String? = null
 )
 
 class NotestrViewModel(application: Application) : AndroidViewModel(application) {
@@ -192,7 +196,7 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         } else {
             RustNostrRepository(key.copyOf(), relays, cache)
         }
-        state = state.copy(screen = Screen.Notes, notes = emptyList(), busy = false, refreshing = false, syncing = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
+        state = state.copy(screen = Screen.Notes, notes = emptyList(), folders = emptyList(), selectedFolderId = null, busy = false, refreshing = false, syncing = false, relays = relays, publicKey = repository!!.publicKeyHex(), message = null, biometricEnabled = biometric.isEnabled())
         refresh()
     }
 
@@ -231,17 +235,55 @@ class NotestrViewModel(application: Application) : AndroidViewModel(application)
         state = state.copy(refreshing = true)
         try {
             val cached = active.cached().getOrThrow()
+            val cachedFolders = active.folderState().getOrThrow()
             if (expected != session) return@runTask
-            if (cached.isNotEmpty()) state = state.copy(notes = cached)
+            state = state.copy(folders = cachedFolders.folders, notes = cached)
             val notes = active.refresh().getOrThrow()
+            val folderState = active.folderState().getOrThrow()
             if (expected != session) return@runTask
-            state = state.copy(notes = notes, message = if (notes.isEmpty()) tr("Aucune note trouvée.") else null)
+            state = state.copy(notes = notes, folders = folderState.folders,
+                selectedFolderId = state.selectedFolderId?.takeIf { it == "__none__" || folderState.folders.any { folder -> folder.id == it } },
+                message = if (notes.isEmpty()) tr("Aucune note trouvée.") else null)
         } finally {
             if (expected == session) state = state.copy(refreshing = false)
         }
     }
 
     fun edit(note: Note? = null) { state = state.copy(screen = Screen.Editor(note), message = null) }
+    fun selectFolder(id: String?) { state = state.copy(selectedFolderId = id) }
+
+    fun createFolder(name: String) = updateFolders(tr("Dossier créé.")) { old ->
+        val folder = NoteFolder(java.util.UUID.randomUUID().toString().replace("-", ""), name)
+        old.copy(folders = old.folders + folder)
+    }
+
+    fun renameFolder(id: String, name: String) = updateFolders(tr("Dossier renommé.")) { old ->
+        old.copy(folders = old.folders.map { if (it.id == id) it.copy(name = name) else it })
+    }
+
+    fun deleteFolder(id: String) = updateFolders(
+        tr("Dossier supprimé. Ses notes sont maintenant dans Sans dossier."),
+        afterSave = { state = state.copy(selectedFolderId = "__none__") }
+    ) { old ->
+        old.copy(folders = old.folders.filterNot { it.id == id }, assignments = old.assignments.filterValues { it != id })
+    }
+
+    fun moveNoteToFolder(note: Note, folderId: String?) = updateFolders(tr("Dossier de la note modifié.")) { old ->
+        old.copy(assignments = if (folderId == null) old.assignments - note.identifier
+            else old.assignments + (note.identifier to folderId))
+    }
+
+    private fun updateFolders(message: String, afterSave: () -> Unit = {}, transform: (FolderState) -> FolderState) = runTask {
+        val expected = session
+        val active = repository ?: error(tr("Application verrouillée"))
+        val current = active.folderState().getOrThrow()
+        val saved = active.saveFolderState(transform(current)).getOrThrow()
+        if (expected != session) return@runTask
+        state = state.copy(folders = saved.folders,
+            notes = state.notes.map { note -> note.copy(folderId = saved.assignments[note.identifier]) },
+            message = message)
+        afterSave()
+    }
     fun selectLanguage(language: String) {
         prefs.language = language
         fr.decentralia.notestr.i18n.Strings.select(prefs.language)

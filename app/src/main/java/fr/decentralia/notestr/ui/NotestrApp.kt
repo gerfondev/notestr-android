@@ -13,6 +13,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -207,6 +208,22 @@ private fun ColumnScope.ConnectionLogo() {
 @Composable
 private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
     val visibleNotes = state.notes.filter { it.trashed == state.showingTrash }
+    val pinnedNotes = if (state.showingTrash) emptyList() else visibleNotes.filter(Note::pinned)
+    val listedNotes = if (state.showingTrash) visibleNotes else visibleNotes.filter { note ->
+        val matchesFolder = when (state.selectedFolderId) {
+            null -> true
+            "__none__" -> note.folderId == null
+            else -> note.folderId == state.selectedFolderId
+        }
+        matchesFolder && (!note.pinned || state.selectedFolderId?.let { it != "__none__" } == true)
+    }
+    var createFolder by remember { mutableStateOf(false) }
+    var renameFolder by remember { mutableStateOf(false) }
+    var deleteFolder by remember { mutableStateOf(false) }
+    var folderName by remember { mutableStateOf("") }
+    var movingNote by remember { mutableStateOf<Note?>(null) }
+    val selectedFolder = state.folders.firstOrNull { it.id == state.selectedFolderId }
+    val sortedFolders = state.folders.sortedBy { it.name.lowercase() }
     Scaffold(
         topBar = { TopAppBar(title = { Text(if (state.showingTrash) tr("Corbeille") else "Notestr") }, actions = {
             TextButton(onClick = vm::toggleTrashView, enabled = !state.busy,
@@ -219,17 +236,19 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
         }) },
         floatingActionButton = { if (!state.showingTrash) FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = tr("Nouvelle note")) } }
     ) { padding ->
-        if (visibleNotes.isEmpty()) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr(if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici.")) }
+        if (visibleNotes.isEmpty() && (state.showingTrash || state.folders.isEmpty())) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr(if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici.")) }
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             item { Spacer(Modifier.height(4.dp)) }
             if (state.syncing) item { Text(tr("Synchronisation des modifications en attente…")) }
             if (state.refreshing) item { Text(tr("Synchronisation des relais en cours…")) }
-            items(visibleNotes, key = Note::listKey) { note ->
+            if (pinnedNotes.isNotEmpty()) item { Text(tr("Épinglées"), style = MaterialTheme.typography.titleMedium) }
+            items(pinnedNotes, key = { "pinned:${it.listKey}" }) { note ->
                 Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy || state.refreshing) { vm.edit(note) }) {
                     Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f)) {
                             if (note.pending) Text(tr(if (note.conflicted) "Conflit — version locale" else "En attente de synchronisation"), style = MaterialTheme.typography.labelSmall)
                             Text(note.title, style = MaterialTheme.typography.titleMedium)
+                            Text(tr("Dossier :") + " " + (state.folders.firstOrNull { it.id == note.folderId }?.name ?: tr("Sans dossier")), style = MaterialTheme.typography.labelSmall)
                             if (note.pinned) Text(tr("Épinglée"), style = MaterialTheme.typography.labelSmall)
                         if (note.locked) Text(tr("Note verrouillée"), style = MaterialTheme.typography.labelSmall)
                             Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
@@ -244,12 +263,81 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
                             R.drawable.ic_action_pin,
                             { vm.togglePinned(note) }, enabled = !state.busy,
                             tint = if (note.pinned) Color(0xFFFF8904) else MaterialTheme.colorScheme.outline)
+                        if (!note.trashed && !note.pending) TextButton(onClick = { movingNote = note }) { Text("📁") }
+                    }
+                }
+            }
+            if (!state.showingTrash) {
+                item {
+                    HorizontalDivider()
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        Text(tr("Dossiers"), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+                        TextButton({ folderName = ""; createFolder = true }, enabled = !state.busy) { Text(tr("Créer")) }
+                        TextButton({ folderName = selectedFolder?.name.orEmpty(); renameFolder = selectedFolder != null }, enabled = selectedFolder != null && !state.busy) { Text(tr("Renommer")) }
+                        TextButton({ deleteFolder = selectedFolder != null }, enabled = selectedFolder != null && !state.busy) { Text(tr("Supprimer")) }
+                    }
+                }
+                item {
+                    Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        OutlinedButton({ vm.selectFolder(null) }, enabled = state.selectedFolderId != null) { Text(tr("Toutes")) }
+                        sortedFolders.forEach { folder ->
+                            OutlinedButton({ vm.selectFolder(folder.id) }, enabled = state.selectedFolderId != folder.id) { Text(folder.name) }
+                        }
+                        OutlinedButton({ vm.selectFolder("__none__") }, enabled = state.selectedFolderId != "__none__") { Text(tr("Sans dossier")) }
+                    }
+                }
+            }
+            if (listedNotes.isNotEmpty()) item { Text(tr("Notes"), style = MaterialTheme.typography.titleMedium) }
+            items(listedNotes, key = Note::listKey) { note ->
+                Card(Modifier.fillMaxWidth().clickable(enabled = !state.busy || state.refreshing) { vm.edit(note) }) {
+                    Row(Modifier.fillMaxWidth().padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            if (note.pending) Text(tr(if (note.conflicted) "Conflit — version locale" else "En attente de synchronisation"), style = MaterialTheme.typography.labelSmall)
+                            Text(note.title, style = MaterialTheme.typography.titleMedium)
+                            Text(tr("Dossier :") + " " + (state.folders.firstOrNull { it.id == note.folderId }?.name ?: tr("Sans dossier")), style = MaterialTheme.typography.labelSmall)
+                            if (note.locked) Text(tr("Note verrouillée"), style = MaterialTheme.typography.labelSmall)
+                            Text(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(Date(note.createdAt * 1000)), style = MaterialTheme.typography.bodySmall)
+                        }
+                        if (!note.pending) ActionIcon(if (note.locked) tr("Déverrouiller la note") else tr("Verrouiller la note"),
+                            if (note.locked) R.drawable.ic_note_locked else R.drawable.ic_note_unlocked,
+                            { vm.toggleLocked(note) }, enabled = !state.busy,
+                            tint = if (note.locked) if (isSystemInDarkTheme()) Color(0xFF81C784) else Color(0xFF2E7D32) else MaterialTheme.colorScheme.outline)
+                        if (!note.pending) ActionIcon(if (note.pinned) tr("Désépingler") else tr("Épingler"), R.drawable.ic_action_pin,
+                            { vm.togglePinned(note) }, enabled = !state.busy,
+                            tint = if (note.pinned) Color(0xFFFF8904) else MaterialTheme.colorScheme.outline)
+                        if (!note.pending) TextButton(onClick = { movingNote = note }) { Text("📁") }
                     }
                 }
             }
             item { Spacer(Modifier.height(80.dp)) }
         }
     }
+    if (createFolder || renameFolder) AlertDialog(
+        onDismissRequest = { createFolder = false; renameFolder = false },
+        title = { Text(tr(if (createFolder) "Créer un dossier" else "Renommer le dossier")) },
+        text = { OutlinedTextField(folderName, { folderName = it }, label = { Text(tr("Nom du dossier")) }, singleLine = true) },
+        confirmButton = { TextButton(onClick = {
+            if (createFolder) vm.createFolder(folderName) else selectedFolder?.let { vm.renameFolder(it.id, folderName) }
+            createFolder = false; renameFolder = false
+        }, enabled = folderName.isNotBlank() && !state.busy) { Text(tr("Enregistrer")) } },
+        dismissButton = { TextButton(onClick = { createFolder = false; renameFolder = false }) { Text(tr("Annuler")) } }
+    )
+    if (deleteFolder && selectedFolder != null) AlertDialog(
+        onDismissRequest = { deleteFolder = false },
+        title = { Text(tr("Supprimer le dossier ?")) },
+        text = { Text(tr("Supprimer le dossier « {0} » ? Les notes ne seront pas détruites mais déplacées dans « Sans dossier ».").replace("{0}", selectedFolder.name)) },
+        confirmButton = { TextButton(onClick = { vm.deleteFolder(selectedFolder.id); deleteFolder = false }, enabled = !state.busy) { Text(tr("Supprimer")) } },
+        dismissButton = { TextButton(onClick = { deleteFolder = false }) { Text(tr("Annuler")) } }
+    )
+    movingNote?.let { note -> AlertDialog(
+        onDismissRequest = { movingNote = null },
+        title = { Text(tr("Déplacer la note")) },
+        text = { Column {
+            TextButton({ vm.moveNoteToFolder(note, null); movingNote = null }) { Text(tr("Sans dossier")) }
+            sortedFolders.forEach { folder -> TextButton({ vm.moveNoteToFolder(note, folder.id); movingNote = null }) { Text(folder.name) } }
+        } },
+        confirmButton = { TextButton(onClick = { movingNote = null }) { Text(tr("Annuler")) } }
+    ) }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,6 +1,7 @@
 package fr.decentralia.notestr.data.nostr
 
 import fr.decentralia.notestr.domain.model.Note
+import fr.decentralia.notestr.domain.model.FolderState
 
 interface NostrRepository {
     fun publicKeyHex(): String
@@ -16,6 +17,9 @@ interface NostrRepository {
     suspend fun setPinned(note: Note, pinned: Boolean): Result<Publication>
     suspend fun setLocked(note: Note, locked: Boolean): Result<Publication> =
         Result.failure(UnsupportedOperationException("Note locking is not supported by this repository"))
+    suspend fun folderState(): Result<FolderState> = Result.success(FolderState())
+    suspend fun saveFolderState(value: FolderState): Result<FolderState> =
+        Result.failure(UnsupportedOperationException("Folder synchronization is not supported by this repository"))
     suspend fun uploadImage(bytes: ByteArray): Result<String> = Result.failure(UnsupportedOperationException("Insertion d’image indisponible."))
     suspend fun loadImage(reference: String): Result<ByteArray> = Result.failure(UnsupportedOperationException("Lecture d’image indisponible."))
 }

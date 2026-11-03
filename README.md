@@ -1,26 +1,27 @@
 # Notestr Android
 
-> **Version 3.9.5** — revue de sécurité des dépendances et de l’outillage Android ; versionCode 71. [Notes de version 3.9.5](RELEASE-NOTES-3.9.5.md).
+> **Version 4.0** — dossiers de notes synchronisés entre Android et Linux ; versionCode 73. [Notes de version](RELEASE-NOTES-4.0.md).
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-3.9.5.apk)**
+**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-4.0.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **3.9.5** (versionCode 71).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **4.0** (versionCode 73).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : voir `SHA256SUMS-3.9.5-Android.txt` dans les fichiers de la release.
+SHA-256 : voir `SHA256SUMS-4.0-Android.txt` dans les fichiers de la release.
 
-## Version 3.9.5
+## Version 4.0
 
-- Revue de sécurité des dépendances et de l’outillage Android.
-- Conservation des versions Compose/Lifecycle compatibles avec la base Android qualifiée.
-- Version Android alignée sur Linux : 3.9.5 (versionCode 71). [Notes de version](RELEASE-NOTES-3.9.5.md).
+- Création, renommage et suppression de dossiers pour classer les notes.
+- Les notes épinglées restent en tête de liste et apparaissent aussi dans leur dossier.
+- Dossiers triés alphabétiquement, avec « Sans dossier » en dernier.
+- Version Android alignée sur Linux : 4.0 (versionCode 73). [Notes de version](RELEASE-NOTES-4.0.md).
 
 Les notes des versions précédentes sont conservées dans [`release-notes/`](release-notes/).
 
@@ -39,7 +40,7 @@ Les notes des versions précédentes sont conservées dans [`release-notes/`](re
 - cache local limité aux événements Nostr signés : le contenu des notes y reste chiffré NIP-44 ;
 - verrouillage automatique après trois minutes en arrière-plan et captures d’écran bloquées.
 
-Les images Markdown `![description](https://…)` sont affichées dans le mode Visuel et adaptées à la largeur de l’écran. Le chargement se fait directement depuis leur serveur HTTPS. Les URL HTTP et les fichiers locaux ne sont pas chargés. Une URL seule reste un lien : utiliser la syntaxe Markdown image. L’envoi de pièces jointes n’est pas pris en charge.
+Les images insérées dans une note sont chiffrées avant leur envoi vers un serveur Blossom et peuvent être affichées, agrandies, déplacées et téléchargées dans les deux applications. Une image absente du cache nécessite une connexion au serveur indiqué par la note.
 
 Cette application lit les documents personnels kind `33457`, pas les articles kind `30023` ni leurs tags `image`.
 
@@ -62,7 +63,7 @@ Cet APK est signé avec une clé de débogage locale. Une publication dans un ma
 ## Construire avec Android Studio
 
 1. Installer Android Studio avec le SDK Android 36 et Java 17.
-2. Ouvrir le dossier `~/Documents/Dev/Android/notestr-android`.
+2. Ouvrir le dossier `notestr-android` de ce dépôt.
 3. Laisser Gradle synchroniser les dépendances.
 4. Utiliser **Build > Build APK(s)**.
 
@@ -73,7 +74,7 @@ Le résultat est créé dans `app/build/outputs/apk/debug/app-debug.apk`.
 Avec `JAVA_HOME` et `ANDROID_HOME` configurés :
 
 ```sh
-cd ~/Documents/Dev/Android/notestr-android
+cd notestr-android
 ./gradlew testDebugUnitTest assembleDebug
 ```
 
@@ -113,7 +114,7 @@ Avant toute publication du code, vérifier malgré tout les fichiers suivis et n
 ## Dépendances principales
 
 - Jetpack Compose / Material 3 ;
-- `org.rust-nostr:nostr-sdk:0.44.8` pour les clés, signatures, événements, relais et NIP-44 ;
+- `nostr-sdk-0.45.1-notestr.1.aar` (Rust natif embarqué) pour les clés, signatures, événements, relais et NIP-44 ;
 - TOAST UI Editor et DOMPurify, chargés uniquement depuis les ressources locales. Leurs licences sont fournies dans `app/src/main/assets/editor/`.
 
 Le SDK Nostr fournit une implémentation du chiffrement NIP-44 v2. Son interface Kotlin est encore annoncée comme alpha par le projet, même si le cœur cryptographique Rust est partagé avec les autres liaisons officielles.
