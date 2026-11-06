@@ -12,8 +12,13 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -66,7 +71,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -76,6 +83,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import fr.decentralia.notestr.domain.model.Note
 import fr.decentralia.notestr.R
 import java.text.DateFormat
@@ -83,6 +92,7 @@ import java.util.Date
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.first
 
 @Composable
 fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -> Unit) {
@@ -99,6 +109,13 @@ fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -
         }
     }
     val state = vm.state
+    val lifecycleOwner = LocalLifecycleOwner.current
+    LaunchedEffect(state.screen, state.biometricEnabled, lifecycleOwner) {
+        if (state.screen == Screen.Locked && state.biometricEnabled) {
+            lifecycleOwner.lifecycle.currentStateFlow.first { it.isAtLeast(Lifecycle.State.STARTED) }
+            requestBiometric(false)
+        }
+    }
     BackHandler(enabled = state.screen is Screen.Editor || state.screen == Screen.Settings) {
         vm.backToNotes()
     }
@@ -204,10 +221,16 @@ private fun ColumnScope.ConnectionLogo() {
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
-    val visibleNotes = state.notes.filter { it.trashed == state.showingTrash }
+    var searchExpanded by remember { mutableStateOf(false) }
+    var searchText by remember { mutableStateOf("") }
+    val searchQuery = searchText.trim()
+    val visibleNotes = state.notes.filter {
+        it.trashed == state.showingTrash &&
+            (searchQuery.isEmpty() || it.markdown.contains(searchQuery, ignoreCase = true))
+    }
     val pinnedNotes = if (state.showingTrash) emptyList() else visibleNotes.filter(Note::pinned)
     val listedNotes = if (state.showingTrash) visibleNotes else visibleNotes.filter { note ->
         val matchesFolder = when (state.selectedFolderId) {
@@ -230,15 +253,51 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
                 modifier = Modifier.semantics { contentDescription = tr(if (state.showingTrash) "Notes" else "Corbeille") }) {
                 Text(tr(if (state.showingTrash) "Notes" else "Corbeille"))
             }
+            ActionIcon(tr("Rechercher dans les notes"), R.drawable.ic_action_search, {
+                searchExpanded = !searchExpanded
+                if (!searchExpanded) searchText = ""
+            })
             ActionIcon(tr("Actualiser"), R.drawable.ic_action_refresh, vm::refresh, enabled = !state.busy)
             ActionIcon(tr("Réglages"), R.drawable.ic_action_settings, vm::settings)
             ActionIcon(tr("Verrouiller"), R.drawable.ic_action_lock, vm::lock)
         }) },
         floatingActionButton = { if (!state.showingTrash) FloatingActionButton({ vm.edit() }) { Icon(painterResource(R.drawable.ic_action_add), contentDescription = tr("Nouvelle note")) } }
     ) { padding ->
-        if (visibleNotes.isEmpty() && (state.showingTrash || state.folders.isEmpty())) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr(if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici.")) }
+        if (visibleNotes.isEmpty() && (state.showingTrash || state.folders.isEmpty()) && !searchExpanded) Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) { Text(tr(if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici.")) }
         else LazyColumn(Modifier.fillMaxSize().padding(padding).padding(horizontal = 12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            if (searchExpanded) stickyHeader(key = "note-search") {
+                val shape = RoundedCornerShape(8.dp)
+                Column(Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surface).padding(vertical = 2.dp)) {
+                    BasicTextField(
+                        value = searchText,
+                        onValueChange = { searchText = it },
+                        modifier = Modifier.fillMaxWidth().height(44.dp)
+                            .clip(shape)
+                            .background(MaterialTheme.colorScheme.surface)
+                            .border(1.dp, MaterialTheme.colorScheme.outline, shape)
+                            .padding(horizontal = 12.dp),
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
+                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        decorationBox = { innerTextField ->
+                            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.CenterStart) {
+                                if (searchText.isEmpty()) Text(
+                                    tr("Rechercher dans les notes"),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                                innerTextField()
+                            }
+                        }
+                    )
+                }
+            }
             item { Spacer(Modifier.height(4.dp)) }
+            if (searchExpanded && visibleNotes.isEmpty()) item(key = "note-search-empty") {
+                Text(tr(if (searchQuery.isEmpty()) {
+                    if (state.showingTrash) "La corbeille est vide." else "Vos notes privées apparaîtront ici."
+                } else "Aucune note ne correspond à votre recherche."))
+            }
             if (state.syncing) item { Text(tr("Synchronisation des modifications en attente…")) }
             if (state.refreshing) item { Text(tr("Synchronisation des relais en cours…")) }
             if (pinnedNotes.isNotEmpty()) item { Text(tr("Épinglées"), style = MaterialTheme.typography.titleMedium) }

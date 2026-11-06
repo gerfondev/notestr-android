@@ -1,27 +1,27 @@
 # Notestr Android
 
-> **Version 4.0** — dossiers de notes synchronisés entre Android et Linux ; versionCode 73. [Notes de version](RELEASE-NOTES-4.0.md).
+> **Version 4.0.1** — recherche de notes et ouverture biométrique automatique au démarrage (si activée) ; versionCode 78. [Notes de version](RELEASE-NOTES-4.0.1.md).
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-4.0.apk)**
+**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-4.0.1.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **4.0** (versionCode 73).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **4.0.1** (versionCode 78).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : voir `SHA256SUMS-4.0-Android.txt` dans les fichiers de la release.
+SHA-256 : voir `SHA256SUMS-4.0.1-Android.txt` dans les fichiers de la release.
 
-## Version 4.0
+## Version 4.0.1
 
-- Création, renommage et suppression de dossiers pour classer les notes.
-- Les notes épinglées restent en tête de liste et apparaissent aussi dans leur dossier.
-- Dossiers triés alphabétiquement, avec « Sans dossier » en dernier.
-- Version Android alignée sur Linux : 4.0 (versionCode 73). [Notes de version](RELEASE-NOTES-4.0.md).
+- Recherche dans les notes depuis l’icône loupe de la barre de menu.
+- Si la biométrie a été activée dans les réglages, son dialogue s’ouvre automatiquement au démarrage ; le mot de passe reste disponible.
+- Mise à jour de sécurité de DOMPurify embarqué vers la version 3.4.17, qui corrige une vulnérabilité critique.
+- [Notes de version](RELEASE-NOTES-4.0.1.md).
 
 Les notes des versions précédentes sont conservées dans [`release-notes/`](release-notes/).
 
@@ -97,7 +97,7 @@ Le mot de passe n’est envoyé à aucun service. En mode local, sa perte rend l
 1. Enregistrer une empreinte ou un visage compatible avec la biométrie forte dans les réglages Android.
 2. Ouvrir Notestr avec son mot de passe habituel.
 3. Aller dans **Réglages > Activer la biométrie**, puis confirmer dans le dialogue Android.
-4. Aux ouvertures suivantes, utiliser **Déverrouiller par biométrie**. Le bouton de déverrouillage par mot de passe reste disponible.
+4. Aux ouvertures suivantes, le dialogue biométrique se lance automatiquement. Le mot de passe reste disponible et le bouton **Déverrouiller par biométrie** permet de relancer l’authentification.
 
 La biométrie est facultative, désactivée par défaut et peut être désactivée dans les réglages. L’application ne reçoit aucune empreinte ni image du visage : Android autorise une opération cryptographique dans Keystore. Seuls les capteurs acceptés par Android pour la biométrie forte sont utilisés.
 

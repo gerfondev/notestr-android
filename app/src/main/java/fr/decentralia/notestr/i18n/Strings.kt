@@ -293,6 +293,7 @@ object Strings {
         "PDF exporté : " to "PDF exported: ",
         "Publication acceptée, mais écriture du cache local impossible." to "Publication accepted, but the local cache could not be written.",
         "Rechercher dans les notes" to "Search notes",
+        "Aucune note ne correspond à votre recherche." to "No notes match your search.",
         "Relais wss://, un par ligne" to "wss:// relays, one per line",
         "Saisir la clé privée du compte Pages." to "Enter the account private key.",
         "Saisissez le mot de passe actuel, puis choisissez le nouveau." to "Enter your current password, then choose a new one.",

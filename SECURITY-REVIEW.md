@@ -1,3 +1,3 @@
-# Revue de sécurité — candidat Notestr Android 4.0 — 3 novembre 2026
+# Revue de sécurité — Notestr Android 4.0.1 — 6 novembre 2026
 
-Rapport courant : [`security/release-4.0-review.md`](security/release-4.0-review.md). APK versionCode 73, SHA-256 `ea12049c6bc388c5a87f032e33135344daac464fc8e2cee5ff313e7c34306731`, signature v2 valide et paquet non débogable. 25 tests unitaires release réussis ; les tests instrumentés ont été compilés, mais pas exécutés sur appareil. La revue de dépendances, les scans ciblés et leurs limites sont décrits dans le rapport. Candidat local : aucune publication effectuée.
+Rapport courant : [`security/release-4.0.1-review.md`](security/release-4.0.1-review.md). APK versionCode 78, SHA-256 `85f8d64315312d2bea43b9210bd4fcf5f26913d4f26837c5f4f34438c7162265`, signature v2 valide et paquet non débogable. 25 tests unitaires release et `lintVitalRelease` réussis. L’APK a été construit et contrôlé, mais pas lancé sur un appareil dans cette vérification. La publication attend un essai de cet APK. La revue de dépendances, les scans ciblés et leurs limites sont décrits dans le rapport.
