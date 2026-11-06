@@ -8,7 +8,7 @@
 - APK : 506 entrées. `aapt` confirme le nom de paquet, la version et les permissions attendues.
 - `./gradlew clean testReleaseUnitTest assembleRelease` réussi : 25 tests unitaires, `lintVitalRelease`, compilation et empaquetage réussis. Les avertissements de compilation restants sont deux appels Kotlin redondants et une API tooltip dépréciée ; aucun n’a bloqué le build.
 - La compilation a vérifié les empreintes SHA-256 de l’AAR Nostr et de JNA. L’empreinte de la ressource DOMPurify locale est contrôlée par `app/src/main/assets/editor/SHA256SUMS`.
-- Pas d’appareil ni d’émulateur accessible pendant cette vérification : aucun lancement réel de l’APK final n’a été effectué. La recherche et le lancement biométrique ont été essayés sur l’appareil avant cette mise à jour de sécurité ; la validation de ce paquet stable précis reste nécessaire avant publication.
+- Pas d’appareil ni d’émulateur accessible dans l’environnement de compilation : l’exécution réelle sur appareil n’a pas été reproduite ici. Après la remise du paquet final, l’utilisateur a confirmé que la publication pouvait être effectuée.
 
 ## Dépendances et mises à jour de sécurité
 
@@ -27,4 +27,8 @@ Sources primaires consultées : [avis critique DOMPurify](https://github.com/adv
 - Les rapports de dépendances vérifient des composants tiers et contiennent leurs métadonnées d’origine ; les identités auteur/committer de l’historique Git antérieur sont conservées et ne sont pas réécrites. Elles ne sont pas intégrées à l’APK.
 - Contrôle ciblé, non exhaustif : il ne permet pas d’affirmer qu’aucune donnée personnelle inconnue n’existe. Il n’y a pas eu d’audit spécialisé de toutes les chaînes de dépendances native/Rust.
 
-Le candidat local et ses empreintes sont prêts pour essai. Aucun push, tag distant, release ou téléversement n’a été effectué dans cette vérification.
+## Publication et contrôle public
+
+- Publiée le 6 novembre 2026 : commit `977da2d`, tag `v4.0.1`, [release GitHub](https://github.com/gerfondev/notestr-android/releases/tag/v4.0.1).
+- L’APK et le fichier SHA-256 ont été téléchargés anonymement depuis la release. Les deux fichiers sont identiques aux livrables contrôlés localement ; l’empreinte, la signature APK v2, le versionCode `78` et le versionName `4.0.1` ont été revérifiés.
+- Cette vérification ne constitue pas un audit exhaustif des dépendances native/Rust ni de toutes données personnelles inconnues.
