@@ -19,6 +19,9 @@
 - Les identités auteur/committer présentes dans l’historique local sont des identités génériques du projet. Les sources ne sont pas poussées avec ce candidat ; aucun historique distant n’est réécrit.
 - Contrôle ciblé, non exhaustif : il ne peut pas garantir l’absence de donnée personnelle inconnue ni remplacer un audit natif/Rust complet.
 
-## État de publication
+## Publication et vérification publique
 
-Paquet local préparé pour test. Aucun commit de release, push, tag, création de release ou téléversement GitHub effectué. L’utilisateur doit valider l’APK final avant publication.
+- L’utilisateur a autorisé explicitement la publication le 15 novembre 2026.
+- GitHub : release [v4.1](https://github.com/gerfondev/notestr-android/releases/tag/v4.1), commit `1bbdf1d`, tag `v4.1`.
+- APK et fichier SHA-256 téléchargés depuis les URLs publiques après publication. L’APK public est identique au candidat contrôlé : SHA-256 `8de3c415a8b0e5cd835e5bb9db9277739575b2269ce9eb68d7111a47540100bc`.
+- Le commit et le tag ont été ajoutés sans réécriture de l’historique existant.
