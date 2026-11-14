@@ -10,6 +10,10 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import fr.decentralia.notestr.ui.NotestrApp
 import fr.decentralia.notestr.ui.theme.NotestrTheme
 
@@ -31,8 +35,18 @@ class MainActivity : FragmentActivity() {
             }
         })
         setContent {
-            NotestrTheme {
-                NotestrApp(viewModel, ::authenticateBiometric)
+            val preferences = remember { getSharedPreferences("notestr_settings", MODE_PRIVATE) }
+            var themeMode by remember { mutableStateOf(preferences.getString("theme", "system") ?: "system") }
+            val darkTheme = when (themeMode) {
+                "dark" -> true
+                "light" -> false
+                else -> androidx.compose.foundation.isSystemInDarkTheme()
+            }
+            NotestrTheme(darkTheme = darkTheme) {
+                NotestrApp(viewModel, ::authenticateBiometric, themeMode) { mode ->
+                    themeMode = mode
+                    preferences.edit().putString("theme", mode).apply()
+                }
             }
         }
     }

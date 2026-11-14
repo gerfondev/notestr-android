@@ -112,6 +112,10 @@ object Strings {
 
         "Actualiser" to "Refresh",
         "Réglages" to "Settings",
+        "Thème" to "Theme",
+        "Système" to "System",
+        "Clair" to "Light",
+        "Sombre" to "Dark",
         "Verrouiller" to "Lock",
         "Nouvelle note" to "New note",
         "Retour" to "Back",

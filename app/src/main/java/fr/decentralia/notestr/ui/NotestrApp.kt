@@ -15,6 +15,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.imePadding
@@ -40,6 +42,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +52,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -63,6 +67,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -81,6 +86,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.Lifecycle
@@ -95,7 +101,12 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.first
 
 @Composable
-fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -> Unit) {
+fun NotestrApp(
+    vm: NotestrViewModel = viewModel(),
+    requestBiometric: (Boolean) -> Unit,
+    themeMode: String,
+    onThemeChange: (String) -> Unit
+) {
     val amberOperationLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         vm.completeAmber(it.resultCode, it.data)
     }
@@ -129,8 +140,8 @@ fun NotestrApp(vm: NotestrViewModel = viewModel(), requestBiometric: (Boolean) -
             )
             Screen.Locked -> LockedScreen(vm::unlock, state.biometricEnabled) { requestBiometric(false) }
             Screen.Notes -> NotesScreen(state, vm)
-            is Screen.Editor -> key(screen.note?.listKey ?: "new") { EditorScreen(screen.note, vm) }
-            Screen.Settings -> SettingsScreen(state, vm) { requestBiometric(true) }
+            is Screen.Editor -> key(screen.note?.listKey ?: "new") { EditorScreen(screen.note, vm, themeMode) }
+            Screen.Settings -> SettingsScreen(state, vm, themeMode, onThemeChange) { requestBiometric(true) }
         }
         SnackbarHost(snackbar, Modifier.align(Alignment.BottomCenter))
         if (state.busy && (!state.refreshing || state.notes.isEmpty())) Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
@@ -248,11 +259,31 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
     val selectedFolder = state.folders.firstOrNull { it.id == state.selectedFolderId }
     val sortedFolders = state.folders.sortedBy { it.name.lowercase() }
     Scaffold(
-        topBar = { TopAppBar(title = { Text(if (state.showingTrash) tr("Corbeille") else "Notestr") }, actions = {
-            TextButton(onClick = vm::toggleTrashView, enabled = !state.busy,
-                modifier = Modifier.semantics { contentDescription = tr(if (state.showingTrash) "Notes" else "Corbeille") }) {
-                Text(tr(if (state.showingTrash) "Notes" else "Corbeille"))
+        topBar = { TopAppBar(title = {
+            Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                val compactButton = Modifier.height(34.dp)
+                val compactText = androidx.compose.ui.text.TextStyle(fontSize = 11.sp, lineHeight = 13.sp)
+                if (state.showingTrash) OutlinedButton(
+                    { vm.toggleTrashView() }, enabled = !state.busy,
+                    modifier = compactButton.width(62.dp), shape = RoundedCornerShape(50.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.62f)),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 3.dp, vertical = 0.dp)
+                ) { Text(tr("Notes"), style = compactText, maxLines = 1, softWrap = false) }
+                else Button(
+                    {}, enabled = !state.busy, modifier = compactButton.width(62.dp), shape = RoundedCornerShape(50.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 3.dp, vertical = 0.dp)
+                ) { Text(tr("Notes"), style = compactText, maxLines = 1, softWrap = false) }
+                if (state.showingTrash) Button(
+                    {}, enabled = !state.busy, modifier = compactButton.width(76.dp), shape = RoundedCornerShape(50.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 2.dp, vertical = 0.dp)
+                ) { Text(tr("Corbeille"), style = compactText, maxLines = 1, softWrap = false) }
+                else OutlinedButton(
+                    { vm.toggleTrashView() }, enabled = !state.busy, modifier = compactButton.width(76.dp), shape = RoundedCornerShape(50.dp),
+                    border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.62f)),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 2.dp, vertical = 0.dp)
+                ) { Text(tr("Corbeille"), style = compactText, maxLines = 1, softWrap = false) }
             }
+        }, actions = {
             ActionIcon(tr("Rechercher dans les notes"), R.drawable.ic_action_search, {
                 searchExpanded = !searchExpanded
                 if (!searchExpanded) searchText = ""
@@ -401,7 +432,7 @@ private fun NotesScreen(state: UiState, vm: NotestrViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
+private fun EditorScreen(note: Note?, vm: NotestrViewModel, themeMode: String) {
     var markdown by remember { mutableStateOf(note?.markdown.orEmpty()) }; var confirmDelete by remember { mutableStateOf(false) }
     var confirmDiscard by remember { mutableStateOf(false) }
     var confirmRestore by remember { mutableStateOf(false) }
@@ -462,7 +493,7 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
                 }
             }
             key(editorRevision) {
-                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), readOnly = note?.trashed == true || note?.locked == true, onOpenLink = { url ->
+                MarkdownEditor(markdown, { markdown = it }, Modifier.fillMaxWidth().weight(1f), readOnly = note?.trashed == true || note?.locked == true, themeMode = themeMode, onOpenLink = { url ->
                     if (markdown != note?.markdown.orEmpty()) pendingLink = url
                     else openBrowser(browserContext, url)
                 }, onLoadImage = { reference, complete -> vm.loadImage(reference, complete) },
@@ -502,38 +533,69 @@ private fun EditorScreen(note: Note?, vm: NotestrViewModel) {
 }
 
 @Composable
-private fun SettingsScreen(state: UiState, vm: NotestrViewModel, enableBiometric: () -> Unit) {
+private fun SettingsScreen(state: UiState, vm: NotestrViewModel, themeMode: String, onThemeChange: (String) -> Unit, enableBiometric: () -> Unit) {
     var relays by remember { mutableStateOf(state.relays.joinToString("\n")) }
     var old by remember { mutableStateOf("") }; var new by remember { mutableStateOf("") }; var confirmation by remember { mutableStateOf("") }
     var confirmReset by remember { mutableStateOf(false) }
     var showLicense by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val darkSettings = themeMode == "dark" || (themeMode == "system" && isSystemInDarkTheme())
+    val settingsTextColor = if (darkSettings) Color.White else MaterialTheme.colorScheme.onSurface
+    val settingsButtonColors = if (darkSettings) ButtonDefaults.buttonColors(
+        contentColor = Color.White,
+        disabledContentColor = Color.White
+    ) else ButtonDefaults.buttonColors()
+    val settingsOutlinedButtonColors = if (darkSettings) ButtonDefaults.outlinedButtonColors(
+        contentColor = Color.White,
+        disabledContentColor = Color.White
+    ) else ButtonDefaults.outlinedButtonColors()
+    val settingsFieldColors = if (darkSettings) OutlinedTextFieldDefaults.colors(
+        focusedTextColor = Color.White,
+        unfocusedTextColor = Color.White,
+        disabledTextColor = Color.White,
+        focusedLabelColor = Color.White,
+        unfocusedLabelColor = Color.White,
+        disabledLabelColor = Color.White,
+        focusedPlaceholderColor = Color.White,
+        unfocusedPlaceholderColor = Color.White,
+        disabledPlaceholderColor = Color.White
+    ) else OutlinedTextFieldDefaults.colors()
     val licenseText = remember { context.assets.open("licenses/GPL-3.0.txt").bufferedReader().use { it.readText() } }
-    FormPage(tr("Réglages"), back = vm::backToNotes) {
-        Text(tr("Version de l’application") + " : " + fr.decentralia.notestr.BuildConfig.VERSION_NAME)
+    CompositionLocalProvider(LocalContentColor provides settingsTextColor) {
+    FormPage(tr("Réglages"), back = vm::backToNotes, titleColor = settingsTextColor) {
+        Text(tr("Version de l’application") + " : " + fr.decentralia.notestr.BuildConfig.VERSION_NAME, color = settingsTextColor)
         TextButton({ showLicense = true }) { Text(tr("Licence GPLv3")) }
-        Text(tr("Langue"), style = MaterialTheme.typography.titleMedium)
+        Text(tr("Langue"), style = MaterialTheme.typography.titleMedium, color = settingsTextColor)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedButton({ vm.selectLanguage("fr") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "fr") { Text("Français") }
-            OutlinedButton({ vm.selectLanguage("en") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "en") { Text("English") }
+            OutlinedButton({ vm.selectLanguage("fr") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "fr", colors = settingsOutlinedButtonColors) { Text("Français") }
+            OutlinedButton({ vm.selectLanguage("en") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "en", colors = settingsOutlinedButtonColors) { Text("English") }
         }
         HorizontalDivider()
-        Text(tr("Clé publique : ") + state.publicKey.take(16) + "…", style = MaterialTheme.typography.bodySmall)
-        OutlinedTextField(relays, { relays = it }, label = { Text(tr("Relais, un par ligne")) }, modifier = Modifier.fillMaxWidth(), minLines = 3)
-        Button({ vm.saveSettings(relays) }, Modifier.fillMaxWidth()) { Text(tr("Enregistrer les relais")) }
-        HorizontalDivider(); Text(tr("Déverrouillage biométrique"), style = MaterialTheme.typography.titleMedium)
-        Text(tr("Utilisez une empreinte ou un visage compatible pour ouvrir Notestr. Votre mot de passe reste disponible en secours."))
+        Text(tr("Thème"), style = MaterialTheme.typography.titleMedium, color = settingsTextColor)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            listOf("system" to tr("Système"), "light" to tr("Clair"), "dark" to tr("Sombre")).forEach { (mode, label) ->
+                if (themeMode == mode) Button({}, colors = settingsButtonColors) { Text(label) }
+                else OutlinedButton({ onThemeChange(mode) }, colors = settingsOutlinedButtonColors) { Text(label) }
+            }
+        }
+        HorizontalDivider()
+        Text(tr("Clé publique : ") + state.publicKey.take(16) + "…", style = MaterialTheme.typography.bodySmall, color = settingsTextColor)
+        OutlinedTextField(relays, { relays = it }, label = { Text(tr("Relais, un par ligne"), color = settingsTextColor) }, modifier = Modifier.fillMaxWidth(), minLines = 3, colors = settingsFieldColors)
+        Button({ vm.saveSettings(relays) }, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Enregistrer les relais")) }
+        HorizontalDivider(); Text(tr("Déverrouillage biométrique"), style = MaterialTheme.typography.titleMedium, color = settingsTextColor)
+        Text(tr("Utilisez une empreinte ou un visage compatible pour ouvrir Notestr. Votre mot de passe reste disponible en secours."), color = settingsTextColor)
         if (state.biometricEnabled) {
             Text(tr("Biométrie activée"))
-            OutlinedButton(vm::disableBiometric, Modifier.fillMaxWidth()) { Text(tr("Désactiver la biométrie")) }
+            OutlinedButton(vm::disableBiometric, Modifier.fillMaxWidth(), colors = settingsOutlinedButtonColors) { Text(tr("Désactiver la biométrie")) }
         } else {
-            Button(enableBiometric, Modifier.fillMaxWidth()) { Text(tr("Activer la biométrie")) }
+            Button(enableBiometric, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Activer la biométrie")) }
         }
         HorizontalDivider(); Text(tr("Changer le mot de passe"), style = MaterialTheme.typography.titleMedium)
-        SecretField(tr("Mot de passe actuel"), old) { old = it }; SecretField(tr("Nouveau mot de passe"), new) { new = it }; SecretField(tr("Confirmer"), confirmation) { confirmation = it }
-        Button({ vm.changePassword(old, new, confirmation) }, Modifier.fillMaxWidth()) { Text(tr("Changer le mot de passe")) }
+        SecretField(tr("Mot de passe actuel"), old, settingsFieldColors) { old = it }; SecretField(tr("Nouveau mot de passe"), new, settingsFieldColors) { new = it }; SecretField(tr("Confirmer"), confirmation, settingsFieldColors) { confirmation = it }
+        Button({ vm.changePassword(old, new, confirmation) }, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Changer le mot de passe")) }
         HorizontalDivider(); Text(tr("Connexion Nostr"), style = MaterialTheme.typography.titleMedium)
-        OutlinedButton({ confirmReset = true }, Modifier.fillMaxWidth()) { Text(tr("Changer de compte ou utiliser Amber")) }
+        OutlinedButton({ confirmReset = true }, Modifier.fillMaxWidth(), colors = settingsOutlinedButtonColors) { Text(tr("Changer de compte ou utiliser Amber")) }
+    }
     }
     if (showLicense) AlertDialog(
         onDismissRequest = { showLicense = false },
@@ -555,18 +617,25 @@ private fun SettingsScreen(state: UiState, vm: NotestrViewModel, enableBiometric
 }
 
 @Composable
-private fun SecretField(label: String, value: String, change: (String) -> Unit) = OutlinedTextField(
-    value, change, label = { Text(label) }, visualTransformation = PasswordVisualTransformation(), singleLine = true, modifier = Modifier.fillMaxWidth()
+private fun SecretField(
+    label: String,
+    value: String,
+    colors: androidx.compose.material3.TextFieldColors = OutlinedTextFieldDefaults.colors(),
+    change: (String) -> Unit
+) = OutlinedTextField(
+    value, change, label = { Text(label) }, visualTransformation = PasswordVisualTransformation(), singleLine = true,
+    modifier = Modifier.fillMaxWidth(), colors = colors
 )
 
 @Composable
-private fun FormPage(title: String, back: (() -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
+private fun FormPage(title: String, back: (() -> Unit)? = null, titleColor: Color = MaterialTheme.colorScheme.onSurface,
+                     content: @Composable ColumnScope.() -> Unit) {
     // Keep the whole scroll viewport below status bars/cutouts and above the IME.
     // Insets belong outside the scrollable content so scrolling cannot remove them.
-    Column(Modifier.fillMaxSize().safeDrawingPadding().imePadding()
+    Column(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background).safeDrawingPadding().imePadding()
         .verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         if (back != null) ActionIcon(tr("Retour"), R.drawable.ic_action_back, back)
-        Text(title, style = MaterialTheme.typography.headlineSmall)
+        Text(title, style = MaterialTheme.typography.headlineSmall, color = titleColor)
         content()
     }
 }

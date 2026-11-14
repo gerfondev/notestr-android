@@ -88,7 +88,7 @@ internal class EditorWebView(context: Context) : WebView(context) {
 fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modifier = Modifier,
                    onOpenLink: ((String) -> Unit)? = null, onLoadImage: ((String, (ByteArray?) -> Unit) -> Unit)? = null,
                    onPickImage: (((String) -> Unit) -> Unit)? = null,
-                   readOnly: Boolean = false) {
+                   readOnly: Boolean = false, themeMode: String = "system") {
     var visual by remember { mutableStateOf(true) }
     var webView by remember { mutableStateOf<WebView?>(null) }
     var revision by remember { mutableStateOf(0) }
@@ -370,6 +370,7 @@ fun MarkdownEditor(markdown: String, onChange: (String) -> Unit, modifier: Modif
                                         (function() {
                                             try {
                                                 if (!window.notesEditor) throw new Error(window.notesEditorFailure || 'Le moteur visuel ne s’est pas initialisé');
+                                                document.documentElement.dataset.notestrTheme = ${JSONObject.quote(themeMode)};
                                                 window.notesEditor.setDocument($source, $expected, $editorLanguage, $currentReadOnly);
                                                 return {ok:true};
                                             } catch (e) { return {ok:false,error:String(e.message || e)}; }
