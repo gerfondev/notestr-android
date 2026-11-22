@@ -1,30 +1,30 @@
 # Notestr Android
 
-> **Version 4.1** — refonte visuelle et ajout du mode sombre. Android : recherche des notes et lancement automatique de la biométrie si activée. [Notes de version](RELEASE-NOTES-4.1.md).
+> **Version 4.1.1** — boutons des Réglages harmonisés avec la couleur d’accent. La recherche et le lancement automatique de la biométrie si elle est activée restent disponibles. [Notes de version](RELEASE-NOTES-4.1.1.md).
 
 Application Android native de notes privées chiffrées sur Nostr, compatible avec Notestr Linux. Langues disponibles : français, anglais.
 
 ## Télécharger et installer — aucune compilation nécessaire
 
-**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-4.1.apk)**
+**[Télécharger Notestr Android — dernière version — APK complet](https://github.com/gerfondev/notestr-android/releases/latest/download/Notestr-Android-4.1.1.apk)**
 
-[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **4.1** (versionCode 85).
+[Voir la dernière version](https://github.com/gerfondev/notestr-android/releases/latest) · Version actuelle : **4.1.1** (versionCode 88).
 
 Ouvrir ce lien depuis le téléphone, télécharger le fichier APK puis l’ouvrir pour installer l’application. Autoriser l’installation depuis cette source lorsque Android le demande. Aucun outil de développement ni compilation n’est nécessaire.
 
 Pour mettre à jour une installation existante, installer cet APK par-dessus sans désinstaller Notestr, afin de conserver le coffre et les réglages.
 
-SHA-256 : voir `SHA256SUMS-4.1-Android.txt` dans les fichiers de la release.
+SHA-256 : voir `SHA256SUMS-4.1.1-Android.txt` dans les fichiers de la release.
 
-## Version 4.1
+## Version 4.1.1
 
-- Refonte de l’interface et ajout d’un thème sombre aux couleurs de Notestr/Nostr ; les réglages d’apparence sont lisibles dans les deux thèmes.
+- Harmonisation de la couleur des boutons Réglages, y compris les boutons Langue, Biométrie et Changer de compte ou utiliser Amber.
 - Recherche dans les notes depuis l’icône loupe de la barre de menu.
 - Si la biométrie est activée dans les réglages, son dialogue s’ouvre automatiquement au démarrage ; le mot de passe reste disponible.
-- Mise à jour de sécurité de DOMPurify vers 3.4.17 et de Gradle vers 8.14.7.
-- [Notes de version](RELEASE-NOTES-4.1.md).
+- Les versions corrigées de DOMPurify 3.4.17 et Gradle 8.14.7 sont conservées.
+- [Notes de version](RELEASE-NOTES-4.1.1.md).
 
-La note de la version précédente et les notes plus anciennes sont conservées dans [`release-notes/`](release-notes/).
+Les notes des versions précédentes sont conservées dans [`release-notes/`](release-notes/).
 
 ## Fonctions
 
@@ -57,9 +57,7 @@ Pour appliquer cette conversion au titre d’une note déjà publiée, ouvrir ce
 
 ## Installer l’APK fourni
 
-Utiliser le lien **Télécharger Notestr Android** en haut de ce README pour obtenir l’APK prêt à installer sur Android 8 ou plus récent. Le code source et les instructions de compilation ci-dessous sont destinés aux personnes qui souhaitent développer l’application.
-
-Cet APK est signé avec une clé de débogage locale. Une publication dans un magasin d’applications exige une clé de signature de production conservée hors du dépôt.
+Utiliser le lien **Télécharger Notestr Android** en haut de ce README pour obtenir l’APK prêt à installer sur Android 8 ou plus récent. L’APK release est signé avec le certificat de publication du projet. Le code source et les instructions de compilation ci-dessous sont destinés aux personnes qui souhaitent développer l’application ; les APK debug sont signés avec une clé de développement locale.
 
 ## Construire avec Android Studio
 

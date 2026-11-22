@@ -15,7 +15,7 @@
 
 ## Confidentialité
 
-- Scan ciblé de 256 fichiers source et 506 entrées APK : aucun chemin personnel `/home/gerald`, nsec complète, npub fourni, jeton GitHub/Bearer ou bloc de clé PEM trouvé.
+- Scan ciblé de 256 fichiers source et 506 entrées APK : aucun chemin local personnel complet, nsec complète, npub fourni, jeton GitHub/Bearer ou bloc de clé PEM trouvé.
 - Les identités auteur/committer présentes dans l’historique local sont des identités génériques du projet. Les sources ne sont pas poussées avec ce candidat ; aucun historique distant n’est réécrit.
 - Contrôle ciblé, non exhaustif : il ne peut pas garantir l’absence de donnée personnelle inconnue ni remplacer un audit natif/Rust complet.
 

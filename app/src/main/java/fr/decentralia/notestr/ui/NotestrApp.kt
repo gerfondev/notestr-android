@@ -567,8 +567,10 @@ private fun SettingsScreen(state: UiState, vm: NotestrViewModel, themeMode: Stri
         TextButton({ showLicense = true }) { Text(tr("Licence GPLv3")) }
         Text(tr("Langue"), style = MaterialTheme.typography.titleMedium, color = settingsTextColor)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedButton({ vm.selectLanguage("fr") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "fr", colors = settingsOutlinedButtonColors) { Text("Français") }
-            OutlinedButton({ vm.selectLanguage("en") }, enabled = fr.decentralia.notestr.i18n.Strings.language != "en", colors = settingsOutlinedButtonColors) { Text("English") }
+            if (fr.decentralia.notestr.i18n.Strings.language == "fr") Button({}, colors = settingsButtonColors) { Text("Français") }
+            else OutlinedButton({ vm.selectLanguage("fr") }, colors = settingsOutlinedButtonColors) { Text("Français") }
+            if (fr.decentralia.notestr.i18n.Strings.language == "en") Button({}, colors = settingsButtonColors) { Text("English") }
+            else OutlinedButton({ vm.selectLanguage("en") }, colors = settingsOutlinedButtonColors) { Text("English") }
         }
         HorizontalDivider()
         Text(tr("Thème"), style = MaterialTheme.typography.titleMedium, color = settingsTextColor)
@@ -586,7 +588,7 @@ private fun SettingsScreen(state: UiState, vm: NotestrViewModel, themeMode: Stri
         Text(tr("Utilisez une empreinte ou un visage compatible pour ouvrir Notestr. Votre mot de passe reste disponible en secours."), color = settingsTextColor)
         if (state.biometricEnabled) {
             Text(tr("Biométrie activée"))
-            OutlinedButton(vm::disableBiometric, Modifier.fillMaxWidth(), colors = settingsOutlinedButtonColors) { Text(tr("Désactiver la biométrie")) }
+            Button(vm::disableBiometric, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Désactiver la biométrie")) }
         } else {
             Button(enableBiometric, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Activer la biométrie")) }
         }
@@ -594,7 +596,7 @@ private fun SettingsScreen(state: UiState, vm: NotestrViewModel, themeMode: Stri
         SecretField(tr("Mot de passe actuel"), old, settingsFieldColors) { old = it }; SecretField(tr("Nouveau mot de passe"), new, settingsFieldColors) { new = it }; SecretField(tr("Confirmer"), confirmation, settingsFieldColors) { confirmation = it }
         Button({ vm.changePassword(old, new, confirmation) }, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Changer le mot de passe")) }
         HorizontalDivider(); Text(tr("Connexion Nostr"), style = MaterialTheme.typography.titleMedium)
-        OutlinedButton({ confirmReset = true }, Modifier.fillMaxWidth(), colors = settingsOutlinedButtonColors) { Text(tr("Changer de compte ou utiliser Amber")) }
+        Button({ confirmReset = true }, Modifier.fillMaxWidth(), colors = settingsButtonColors) { Text(tr("Changer de compte ou utiliser Amber")) }
     }
     }
     if (showLicense) AlertDialog(
